@@ -1,8 +1,10 @@
 package com.btn.pronotes;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -10,6 +12,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
@@ -22,6 +26,7 @@ import com.btn.pronotes.Models.Notes;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -56,6 +61,30 @@ Notes selectedNote;
             }
         });
 
+        // Impliments the drag and drop movement of the notes
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+
+                int fromPosition = viewHolder.getAdapterPosition();
+                int toPosition = target.getAdapterPosition();
+
+                Collections.swap(notes, fromPosition, toPosition);
+
+                recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+
+                return false;
+            }
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+            itemTouchHelper.attachToRecyclerView(recyclerView);
+
+            // End of drag and drop movement 
+
         //search box home code
         searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -70,7 +99,24 @@ Notes selectedNote;
             }
         });
     }
-//note search filter code
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.help:
+                Toast.makeText(this, "Email: support@Brett-TechRepair.com", Toast.LENGTH_LONG).show();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    //note search filter code
     private void filter(String newText) {
         List<Notes> filteredList = new ArrayList<>();
         for (Notes singleNote : notes){

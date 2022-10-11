@@ -1,8 +1,11 @@
 package com.btn.pronotes.Adapters;
 
+import static androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags;
+
 import android.content.Context;
 import android.os.Build;
-import android.text.Layout;
+import android.os.Bundle;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.btn.pronotes.Models.Notes;
@@ -19,15 +23,16 @@ import com.btn.pronotes.NotesClickListener;
 import com.btn.pronotes.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 //Notes List Adapter Class
 public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>
-{
-Context context;
-List<Notes> list;
-NotesClickListener listener;
+        implements ItemTouchHelperAdapter {
+    Context context;
+    List<Notes> list;
+    NotesClickListener listener;
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
@@ -61,12 +66,14 @@ NotesClickListener listener;
 
         int color_code = getRandomColor();
         holder.notes_container.setCardBackgroundColor(holder.itemView.getResources().getColor(color_code, null));
+
         holder.notes_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.onClick(list.get(holder.getAdapterPosition()));
             }
         });
+
         holder.notes_container.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -104,9 +111,9 @@ NotesClickListener listener;
 
 //Notes View Holder Class
 class NotesViewHolder extends RecyclerView.ViewHolder {
-CardView notes_container;
-TextView textView_title,textView_notes, textView_date;
-ImageView imageView_pin;
+    CardView notes_container;
+    TextView textView_title, textView_notes, textView_date;
+    ImageView imageView_pin;
 
     public NotesViewHolder(@NonNull View itemView) {
         super(itemView);

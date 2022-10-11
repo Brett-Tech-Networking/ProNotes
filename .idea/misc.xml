@@ -3,7 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/drawable/custom_rectangle.xml" value="0.161" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/drawable/ic_help.xml" value="0.1" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/layout/activity_main2.xml" value="0.25" />
         <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/layout/activity_notes_taker.xml" value="0.25" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/layout/help.xml" value="0.24895833333333334" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/layout/notes_list.xml" value="0.25" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/menu/info_menu.xml" value="0.4" />
+        <entry key="..\:/Documents/GitHub/ProNotes/app/src/main/res/menu/popup_menu.xml" value="0.25" />
         <entry key="..\:/Users/Brett Hudson/StudioProjects/ProNotes/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/Brett Hudson/StudioProjects/ProNotes/app/src/main/res/layout/activity_notes_taker.xml" value="0.2359375" />
         <entry key="..\:/Users/Brett Hudson/StudioProjects/ProNotes/app/src/main/res/layout/notes_list.xml" value="0.24895833333333334" />

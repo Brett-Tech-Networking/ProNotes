@@ -8,10 +8,15 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grey">#242B2E</color>
+    <color name="red">#bb0005</color>
 
     <color name="color1">#2BA3D6</color>
     <color name="color2">#FFEB3B</color>
-    <color name="color3">#4CAF50</color>
-    <color name="color4">#009787</color>
-    <color name="color5">#A65ED6</color>
+    <color name="color3">#F65C5C</color>
+    <color name="color4">#4EDA2E</color>
+    <color name="color5">#FF5722</color>
+
+    <color name="search">#A8A8A8</color>
+
+
 </resources>
