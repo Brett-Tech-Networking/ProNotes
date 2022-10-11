@@ -68,11 +68,8 @@ Notes selectedNote;
 
                 int fromPosition = viewHolder.getAdapterPosition();
                 int toPosition = target.getAdapterPosition();
-
                 Collections.swap(notes, fromPosition, toPosition);
-
                 recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-
                 return false;
             }
             @Override
@@ -83,7 +80,8 @@ Notes selectedNote;
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
             itemTouchHelper.attachToRecyclerView(recyclerView);
 
-            // End of drag and drop movement 
+
+            // End of drag and drop movement
 
         //search box home code
         searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

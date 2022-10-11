@@ -1,11 +1,7 @@
 package com.btn.pronotes.Adapters;
 
-import static androidx.recyclerview.widget.ItemTouchHelper.Callback.makeMovementFlags;
-
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.btn.pronotes.Models.Notes;
@@ -23,13 +18,11 @@ import com.btn.pronotes.NotesClickListener;
 import com.btn.pronotes.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 //Notes List Adapter Class
-public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder>
-        implements ItemTouchHelperAdapter {
+public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     Context context;
     List<Notes> list;
     NotesClickListener listener;
