@@ -1,10 +1,13 @@
 package com.btn.pronotes;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -18,6 +21,7 @@ import java.util.Date;
 public class NotesTakerActivity extends AppCompatActivity {
 EditText editText_title, editText_notes;
 ImageView imageView_save;
+ImageView imageView_back;
 Notes notes;
 
 boolean isOldNote = false;
@@ -27,6 +31,7 @@ boolean isOldNote = false;
         setContentView(R.layout.activity_notes_taker);
 
         imageView_save = findViewById(R.id.imageView_save);
+        imageView_back = findViewById(R.id.imageView_back);
         editText_title = findViewById(R.id.editText_title);
         editText_notes = findViewById(R.id.editText_notes);
 
@@ -65,6 +70,14 @@ boolean isOldNote = false;
 
                 setResult(Activity.RESULT_OK, intent);
                 finish();
+            }
+        });
+        //back button inside of note
+        imageView_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick (View view){
+                Intent back = new Intent(view.getContext(), MainActivity.class);
+                startActivity(back);
             }
         });
     }

@@ -12,7 +12,6 @@
 
     <item android:id="@+id/reboot"
         android:icon="@drawable/ic_reboot"
-        android:tooltipText="Reboot Application in case of errors"
-        android:title="Hard Restart"/>
+        android:title="Restart App"/>
 
 </menu>

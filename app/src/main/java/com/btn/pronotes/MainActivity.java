@@ -31,13 +31,13 @@ import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
-RecyclerView recyclerView;
-NotesListAdapter notesListAdapter;
-List<Notes> notes = new ArrayList<>();
-RoomDB database;
-FloatingActionButton fab_add;
-SearchView searchView_home;
-Notes selectedNote;
+    RecyclerView recyclerView;
+    NotesListAdapter notesListAdapter;
+    List<Notes> notes = new ArrayList<>();
+    RoomDB database;
+    FloatingActionButton fab_add;
+    SearchView searchView_home;
+    Notes selectedNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,12 +56,12 @@ Notes selectedNote;
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
-            startActivityForResult(intent, 101); // adding note 101
+                Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
+                startActivityForResult(intent, 101); // adding note 101
             }
         });
 
-        // Impliments the drag and drop movement of the notes
+        // Implements the drag and drop movement of the notes
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -70,18 +70,19 @@ Notes selectedNote;
                 int toPosition = target.getAdapterPosition();
                 Collections.swap(notes, fromPosition, toPosition);
                 recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-                return false;
+                return true;
             }
+
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-            itemTouchHelper.attachToRecyclerView(recyclerView);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
 
 
-            // End of drag and drop movement
+        // End of drag and drop movement
 
         //search box home code
         searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -97,6 +98,7 @@ Notes selectedNote;
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -106,20 +108,31 @@ Notes selectedNote;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.help:
                 Toast.makeText(this, "Email: support@Brett-TechRepair.com", Toast.LENGTH_LONG).show();
                 return true;
         }
+
+        switch (item.getItemId()){
+            case R.id.reboot:
+
+                finish();
+                startActivity(getIntent());
+                // this provides animation
+                overridePendingTransition(0, 0);
+
+        }
         return super.onOptionsItemSelected(item);
     }
+
 
     //note search filter code
     private void filter(String newText) {
         List<Notes> filteredList = new ArrayList<>();
-        for (Notes singleNote : notes){
+        for (Notes singleNote : notes) {
             if (singleNote.getTitle().toLowerCase().contains(newText.toLowerCase())
-            || singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())){
+                    || singleNote.getNotes().toLowerCase().contains(newText.toLowerCase())) {
                 filteredList.add(singleNote);
             }
         }
@@ -142,18 +155,18 @@ Notes selectedNote;
             }
         }
         //Saving Note
-        else if (requestCode==102 | resultCode==Activity.RESULT_OK){
+        else if (requestCode == 102 | resultCode == Activity.RESULT_OK) {
             assert data != null;
             Notes new_notes = (Notes) data.getSerializableExtra("note");
-                database.mainDAO().update(new_notes.getID(), new_notes.getTitle(), new_notes.getNotes());
-                notes.clear();
-                notes.addAll(database.mainDAO().getAll());
-                notesListAdapter.notifyDataSetChanged();
+            database.mainDAO().update(new_notes.getID(), new_notes.getTitle(), new_notes.getNotes());
+            notes.clear();
+            notes.addAll(database.mainDAO().getAll());
+            notesListAdapter.notifyDataSetChanged();
             updateRecycler(notes);
             Toast.makeText(MainActivity.this, "Note Saved!", Toast.LENGTH_SHORT).show();
 
-            }
         }
+    }
 
     private void updateRecycler(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
@@ -190,20 +203,20 @@ Notes selectedNote;
     //Pinning notes //!!make a way to move pinned to top!!
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.pin:
-                if(selectedNote.isPinned()){
+                if (selectedNote.isPinned()) {
                     database.mainDAO().pin(selectedNote.getID(), false);
                     Toast.makeText(MainActivity.this, "Unpinned!", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     database.mainDAO().pin(selectedNote.getID(), true);
                     Toast.makeText(MainActivity.this, "Pinned", Toast.LENGTH_SHORT).show();
                 }
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
-                return true;
+                overridePendingTransition(0, 0);
+                String time = System.currentTimeMillis() + "";
 
             case R.id.delete:
                 database.mainDAO().delete(selectedNote);
@@ -216,3 +229,4 @@ Notes selectedNote;
         }
     }
 }
+
