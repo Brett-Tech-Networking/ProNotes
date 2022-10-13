@@ -142,18 +142,18 @@ Notes selectedNote;
             }
         }
         //Saving Note
-        else if (requestCode==102){
-            if (resultCode==Activity.RESULT_OK){
-                Notes new_notes = (Notes) data.getSerializableExtra("note");
+        else if (requestCode==102 | resultCode==Activity.RESULT_OK){
+            assert data != null;
+            Notes new_notes = (Notes) data.getSerializableExtra("note");
                 database.mainDAO().update(new_notes.getID(), new_notes.getTitle(), new_notes.getNotes());
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
-                Toast.makeText(MainActivity.this, "Note Saved!", Toast.LENGTH_SHORT).show();
+            updateRecycler(notes);
+            Toast.makeText(MainActivity.this, "Note Saved!", Toast.LENGTH_SHORT).show();
 
             }
         }
-    }
 
     private void updateRecycler(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
