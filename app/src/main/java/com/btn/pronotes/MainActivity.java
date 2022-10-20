@@ -1,5 +1,6 @@
 package com.btn.pronotes;
 
+import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.room.Query;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,6 +18,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -38,6 +42,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     FloatingActionButton fab_add;
     SearchView searchView_home;
     Notes selectedNote;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, "Welcome To Pro Notes by BTN", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +123,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Toast.makeText(this, "Email: support@Brett-TechRepair.com", Toast.LENGTH_LONG).show();
                 return true;
         }
+        switch (item.getItemId()){
+            case R.id.lock:
+                Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
+        }
 
         switch (item.getItemId()){
             case R.id.reboot:
@@ -151,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
+                updateRecycler(notes);
 
             }
         }
@@ -193,7 +208,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     };
 
-    private void showPopup(CardView cardView) {
+
+    public void showPopup(CardView cardView) {
         PopupMenu popupMenu = new PopupMenu(this, cardView);
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup_menu);
@@ -207,16 +223,17 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.pin:
                 if (selectedNote.isPinned()) {
                     database.mainDAO().pin(selectedNote.getID(), false);
-                    Toast.makeText(MainActivity.this, "Unpinned!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Note Unpinned!", Toast.LENGTH_SHORT).show();
                 } else {
                     database.mainDAO().pin(selectedNote.getID(), true);
-                    Toast.makeText(MainActivity.this, "Pinned", Toast.LENGTH_SHORT).show();
-                }
+                            Toast.makeText(MainActivity.this, "Note Pinned", Toast.LENGTH_SHORT).show();
+                    }
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();
                 overridePendingTransition(0, 0);
                 String time = System.currentTimeMillis() + "";
+                return true;
 
             case R.id.delete:
                 database.mainDAO().delete(selectedNote);
@@ -229,4 +246,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 }
+
 

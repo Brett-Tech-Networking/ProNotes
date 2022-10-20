@@ -17,7 +17,7 @@ public interface MainDAO {
     void insert(Notes notes);
 
     //List Notes
-    @Query("SELECT * FROM notes ORDER BY id DESC") //Show Latest added notes on top
+    @Query("SELECT * FROM notes ORDER BY pinned DESC")//Show pinned notes on top by descending order
     List<Notes> getAll();
 
     //Update Items
@@ -28,6 +28,10 @@ public interface MainDAO {
     @Delete
     void delete(Notes notes);
 
+    //Update pinned
     @Query("UPDATE notes SET pinned = :pin WHERE ID = :id")
     void pin(int id, boolean pin);
+
+
+    // implement code to update re arranged notes
 }
