@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:alwaysRetainTaskState="true"
+    tools:context=".OpenSettings">
+
+ <TextView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:layout_marginTop="10dp"
+     android:text="Settings"
+     android:textStyle="normal"
+     android:textColor="@color/color4"
+     android:textSize="32dp"
+     android:textAlignment="center">
+ </TextView>
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/color2"
+        android:textStyle="bold"
+        android:background="@color/grey"
+        android:text="Enable/Disable Color Changing tiles"
+
+        >
+
+    </androidx.appcompat.widget.SwitchCompat>
+
+</LinearLayout>

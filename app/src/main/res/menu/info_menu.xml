@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item android:id="@+id/lock"
+        android:icon="@drawable/ic_lock"
+        android:title="lock"/>
+
     <item android:id="@+id/help"
         android:icon="@drawable/ic_help"
         android:title="Help"/>
 
-    <item android:id="@+id/lock"
-        android:icon="@drawable/ic_lock"
-        android:title="lock" />
-
     <item android:id="@+id/reboot"
         android:icon="@drawable/ic_reboot"
-        android:tooltipText="Reboot Application in case of errors"
-        android:title="Hard Restart"/>
+        android:title="Restart App"/>
 
 </menu>

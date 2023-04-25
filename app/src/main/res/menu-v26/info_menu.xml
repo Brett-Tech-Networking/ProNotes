@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/lock"
+        android:icon="@drawable/ic_lock"
+        app:showAsAction="always"
+        android:title="lock"/>
 
     <item android:id="@+id/help"
         android:icon="@drawable/ic_help"
-        android:title="Help"/>
+        app:showAsAction="always"
+        android:title="@string/help"/>
 
-    <item android:id="@+id/lock"
-        android:icon="@drawable/ic_lock"
-        android:title="lock"/>
+    <item android:id="@+id/settings"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="always"
+        android:title="@string/settings"/>
+
 
     <item android:id="@+id/reboot"
         android:icon="@drawable/ic_reboot"
+        app:showAsAction="always"
         android:title="Restart App"/>
 
 </menu>

@@ -75,7 +75,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
             }
         });
     }
-
+// get random color for note tiles
     private int getRandomColor(){
         List<Integer> colorCode = new ArrayList<>();
 
@@ -90,6 +90,15 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         return colorCode.get(random_color);
     }
 
+    //get static color for note tiles
+    private int getStaticColor(){
+        List<Integer> colorCode2 = new ArrayList<>();
+
+        colorCode2.add(R.color.color3);
+
+        Random random = new Random();
+        int random_color = random.nextInt(colorCode2.size());
+        return colorCode2.get(random_color);    }
 
     @Override
     public int getItemCount() {

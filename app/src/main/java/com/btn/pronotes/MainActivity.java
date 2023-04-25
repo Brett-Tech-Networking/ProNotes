@@ -1,6 +1,5 @@
 package com.btn.pronotes;
 
-import androidx.annotation.CheckResult;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.room.Query;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,8 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.Checkable;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -32,7 +28,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     RecyclerView recyclerView;
@@ -42,12 +38,37 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     FloatingActionButton fab_add;
     SearchView searchView_home;
     Notes selectedNote;
+    int color_code = getRandomColor();
+
 
     @Override
     protected void onStart() {
         super.onStart();
         Toast.makeText(this, "Welcome To Pro Notes by BTN", Toast.LENGTH_SHORT).show();
     }
+
+    private int getRandomColor(){
+        List<Integer> colorCode = new ArrayList<>();
+
+        colorCode.add(R.color.color1);
+        colorCode.add(R.color.color2);
+        colorCode.add(R.color.color3);
+        colorCode.add(R.color.color4);
+        colorCode.add(R.color.color5);
+
+        Random random = new Random();
+        int random_color = random.nextInt(colorCode.size());
+        return colorCode.get(random_color);
+    }
+
+    private int getStaticColor(){
+        List<Integer> colorCode2 = new ArrayList<>();
+
+        colorCode2.add(R.color.color3);
+
+        Random random = new Random();
+        int random_color = random.nextInt(colorCode2.size());
+        return colorCode2.get(random_color);    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -126,6 +148,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         switch (item.getItemId()){
             case R.id.lock:
                 Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
+        }
+
+
+        switch (item.getItemId()){
+            case R.id.settings:
+                Intent intent = new Intent(getApplicationContext(), OpenSettings.class);
+                startActivity(intent);
         }
 
         switch (item.getItemId()){
