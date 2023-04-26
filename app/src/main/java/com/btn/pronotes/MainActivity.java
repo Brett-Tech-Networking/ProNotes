@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -142,31 +143,30 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.help:
-                Toast.makeText(this, "Email: support@Brett-TechRepair.com", Toast.LENGTH_LONG).show();
-                return true;
-        }
-        switch (item.getItemId()){
-            case R.id.lock:
-                Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
+
+        if (item.getItemId() == R.id.help) {
+            Intent intent = new Intent (MainActivity.this, OpenHelp.class);
+            startActivity(intent);
         }
 
-
-        switch (item.getItemId()){
-            case R.id.settings:
-                Intent intent = new Intent(getApplicationContext(), OpenSettings.class);
-                startActivity(intent);
+        if (item.getItemId() == R.id.lock) {
+            Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
         }
 
-        switch (item.getItemId()){
-            case R.id.reboot:
-
-                finish();
-                startActivity(getIntent());
-                // this provides animation
-                overridePendingTransition(0, 0);
-
+        if (item.getItemId() == R.id.settings) {
+            Intent intent = new Intent(MainActivity.this, OpenSettings.class);
+            startActivity(intent);
+        }
+        if (item.getItemId() == R.id.websitebutton) {
+            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+        if (item.getItemId() == R.id.reboot) {
+            finish();
+            startActivity(getIntent());
+            // this provides animation
+            overridePendingTransition(0, 0);
         }
         return super.onOptionsItemSelected(item);
     }

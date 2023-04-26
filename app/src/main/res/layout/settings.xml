@@ -49,6 +49,7 @@
         android:textColor="@color/color2"
         android:textStyle="bold"
         android:background="@color/grey"
+        android:textAlignment="center"
         android:text="Enable/Disable Color Changing tiles"
         >
 
