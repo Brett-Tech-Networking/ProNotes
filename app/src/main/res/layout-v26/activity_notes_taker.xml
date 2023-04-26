@@ -52,7 +52,7 @@
             android:clickable="true"
             android:src="@drawable/ic_textcolor"
             android:background="@color/grey"
-            >
+            android:focusable="true">
         </ImageButton>
         <ImageButton
             android:id="@+id/boldbutton"
@@ -63,7 +63,7 @@
             android:src="@drawable/ic_bold"
             android:background="@color/grey"
             android:layout_marginLeft="40dp"
-            >
+            android:focusable="true">
         </ImageButton>
 
         <ImageButton
@@ -75,7 +75,7 @@
             android:src="@drawable/ic_italic"
             android:background="@color/grey"
             android:layout_marginLeft="6dp"
-            >
+            android:focusable="true">
         </ImageButton>
 
         <ImageButton
@@ -87,7 +87,7 @@
             android:src="@drawable/ic_underlined"
             android:background="@color/grey"
             android:layout_marginLeft="6dp"
-            >
+            android:focusable="true">
         </ImageButton>
     </Toolbar>
 
