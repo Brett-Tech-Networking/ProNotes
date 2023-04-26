@@ -11,13 +11,17 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -148,9 +152,16 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent (MainActivity.this, OpenHelp.class);
             startActivity(intent);
         }
-        //Lock notes
-        if (item.getItemId() == R.id.lock) {
-            Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
+        //Hide notes
+        if (item.getItemId() == R.id.hide) {
+            Toast.makeText(this, "Notes Hidden", Toast.LENGTH_SHORT).show();
+            recyclerView.setVisibility(View.GONE);
+
+            }
+        //Unhide Notes
+        if (item.getItemId() == R.id.unhide) {
+            Toast.makeText(this, "Notes Unhidden", Toast.LENGTH_SHORT).show();
+            recyclerView.setVisibility(View.VISIBLE);
         }
         //Open settings page
         if (item.getItemId() == R.id.settings) {
@@ -246,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.show();
     }
+
 
     //Pinning notes //!!make a way to move pinned to top!!
     @Override

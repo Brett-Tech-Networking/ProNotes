@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/lock"
-        android:icon="@drawable/ic_lock"
+
+    <item android:id="@+id/hide"
+        android:icon="@drawable/ic_hide"
         app:showAsAction="ifRoom"
-        android:title="lock"/>
+        android:title="Hide Notes"/>
+
+    <item android:id="@+id/unhide"
+        android:icon="@drawable/ic_unhide"
+        app:showAsAction="ifRoom"
+        android:title="Unhide Notes"/>
 
     <item android:id="@+id/help"
         android:icon="@drawable/ic_help"
