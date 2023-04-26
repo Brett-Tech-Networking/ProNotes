@@ -143,25 +143,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
+        //Open Help Page
         if (item.getItemId() == R.id.help) {
             Intent intent = new Intent (MainActivity.this, OpenHelp.class);
             startActivity(intent);
         }
-
+        //Lock notes
         if (item.getItemId() == R.id.lock) {
             Toast.makeText(this, "COMING SOON", Toast.LENGTH_SHORT).show();
         }
-
+        //Open settings page
         if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(MainActivity.this, OpenSettings.class);
             startActivity(intent);
         }
+        //Launch website http://www.brett-techrepair.com
         if (item.getItemId() == R.id.websitebutton) {
-            Uri uri = Uri.parse("http://www.google.com"); // missing 'http://' will cause crashed
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
+            startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.brett-techrepair.com")));
         }
+        //Reboot application in the case of errors
         if (item.getItemId() == R.id.reboot) {
             finish();
             startActivity(getIntent());
