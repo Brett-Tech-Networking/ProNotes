@@ -8,15 +8,39 @@
     android:alwaysRetainTaskState="true"
     tools:context=".OpenSettings">
 
- <TextView
+    <Toolbar
+        android:id="@+id/toolbar_notes"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!--For back button-->
+            <ImageView
+                android:id="@+id/imageView_back1"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentStart="true"
+                android:padding="4dp"
+                android:src="@drawable/ic_back"
+                android:visibility="visible"
+                android:clickable="true"/>
+        </RelativeLayout>
+
+
+    </Toolbar>
+
+
+    <TextView
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:layout_marginTop="10dp"
      android:text="Settings"
      android:textStyle="normal"
      android:textColor="@color/color4"
      android:textSize="32dp"
      android:textAlignment="center">
+
  </TextView>
     <androidx.appcompat.widget.SwitchCompat
         android:layout_width="match_parent"
@@ -26,7 +50,6 @@
         android:textStyle="bold"
         android:background="@color/grey"
         android:text="Enable/Disable Color Changing tiles"
-
         >
 
     </androidx.appcompat.widget.SwitchCompat>

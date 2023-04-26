@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     SearchView searchView_home;
     Notes selectedNote;
     int color_code = getRandomColor();
-
+    ImageView imageView_back1;
 
     @Override
     protected void onStart() {
@@ -78,11 +79,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView = findViewById(R.id.recycler_home);
         fab_add = findViewById(R.id.fab_add);
         searchView_home = findViewById(R.id.searchView_home);
-
         database = RoomDB.getInstance(this);
         notes = database.mainDAO().getAll();
 
+
         updateRecycler(notes);
+
 
         fab_add.setOnClickListener(new View.OnClickListener() {
             @Override
