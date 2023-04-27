@@ -3,4 +3,6 @@
     <string name="color_changing">Color Changing</string>
     <string name="settings">settings</string>
     <string name="help">Help</string>
+    <string name="title">Title:</string>
+    <string name="add_notes">Add Notes:</string>
 </resources>

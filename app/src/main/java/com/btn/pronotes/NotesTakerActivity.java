@@ -1,5 +1,7 @@
 package com.btn.pronotes;
 
+import static android.app.PendingIntent.getActivity;
+
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +15,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.btn.pronotes.Adapters.NotesListAdapter;
 import com.btn.pronotes.Models.Notes;
+import com.btn.pronotes.databinding.ActivityNotesTakerBinding;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -76,7 +80,8 @@ boolean isOldNote = false;
         imageView_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick (View view){
-                Intent back = new Intent(view.getContext(), MainActivity.class);
+
+                    Intent back = new Intent(view.getContext(), MainActivity.class);
                 startActivity(back);
             }
         });

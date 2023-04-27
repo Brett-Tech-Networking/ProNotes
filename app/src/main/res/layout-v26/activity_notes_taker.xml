@@ -41,19 +41,9 @@
 
     <Toolbar
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/grey"
+        android:layout_height="35dp"
+        android:background="@color/purple_700"
         >
-        <ImageButton
-            android:id="@+id/fontcolor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tooltipText="Font Color"
-            android:clickable="true"
-            android:src="@drawable/ic_textcolor"
-            android:background="@color/grey"
-            android:focusable="true">
-        </ImageButton>
         <ImageButton
             android:id="@+id/boldbutton"
             android:layout_width="wrap_content"
@@ -61,8 +51,8 @@
             android:tooltipText="Bold Button"
             android:clickable="true"
             android:src="@drawable/ic_bold"
-            android:background="@color/grey"
-            android:layout_marginLeft="40dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/purple_700"
             android:focusable="true">
         </ImageButton>
 
@@ -73,8 +63,9 @@
             android:tooltipText="Italic Button"
             android:clickable="true"
             android:src="@drawable/ic_italic"
-            android:background="@color/grey"
-            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/purple_700"
+            android:layout_marginStart="6dp"
             android:focusable="true">
         </ImageButton>
 
@@ -85,15 +76,16 @@
             android:tooltipText="Underline Button"
             android:clickable="true"
             android:src="@drawable/ic_underlined"
-            android:background="@color/grey"
-            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/purple_700"
+            android:layout_marginStart="6dp"
             android:focusable="true">
         </ImageButton>
     </Toolbar>
 
     <EditText
         android:id="@+id/editText_title"
-        android:hint="Title:"
+        android:hint="@string/title"
         android:layout_marginTop="10dp"
         android:textColorHint="@color/white"
         android:padding="8dp"
@@ -105,13 +97,25 @@
         android:layout_height="wrap_content"/>
     <EditText
         android:id="@+id/editText_notes"
-        android:hint="Add Notes: "
+        android:hint="@string/add_notes"
         android:textColorHint="@color/white"
         android:layout_marginTop="15dp"
         android:padding="8dp"
         android:textColor="@color/white"
         android:textSize="18sp"
         android:textStyle="normal"
+        android:background="@color/grey1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:text="Brett Tech Networking 2023"
+        android:textColor="@color/white"
+        android:textAlignment="center"
+
+        >
+
+    </TextView>
 </LinearLayout>
