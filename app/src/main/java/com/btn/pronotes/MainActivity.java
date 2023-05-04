@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.btn.pronotes.Adapters.NotesListAdapter;
@@ -34,7 +36,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.Random;                        //
+
+                                     //*************************\\
+                                    //      ^_^        ^_^       \\
+                                   //             <>              \\
+                                  //     Brett Tech Networking     \\
+                                 //   support@brett-techrepair.com  \\
+                                // https://wwww.brett-techrepair.com \\
+                               // Code like a pro come learn with BTN \\
+                              //***************************************\\
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
     RecyclerView recyclerView;
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         List<Integer> colorCode = new ArrayList<>();
 
         colorCode.add(R.color.color1);
-        colorCode.add(R.color.color2);
+        colorCode.add(R.color.yellow);
         colorCode.add(R.color.color3);
         colorCode.add(R.color.color4);
         colorCode.add(R.color.color5);
@@ -168,9 +179,29 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent(MainActivity.this, OpenSettings.class);
             startActivity(intent);
         }
+
+        //pinned/checked
+        if (item.getItemId()== R.id.pin1) {
+            selectedNote.isPinned();
+            item.setChecked(true);
+        }
+        else
+            item.setChecked(false);
+
         //Launch website http://www.brett-techrepair.com
         if (item.getItemId() == R.id.websitebutton) {
             startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://www.brett-techrepair.com")));
+        }
+
+        //Bold Button
+        if(item.getItemId() == R.id.boldbutton) {
+            try {
+                TextView Tv = (TextView) findViewById(R.id.editText_notes);
+                Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+                Tv.setTypeface(boldTypeface);
+            }
+            catch(Exception e) {
+            }
         }
         //Reboot application in the case of errors
         if (item.getItemId() == R.id.reboot) {
@@ -181,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     //note search filter code
     private void filter(String newText) {
@@ -199,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
+
         if (requestCode == 101) {
             if (resultCode == Activity.RESULT_OK) ;
             {
@@ -264,14 +294,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.pin:
+            case R.id.pin1:
                 if (selectedNote.isPinned()) {
                     database.mainDAO().pin(selectedNote.getID(), false);
                     Toast.makeText(MainActivity.this, "Note Unpinned!", Toast.LENGTH_SHORT).show();
                 } else {
                     database.mainDAO().pin(selectedNote.getID(), true);
                             Toast.makeText(MainActivity.this, "Note Pinned", Toast.LENGTH_SHORT).show();
-                    }
+                }
                 notes.clear();
                 notes.addAll(database.mainDAO().getAll());
                 notesListAdapter.notifyDataSetChanged();

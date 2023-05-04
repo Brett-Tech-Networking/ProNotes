@@ -5,4 +5,11 @@
     <string name="help">Help</string>
     <string name="title">Title:</string>
     <string name="add_notes">Add Notes:</string>
+    <string name="brett_tech_networking">Brett Tech Networking</string>
+    <string name="tools_menu">Tools Menu</string>
+    <string name="pick_color">Pick Color</string>
+    <string name="activity_create_note_input_note_text_hint">activity_create_note_input_note_text_hint</string>
+    <string name="activity_create_note_input_note_subtitle_hint">activity_create_note_input_note_subtitle_hint</string>
+    <string name="activity_create_note_input_note_title_hint">activity_create_note_input_note_title_hint</string>
+    <string name="brett_tech_networking_2023">Brett Tech Networking 2023</string>
 </resources>

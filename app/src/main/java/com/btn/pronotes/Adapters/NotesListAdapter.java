@@ -80,7 +80,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         List<Integer> colorCode = new ArrayList<>();
 
         colorCode.add(R.color.color1);
-        colorCode.add(R.color.color2);
+        colorCode.add(R.color.yellow);
         colorCode.add(R.color.color3);
         colorCode.add(R.color.color4);
         colorCode.add(R.color.color5);

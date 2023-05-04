@@ -32,7 +32,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="8dp"
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
@@ -47,3 +49,5 @@
         android:src="@drawable/ic_add" />
 
 </RelativeLayout>
+
+<!--https://m2.material.io/components/app-bars-bottom/android#bottom-app-bar  try this tool bar-->
