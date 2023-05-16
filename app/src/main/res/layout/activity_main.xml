@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/black"
     android:alwaysRetainTaskState="true"
+    android:background="@color/black"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <SearchView
@@ -20,34 +20,139 @@
         android:layout_marginBottom="16dp"
         android:background="@drawable/roundedsearch"
         android:iconifiedByDefault="false"
-        android:queryHint="Search Notes...">
+        android:queryHint="Search Notes..." />
 
-    </SearchView>
+
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_home"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/recycler_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@id/searchView_home"
+        android:orientation="horizontal"
+        tools:listitem="@layout/rv_item_folder_main"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@id/iv_add_folder"
+
+        />
+    <ImageView
+        android:id="@+id/iv_add_folder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_create_new_folder_24"
+        android:scaleType="centerCrop"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/recycler_folder"
+        android:layout_alignBottom="@id/recycler_folder"
+        android:layout_marginEnd="15dp"
 
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/recycler_folder"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_home"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--    <include-->
+    <!--        android:id="@+id/fab_add"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        layout="@layout/expandable_fab_layout"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_margin="16dp"-->
+    <!--        />-->
+
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        android:id="@+id/expandable_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
-        android:src="@drawable/ic_add" />
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp">
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            android:id="@+id/expandable_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+
+            app:efab_closingAnticipateTension="0"
+            app:efab_color="#9374DE"
+            app:efab_icon="@drawable/ic_add"
+            app:efab_iconAnimationRotationDeg="-225" />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/fab_add_note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#FF8800"
+            app:fab_icon="@drawable/ic_add"
+            app:label_backgroundColor="#808080"
+            app:label_text="Add Note"
+            app:label_textColor="#FFC0CB" />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/fab_check_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#5283F5"
+            app:fab_icon="@drawable/check_list_icon"
+            app:label_backgroundColor="#0000FF"
+            app:label_text="Checklist" />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/fab_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#007F00"
+            app:fab_icon="@drawable/baseline_insert_photo_24"
+            app:label_backgroundColor="#7F7F00"
+            app:label_text="Picture" />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:id="@+id/fab_draw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="@color/color5"
+            app:fab_icon="@drawable/paint_brush_drawing_icon"
+            app:label_backgroundColor="@color/color1"
+            app:label_text="Draw" />
+
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+    <!--        android:id="@+id/fab_add"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_alignParentEnd="true"-->
+    <!--        android:layout_alignParentBottom="true"-->
+    <!--        android:layout_marginStart="24dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:layout_marginEnd="24dp"-->
+    <!--        android:layout_marginBottom="24dp"-->
+    <!--        android:src="@drawable/ic_add" />-->
 
 </RelativeLayout>
 
-<!--https://m2.material.io/components/app-bars-bottom/android#bottom-app-bar  try this tool bar-->
+    <!--https://m2.material.io/components/app-bars-bottom/android#bottom-app-bar  try this tool bar-->

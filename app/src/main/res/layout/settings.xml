@@ -39,10 +39,9 @@
      android:textStyle="normal"
      android:textColor="@color/color4"
      android:textSize="32dp"
-     android:textAlignment="center">
-
- </TextView>
+     android:textAlignment="center"/>
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/color_tile_switch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -54,5 +53,33 @@
         >
 
     </androidx.appcompat.widget.SwitchCompat>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_margin="@dimen/_15sdp"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Please select static color"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_select_color"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            android:background="@color/color1"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+
 
 </LinearLayout>

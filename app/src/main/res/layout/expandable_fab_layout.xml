@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.nambimobile.widgets.efab.ExpandableFabLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/expandable_fab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="16dp"
+        >
+
+        <com.nambimobile.widgets.efab.ExpandableFab
+            android:id="@+id/expandable_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+
+            app:efab_color="#9374DE"
+            app:efab_icon="@drawable/ic_add"
+            app:efab_iconAnimationRotationDeg="-225"
+            app:efab_closingAnticipateTension="0"
+            />
+
+        <com.nambimobile.widgets.efab.FabOption
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#FF8800"
+            app:fab_icon="@drawable/ic_add"
+            app:label_text="Add Note"
+            app:label_backgroundColor="#808080"
+            app:label_textColor="#FFC0CB"/>
+        <com.nambimobile.widgets.efab.FabOption
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#5283F5"
+            app:fab_icon="@drawable/check_list_icon"
+            app:label_text="Event"
+            app:label_backgroundColor="#0000FF"/>
+        <com.nambimobile.widgets.efab.FabOption
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_color="#007F00"
+            app:fab_icon="@drawable/baseline_insert_photo_24"
+            app:label_text="Reminder"
+            app:label_backgroundColor="#7F7F00"/>
+
+    </com.nambimobile.widgets.efab.ExpandableFabLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-        <item
-            android:id="@+id/pin1"
-            android:title="Pin | Unpin"
-            android:checkable="true"/>
+    <item
+        android:id="@+id/pin1"
+        android:checkable="true"
+        android:title="Pin | Unpin" />
 
-    <item android:id="@+id/delete"
-        android:title="Delete"/>
+    <item
+        android:id="@+id/lock"
+        android:checkable="true"
+        android:title="Lock | Unlock"
+        />
+    <item
+        android:id="@+id/move"
+        android:title="Move to Other Folder"
+        />
+
+    <item
+        android:id="@+id/delete"
+        android:title="Delete" />
 </menu>
 
