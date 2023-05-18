@@ -1,146 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout_Miscellaneous"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_miscellaneous"
-    app:behavior_peekHeight="@dimen/_40sdp"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    android:id="@+id/parent"
+    >
 
-    <TextView
-        android:id="@+id/textMiscellaneous"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:text="@string/tools_menu"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_13sdp" />
-
-    <LinearLayout
-        android:id="@+id/layoutNoteColor"
+    <FrameLayout
+        android:id="@+id/layout_Miscellaneous2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-       <!--color 1 check mark-->
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <!--check mark-->
-            <View
-                android:id="@+id/viewColor1"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/background_note_color_1"/>
-            <ImageView
-                android:id="@+id/imageColor1"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
-        </FrameLayout>
+        android:background="@drawable/background_miscellaneous"
+        app:behavior_peekHeight="@dimen/_40sdp"
+        app:layout_behavior="@string/bottom_sheet_behavior"
+        >
+        <LinearLayout
 
-        <!--color 2-->
-        <FrameLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <!--check mark-->
-            <View
-                android:id="@+id/viewColor2"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/background_note_color_2"/>
-            <ImageView
-                android:id="@+id/imageColor2"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
-        </FrameLayout>
+            android:orientation="vertical">
 
-        <!--color 3-->
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <!--check mark-->
-            <View
-                android:id="@+id/viewColor3"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/background_note_color_3"/>
-            <ImageView
-                android:id="@+id/imageColor3"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
-        </FrameLayout>
+            <TextView
+                android:id="@+id/textMiscellaneous"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:fontFamily="sans-serif-medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:text="@string/tools_menu"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_13sdp" />
 
-        <!--color 4-->
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <!--check mark-->
-            <View
-                android:id="@+id/viewColor4"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/background_note_color_4"/>
-            <ImageView
-                android:id="@+id/imageColor4"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
-        </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginHorizontal="15dp"
+                android:paddingBottom="15dp"
+                android:gravity="center_vertical">
 
-        <!--color 5-->
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <!--check mark-->
-            <View
-                android:id="@+id/viewColor5"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/background_note_color_5"/>
-            <ImageView
-                android:id="@+id/imageColor5"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
-                android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_check"
-                app:tint="@color/white"/>
-        </FrameLayout>
-        
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:includeFontPadding="false"
-            android:text="@string/pick_color"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_13sdp"/>
+                <ImageView
+                    android:id="@+id/iv_undo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_undo_24"
+                    android:layout_marginEnd="10dp"
+                    />
+                <ImageView
+                    android:id="@+id/iv_redo"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/baseline_redo_24"
+                    android:layout_marginEnd="10dp"
 
-</LinearLayout>
+                    />
+                <ImageView
+                    android:id="@+id/iv_eraser"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/eraser_icon"
+                    />
+            </LinearLayout>
 
-</LinearLayout>
+            <LinearLayout
+                android:id="@+id/layoutNoteColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <!--color 1 check mark-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <!--check mark-->
+                    <View
+                        android:id="@+id/view_white"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/background_note_color_1" />
+
+                    <ImageView
+                        android:id="@+id/white_check"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!--color 2-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <!--check mark-->
+                    <View
+                        android:id="@+id/view_yellow"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/background_note_color_2" />
+
+                    <ImageView
+                        android:id="@+id/yellow_check"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!--color 3-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <!--check mark-->
+                    <View
+                        android:id="@+id/view_red"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/background_note_color_3" />
+
+                    <ImageView
+                        android:id="@+id/red_check"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!--color 4-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <!--check mark-->
+                    <View
+                        android:id="@+id/view_blue"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/background_note_color_4" />
+
+                    <ImageView
+                        android:id="@+id/blue_check"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/white" />
+                </FrameLayout>
+
+                <!--color 5-->
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+                    <!--check mark-->
+                    <View
+                        android:id="@+id/view_black"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:background="@drawable/background_note_color_5" />
+
+                    <ImageView
+                        android:id="@+id/black_check"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:contentDescription="@string/app_name"
+                        android:padding="@dimen/_10sdp"
+                        android:visibility="gone"
+                        android:src="@drawable/ic_check"
+                        app:tint="@color/white" />
+                </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/layout_color_picker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    >
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_color_picker"
+                        android:layout_width="@dimen/_35sdp"
+                        android:layout_height="@dimen/_35sdp"
+                        android:src="@drawable/color_picker"
+                        android:scaleType="centerCrop"
+                        app:shapeAppearanceOverlay="@style/circleImageView"
+                        android:layout_marginBottom="5dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_pick_color"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:includeFontPadding="false"
+                        android:text="@string/pick_color"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_13sdp" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

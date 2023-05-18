@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "929613269133",
+    "project_id": "pronotes-41e5a",
+    "storage_bucket": "pronotes-41e5a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929613269133:android:ef46957c446b325a647ac4",
+        "android_client_info": {
+          "package_name": "com.btn.pronotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929613269133-ftd0ncsm2pnrrr38tu2k7ckuf958ob6i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaTBtQ_9A8GeUuQmiDx5rSyeOEwI41BQ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929613269133-ftd0ncsm2pnrrr38tu2k7ckuf958ob6i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
