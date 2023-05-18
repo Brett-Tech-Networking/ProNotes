@@ -46,6 +46,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_create_new_folder_24"
         android:scaleType="centerCrop"
+        android:paddingRight="@dimen/_8sdp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/recycler_folder"
         android:layout_alignBottom="@id/recycler_folder"
@@ -152,6 +153,7 @@
     <!--        android:layout_marginEnd="24dp"-->
     <!--        android:layout_marginBottom="24dp"-->
     <!--        android:src="@drawable/ic_add" />-->
+
 
 </RelativeLayout>
 

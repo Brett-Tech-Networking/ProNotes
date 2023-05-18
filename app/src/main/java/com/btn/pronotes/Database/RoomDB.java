@@ -1,17 +1,23 @@
 package com.btn.pronotes.Database;
 
 import android.content.Context;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.btn.pronotes.FolderActivity;
+import com.btn.pronotes.MainActivity;
 import com.btn.pronotes.Models.Folder;
 import com.btn.pronotes.Models.Media;
 import com.btn.pronotes.Models.Notes;
+import com.btn.pronotes.R;
 
 import java.util.concurrent.Executors;
 
@@ -33,7 +39,7 @@ public abstract class RoomDB extends RoomDatabase {
                             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    database.mainDAO().insertFolder(new Folder("All"));
+                                    database.mainDAO().insertFolder(new Folder("All Notes"));
                                 }
                             });
                         }
@@ -58,7 +64,5 @@ public abstract class RoomDB extends RoomDatabase {
             database.execSQL("ALTER TABLE notes ADD COLUMN folderId INTEGER NOT NULL DEFAULT 0");
         }
     };
-
-
-    public abstract MainDAO mainDAO();
-}
+        public abstract MainDAO mainDAO ();
+    }

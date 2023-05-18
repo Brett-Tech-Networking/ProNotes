@@ -34,6 +34,10 @@ public interface MainDAO {
     @Query("DELETE  FROM notes ")
     void deleteAllNotes();
 
+    //Delete All Folders
+    @Query("DELETE  FROM folder")
+    void deleteAllFolders();
+
     //Update Items
     @Query("UPDATE notes SET title = :title, notes = :notes WHERE ID =:id")
     void update(int id, String title, String notes);

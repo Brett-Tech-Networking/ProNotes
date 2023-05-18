@@ -2,20 +2,8 @@ package com.btn.pronotes;
 
 import static com.btn.pronotes.utils.CONSTANTS.BACKUP_ACTION;
 import static com.btn.pronotes.utils.CONSTANTS.EMAIL;
-import static com.btn.pronotes.utils.CONSTANTS.FOLDER;
 import static com.btn.pronotes.utils.CONSTANTS.NOTE;
 import static com.btn.pronotes.utils.CONSTANTS.RESTORE_ACTION;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.Activity;
 import android.app.KeyguardManager;
@@ -37,6 +25,17 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.btn.pronotes.Adapters.FolderListMainAdapter;
 import com.btn.pronotes.Adapters.NotesListAdapter;
 import com.btn.pronotes.Database.RoomDB;
@@ -44,10 +43,8 @@ import com.btn.pronotes.Models.Folder;
 import com.btn.pronotes.Models.Media;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.databinding.CustomDialogAddBackupBinding;
-import com.btn.pronotes.databinding.CustomDialogAddFolderBinding;
 import com.btn.pronotes.services.BackupService;
 import com.btn.pronotes.widgets.NoteWidget;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nambimobile.widgets.efab.FabOption;
 
 import java.util.ArrayList;
@@ -74,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private FolderListMainAdapter folderListMainAdapter;
     List<Notes> notes = new ArrayList<>();
     RoomDB database;
-    FloatingActionButton fab_add;
     SearchView searchView_home;
     Notes selectedNote;
     Folder selectedFolder;
@@ -121,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         btnListener();
 
-
 //        fab_add.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -151,25 +146,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
-
-
-        // End of drag and drop movement
-
-        //search box home code
-        searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return true;
-            }
-        });
-
-
     }
 
 
@@ -213,10 +189,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     protected void onResume() {
         super.onResume();
-        if (STATIC_NOTE!=null)
-        {
+        if (STATIC_NOTE != null) {
             saveNote(STATIC_NOTE);
-            STATIC_NOTE=null;
+            STATIC_NOTE = null;
         }
         notesListAdapter.notifyDataSetChanged();
         folderListMainAdapter.setList(database.mainDAO().getAllFolder());
@@ -236,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         fabOptionDraw.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, DrawingActivity.class);
-            intent.putExtra("FROM","main screen");
+            intent.putExtra("FROM", "main screen");
             startActivity(intent); // adding note 101
         });
 
@@ -283,7 +258,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if (item.getItemId() == R.id.backup) {
             showBackUpDialog(true);
         }
-     if (item.getItemId() == R.id.restore) {
+        if (item.getItemId() == R.id.restore) {
             showBackUpDialog(false);
         }
 
@@ -450,16 +425,17 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 selectedNote = notes;
                 startLockScreen();
             }
-
         }
 
         @Override
         public void onLongClick(Notes notes, CardView cardView) {
             selectedNote = new Notes();
             selectedNote = notes;
+            selectedFolder = new Folder();
             showPopup(cardView, notes);
         }
     };
+
 
     private void startModifiedNotes(Notes notes) {
         Toast.makeText(MainActivity.this, "Modifying Note", Toast.LENGTH_SHORT).show();
@@ -476,7 +452,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-
     public void showPopup(CardView cardView, Notes notes) {
         PopupMenu popupMenu = new PopupMenu(this, cardView);
         popupMenu.setOnMenuItemClickListener(this);
@@ -484,6 +459,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popupMenu.show();
         popupMenu.getMenu().getItem(0).setChecked(notes.isPinned());
         popupMenu.getMenu().getItem(1).setChecked(notes.isLocked());
+
 //        if (selectedFolder.getId() == 1) {
 //            popupMenu.getMenu().getItem(2).setVisible(false);
 //        }
@@ -515,14 +491,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return true;
 
             case R.id.delete:
-
                 database.mainDAO().delete(selectedNote);
                 notes.remove(selectedNote);
                 notesListAdapter.notifyDataSetChanged();
                 Toast.makeText(MainActivity.this, "Note Deleted!", Toast.LENGTH_SHORT).show();
                 updateNoteWidget();
-
                 return true;
+
 
             case R.id.move:
 
@@ -554,6 +529,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
+
     private void updateNoteWidget() {
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
@@ -573,9 +549,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 .setCancelable(false)
                 .create();
         alertDialog.show();
-        dialogBinding.tvHeading.setText(isbackUp?"Backup":"Restore");
+        dialogBinding.tvHeading.setText(isbackUp ? "Backup" : "Restore");
         if (isbackUp) {
-            dialogBinding.tvFooter.setText("Note: All of your existing backup data will lost on backup");
+            dialogBinding.tvFooter.setText("Note: All of your existing backup data will be lost on backup");
         } else {
             dialogBinding.tvFooter.setText("Note: All of your local data will lost on restore");
         }
@@ -587,13 +563,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 serviceIntent.setAction(BACKUP_ACTION);
             } else {
                 serviceIntent.setAction(RESTORE_ACTION);
-
             }
             serviceIntent.putExtra(EMAIL, dialogBinding.etEmail.getText().toString());
             startService(serviceIntent);
             alertDialog.dismiss();
         });
-    }
-}
-
-
+    }}

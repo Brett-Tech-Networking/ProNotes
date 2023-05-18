@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <item android:id="@+id/file"
+        android:title="Hide Notes" >
+<menu>
     <item android:id="@+id/hide"
         android:icon="@drawable/ic_hide"
         app:showAsAction="ifRoom"
@@ -11,7 +13,8 @@
         android:icon="@drawable/ic_unhide"
         app:showAsAction="ifRoom"
         android:title="Unhide Notes"/>
-
+</menu>
+    </item>
     <item android:id="@+id/backup"
         android:icon="@drawable/baseline_backup_24"
         app:showAsAction="ifRoom"
@@ -38,3 +41,4 @@
         android:title="Restart App"/>
 
 </menu>
+
