@@ -116,14 +116,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         updateRecycler(notes);
 
         btnListener();
+        fabOptionCheckList.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ChecklistNotesActivity.class);
+            intent.putExtra("noteType", 2); // Use 2 to represent checklist note type
+            startActivityForResult(intent, 101);
+        });
 
-//        fab_add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
-//                startActivityForResult(intent, 101); // adding note 101
-//            }
-//        });
 
         // Implements the drag and drop movement of the notes
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
@@ -208,6 +206,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
             startActivityForResult(intent, 101); // adding note 101
         });
+
+        fabOptionCheckList.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, NotesTakerActivity.class);
+            startActivityForResult(intent, 101); });
 
         fabOptionDraw.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, DrawingActivity.class);

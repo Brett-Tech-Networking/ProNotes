@@ -7,12 +7,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -54,6 +52,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     RichEditor editText_notes;
     ImageView imageView_save;
     ImageView imageView_back;
+    ImageView backButton;
     Notes notes;
     private List<String> mediaList = new ArrayList<>();
 
@@ -79,6 +78,7 @@ public class NotesTakerActivity extends AppCompatActivity {
 
         imageView_save = findViewById(R.id.imageView_save);
         imageView_back = findViewById(R.id.imageView_back);
+        backButton = findViewById(R.id.backButton);
         editText_title = findViewById(R.id.editText_title);
         boldBtn = findViewById(R.id.boldbutton);
         italicBtn = findViewById(R.id.italicbutton);
@@ -104,6 +104,7 @@ public class NotesTakerActivity extends AppCompatActivity {
 
         //back button inside of note
     }
+
 
     private void setupMediaRecyclerView() {
         mediaListAdapter = new MediaListAdapter(this, new ArrayList<>(), new MediaClickListener() {
@@ -226,11 +227,17 @@ public class NotesTakerActivity extends AppCompatActivity {
         });
     }
 
+    public static final int NOTE_TYPE_CHECKLIST = 2;
+
+
     private void btnListeners() {
+
         imageView_save.setOnClickListener(v -> {
             saveTheNote();
         });
         imageView_back.setOnClickListener(view -> finish());
+
+        backButton.setOnClickListener(view -> finish());
 
         boldBtn.setOnCheckedChangeListener((compoundButton, b) -> {
             editText_notes.setBold();
@@ -290,6 +297,8 @@ public class NotesTakerActivity extends AppCompatActivity {
     private void saveTheNote() {
         String title = editText_title.getText().toString();
         String description = editText_notes.getHtml();
+        Notes note = new Notes();
+        note.setTitle("Checklist Note");
 
         if (description.isEmpty()) {
             Toast.makeText(NotesTakerActivity.this, "Please add notes", Toast.LENGTH_SHORT).show();
@@ -374,5 +383,4 @@ public class NotesTakerActivity extends AppCompatActivity {
         }
         return permissionList;
     }
-
 }

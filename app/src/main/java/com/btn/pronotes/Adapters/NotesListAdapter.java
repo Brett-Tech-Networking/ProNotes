@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.btn.pronotes.ChecklistItem;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.NotesClickListener;
 import com.btn.pronotes.R;
@@ -30,6 +31,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     Context context;
     List<Notes> list;
     NotesClickListener listener;
+
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
@@ -140,4 +142,29 @@ class NotesViewHolder extends RecyclerView.ViewHolder {
         textView_date = itemView.findViewById(R.id.textView_date);
         imageView_pin = itemView.findViewById(R.id.imageView_pin);
     }
+    public class Notes {
+        // Existing fields
+
+        private List<ChecklistItem> checklistItems;
+
+        public Notes() {
+            // Existing constructor code
+            checklistItems = new ArrayList<>();
+        }
+
+        // Existing getter and setter methods
+
+        public List<ChecklistItem> getChecklistItems() {
+            return checklistItems;
+        }
+
+        public void setChecklistItems(List<ChecklistItem> checklistItems) {
+            this.checklistItems = checklistItems;
+        }
+
+        public void addChecklistItem(ChecklistItem item) {
+            checklistItems.add(item);
+        }
+    }
+
 }

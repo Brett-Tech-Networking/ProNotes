@@ -4,14 +4,11 @@ import static com.btn.pronotes.MainActivity.CHANGE_FOLDER_REQUEST_CODE;
 import static com.btn.pronotes.MainActivity.FOLDER_REQUEST_CODE;
 import static com.btn.pronotes.utils.CONSTANTS.NOTE;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.widget.PopupMenu;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.btn.pronotes.Adapters.FolderListAdapter;
 import com.btn.pronotes.Database.RoomDB;
@@ -48,9 +45,30 @@ public class FolderActivity extends AppCompatActivity {
             isChangeFolderEnabled = true;
             note = (Notes) getIntent().getSerializableExtra(NOTE);
         }
+        // Retrieve the noteType from Intent extras
+        int noteType = getIntent().getIntExtra("noteType", 1); // Use 1 as the default note type (e.g., text)
+
+        if (noteType == 2) {
+            // Handle checklist note creation
+            // You can set appropriate flags or variables to indicate that it's a checklist note
+            // For example, you can display a different UI for checklist notes or perform checklist-specific operations
+            // You can also store the note type in a member variable for future reference
+
+            // Create a default checklist with items
+            List<String> checklistItems = new ArrayList<>();
+            checklistItems.add("Item 1");
+            checklistItems.add("Item 2");
+            checklistItems.add("Item 3");
+
+            // TODO: Add code to populate the checklist UI with the default items
+            // You need to update your UI accordingly to display the checklist and its items
+        } else {
+            // Handle other note types (e.g., text note)
+            // You can have different logic or behavior for non-checklist notes here
+        }
     }
 
-    private void setupFolderRecyclerView() {
+        private void setupFolderRecyclerView() {
 
         List<Folder> folders = new ArrayList<>(database.mainDAO().getAllFolder());
 

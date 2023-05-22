@@ -10,4 +10,5 @@ public class CONSTANTS {
     public static final String FILE_PATH = "file path";
     public static final String BACKUP_NOTIFCATION_CHANNEL_ID = "backup channel id";
 
+    public static final int NOTE_TYPE_CHECKLIST = 2;
 }
