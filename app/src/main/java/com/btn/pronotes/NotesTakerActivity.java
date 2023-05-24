@@ -237,7 +237,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         });
         imageView_back.setOnClickListener(view -> finish());
 
+/*
         backButton.setOnClickListener(view -> finish());
+*/
 
         boldBtn.setOnCheckedChangeListener((compoundButton, b) -> {
             editText_notes.setBold();
