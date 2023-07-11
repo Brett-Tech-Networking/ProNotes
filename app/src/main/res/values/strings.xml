@@ -26,4 +26,6 @@
     <string name="save_button">save button</string>
     <string name="hint_checklist_item">hint checklist item</string>
     <string name="add_button">add button</string>
+    <string name="settings1">Settings</string>
+    <string name="restart_app">Restart App</string>
 </resources>

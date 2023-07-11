@@ -37,8 +37,9 @@
 
     <item android:id="@+id/reboot"
         android:icon="@drawable/ic_reboot"
+        android:tooltipText="restart app"
         app:showAsAction="always"
-        android:title="Restart App"/>
+        android:title="@string/restart_app"/>
 
 </menu>
 

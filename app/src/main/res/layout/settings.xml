@@ -25,20 +25,19 @@
                 android:padding="4dp"
                 android:src="@drawable/ic_back"
                 android:visibility="visible"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:focusable="true" />
         </RelativeLayout>
-
-
     </Toolbar>
 
 
     <TextView
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:text="Settings"
-     android:textStyle="normal"
+     android:text="@string/settings1"
+     android:fontFamily="@font/ubuntu_bold"
      android:textColor="@color/color4"
-     android:textSize="32dp"
+     android:textSize="32sp"
      android:textAlignment="center"/>
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/color_tile_switch"

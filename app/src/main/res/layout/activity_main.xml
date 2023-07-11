@@ -44,6 +44,7 @@
         android:id="@+id/iv_add_folder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:tooltipText="Create New Category"
         android:src="@drawable/baseline_create_new_folder_24"
         android:scaleType="centerCrop"
         android:paddingRight="@dimen/_8sdp"
@@ -98,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-
+            android:tooltipText="Create New Note,Image,Drawing etc..."
             app:efab_closingAnticipateTension="0"
             app:efab_color="#9374DE"
             app:efab_icon="@drawable/ic_add"
