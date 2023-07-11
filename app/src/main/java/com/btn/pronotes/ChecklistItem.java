@@ -8,6 +8,11 @@ public class ChecklistItem {
         this.text = text;
         this.isChecked = isChecked;
     }
+    public ChecklistItem(String text, boolean isChecked, boolean isCompleted) {
+        this.text = text;
+        this.isChecked = isChecked;
+    }
+
 
     public String getText() {
         return text;

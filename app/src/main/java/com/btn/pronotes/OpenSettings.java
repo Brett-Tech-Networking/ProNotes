@@ -73,10 +73,7 @@ public class OpenSettings extends AppCompatActivity {
                     })
                     .show();
         });
-
     }
-
-
 }
 
 

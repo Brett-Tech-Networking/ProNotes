@@ -1,25 +1,30 @@
 package com.btn.pronotes;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.ChecklistViewHolder> {
 
-    private List<String> checklistItems;
+    private List<ChecklistItem> checklistItems;
 
     public ChecklistAdapter() {
         checklistItems = new ArrayList<>();
     }
 
-    public void setChecklistItems(List<String> items) {
+    public void setChecklistItems(List<ChecklistItem> items) {
         checklistItems.clear();
         if (items != null) {
             checklistItems.addAll(items);
@@ -30,13 +35,13 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
     @NonNull
     @Override
     public ChecklistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checklist, parent, false);
-        return new ChecklistViewHolder(itemView);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_checklist, parent, false);
+        return new ChecklistViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChecklistViewHolder holder, int position) {
-        String item = checklistItems.get(position);
+        ChecklistItem item = checklistItems.get(position);
         holder.bindItem(item);
     }
 
@@ -45,17 +50,48 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
         return checklistItems.size();
     }
 
-    public class ChecklistViewHolder extends RecyclerView.ViewHolder {
+    class ChecklistViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
+        private MaterialCheckBox cbItem;
 
-        private CheckBox checkBox;
-
-        public ChecklistViewHolder(@NonNull View itemView) {
+        ChecklistViewHolder(@NonNull View itemView) {
             super(itemView);
-            checkBox = itemView.findViewById(R.id.checkBox_item);
+            cbItem = itemView.findViewById(R.id.checkBox_item);
+            cbItem.setOnCheckedChangeListener(this);
         }
 
-        public void bindItem(String item) {
-            checkBox.setText(item);
+        void bindItem(ChecklistItem item) {
+            cbItem.setText(item.getText());
+            cbItem.setChecked(item.isChecked());
+            cbItem.setClickable(true);
+            cbItem.setFocusable(false);
+            cbItem.setTag(item);
+
+            // Update the original checked state of the item
+            ((ChecklistItem) cbItem.getTag()).setChecked(item.isChecked());
+            itemView.setOnClickListener(v -> cbItem.setChecked(!cbItem.isChecked()));
+            if (item.isChecked()) {
+                cbItem.setPaintFlags(cbItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                cbItem.setPaintFlags(cbItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            ChecklistItem item = (ChecklistItem) buttonView.getTag();
+            item.setChecked(isChecked);
+            // allows cbitems to be checked and unchecked
+            if (isChecked) {
+                cbItem.setPaintFlags(cbItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            } else {
+                cbItem.setPaintFlags(cbItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            }
+        }
+        }
+
+        private void onItemCheckedChanged(int position, boolean isChecked) {
+            ChecklistItem item = checklistItems.get(position);
+            item.setChecked(isChecked);
+            notifyItemChanged(position);
         }
     }
-}
