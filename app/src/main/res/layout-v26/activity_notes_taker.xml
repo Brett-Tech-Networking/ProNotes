@@ -41,6 +41,16 @@
                 android:padding="9dp"
                 android:src="@drawable/ic_back"
                 android:visibility="visible" />
+            <!-- +++++++++++++++++++ "Brett Tech Networking ++++++++++++++++++ -->
+            <TextView
+                android:id="@+id/textView_EditNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:text="@string/brett_tech_networking"
+                android:gravity="center"
+                android:textColor="@color/white"
+                />
         </RelativeLayout>
     </Toolbar>
 
@@ -77,9 +87,7 @@
             android:textOff=""
             android:textOn=""
             android:layout_marginHorizontal="5dp"
-
             />
-
 
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/underlinebutton"
@@ -92,7 +100,6 @@
             android:textOff=""
             android:textOn=""
             android:layout_marginHorizontal="5dp"
-
             />
     </Toolbar>
 
@@ -131,32 +138,6 @@
         app:layout_constraintBottom_toTopOf="@id/rv_media"
         />
 
-
-<!--    <EditText-->
-<!--        android:id="@+id/editText_notes"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="@dimen/_25sdp"-->
-<!--        android:layout_marginTop="@dimen/_15sdp"-->
-<!--        android:layout_marginEnd="@dimen/_12sdp"-->
-<!--        android:background="@null"-->
-<!--        android:hint="@string/add_notes"-->
-<!--        android:importantForAutofill="no"-->
-<!--        android:includeFontPadding="false"-->
-<!--        android:inputType="textMultiLine"-->
-<!--        android:padding="8dp"-->
-<!--        android:paddingTop="@dimen/_8sdp"-->
-<!--        android:paddingBottom="@dimen/_8sdp"-->
-<!--        android:textColor="@color/white"-->
-<!--        android:textColorHint="@color/white"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="normal"-->
-<!--      -->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/editText_title"-->
-<!--        />-->
-
     <View
         android:id="@+id/editNoteIndicator"
         android:layout_width="10dp"
@@ -177,23 +158,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/textView_EditNotes"
-
+        app:layout_constraintBottom_toTopOf="@+id/layout_miscellaneous"
         android:layout_marginEnd="10dp"
         />
-
-    <TextView
+    <!-- Footer "Brett Tech Networking 2023 -->
+   <!-- <TextView
         android:id="@+id/textView_EditNotes"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/brett_tech_networking_2023"
         android:textAlignment="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/layout_miscellaneous"
+        app:layout_constraintBottom_toTopOf="@id/rv_media"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        />-->
 
     <include
         android:id="@+id/layout_miscellaneous"
@@ -204,16 +184,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+
     <com.nambimobile.widgets.efab.ExpandableFabLayout
         android:id="@+id/expandable_fab_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="-120dp"
+        app:layout_constraintBottom_toTopOf="@id/layout_miscellaneous"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/layout_miscellaneous">
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="16dp">
 
         <com.nambimobile.widgets.efab.ExpandableFab
             android:id="@+id/expandable_fab"
@@ -225,7 +206,6 @@
             app:efab_color="#9374DE"
             app:efab_icon="@drawable/ic_add"
             app:efab_iconAnimationRotationDeg="-225" />
-
 
 
         <com.nambimobile.widgets.efab.FabOption
