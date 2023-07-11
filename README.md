@@ -11,4 +11,4 @@
 - Customize your note's background colors, use a static background, or have them change randomly
 
 
-![eclipsenet](https://github.com/Brett-Tech-Networking/ProNotes/blob/main/main.jpg?raw=true)
+![eclipsenet](https://github.com/Brett-Tech-Networking/ProNotes/blob/main/ProNotesPreview.png?raw=true)
