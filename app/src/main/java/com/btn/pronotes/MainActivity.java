@@ -148,41 +148,43 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
 
     private void setupFolderRecyclerView() {
-
-        List<Folder> folders = new ArrayList<>(database.mainDAO().getAllFolder());
-        if (folders.size() > 1) {
-            for (Folder folder : folders) {
-                if (folder.isSelected()) {
-                    selectedFolder = folder;
-                    break;
-                }
-            }
+        List<Folder> folders = database.mainDAO().getAllFolder();
+        if (folders.isEmpty()) {
+            // Handle the case where no folders are available
+            // Display an error message or create a default folder
         } else {
-
-            database.mainDAO().selectFolder(folders.get(0).getId(), true);
-            folders.clear();
-            folders = database.mainDAO().getAllFolder();
-            selectedFolder = folders.get(0);
-        }
-        folderListMainAdapter =
-                new FolderListMainAdapter(this, folders, newFolder -> {
-                    if (selectedFolder != newFolder) {
-                        database.mainDAO().selectFolder(selectedFolder.getId(), false);
-                        database.mainDAO().selectFolder(newFolder.getId(), true);
-                        selectedFolder = newFolder;
-                        if (newFolder.getId() != 1) {
-                            notes = database.mainDAO().getAll(selectedFolder.getId());
-                        } else {
-                            notes = database.mainDAO().getAll();
-                        }
-                        notesListAdapter.setList(notes);
-                        notesListAdapter.notifyDataSetChanged();
+            if (folders.size() > 1) {
+                for (Folder folder : folders) {
+                    if (folder.isSelected()) {
+                        selectedFolder = folder;
+                        break;
                     }
-                });
-
-        rvFolder.setAdapter(folderListMainAdapter);
-        folderListMainAdapter.notifyDataSetChanged();
+                }
+            } else {
+                database.mainDAO().selectFolder(folders.get(0).getId(), true);
+                folders.clear();
+                folders = database.mainDAO().getAllFolder();
+                selectedFolder = folders.get(0);
+            }
+            folderListMainAdapter = new FolderListMainAdapter(this, folders, newFolder -> {
+                if (selectedFolder != newFolder) {
+                    database.mainDAO().selectFolder(selectedFolder.getId(), false);
+                    database.mainDAO().selectFolder(newFolder.getId(), true);
+                    selectedFolder = newFolder;
+                    if (newFolder.getId() != 1) {
+                        notes = database.mainDAO().getAll(selectedFolder.getId());
+                    } else {
+                        notes = database.mainDAO().getAll();
+                    }
+                    notesListAdapter.setList(notes);
+                    notesListAdapter.notifyDataSetChanged();
+                }
+            });
+            rvFolder.setAdapter(folderListMainAdapter);
+            folderListMainAdapter.notifyDataSetChanged();
+        }
     }
+
 
     @Override
     protected void onResume() {
@@ -560,14 +562,19 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         dialogBinding.btnCancel.setOnClickListener(v -> alertDialog.dismiss());
         dialogBinding.btnDone.setOnClickListener(v -> {
-            Intent serviceIntent = new Intent(this, BackupService.class);
-            if (isbackUp) {
-                serviceIntent.setAction(BACKUP_ACTION);
+            String email = dialogBinding.etEmail.getText().toString().trim();
+            if (!email.isEmpty()) {
+                Intent serviceIntent = new Intent(this, BackupService.class);
+                if (isbackUp) {
+                    serviceIntent.setAction(BACKUP_ACTION);
+                } else {
+                    serviceIntent.setAction(RESTORE_ACTION);
+                }
+                serviceIntent.putExtra(EMAIL, email);
+                startService(serviceIntent);
+                alertDialog.dismiss();
             } else {
-                serviceIntent.setAction(RESTORE_ACTION);
+                Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
             }
-            serviceIntent.putExtra(EMAIL, dialogBinding.etEmail.getText().toString());
-            startService(serviceIntent);
-            alertDialog.dismiss();
         });
     }}
