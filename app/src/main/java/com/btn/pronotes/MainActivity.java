@@ -95,11 +95,32 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         recyclerView = findViewById(R.id.recycler_home);
         rvFolder = findViewById(R.id.recycler_folder);
         searchView_home = findViewById(R.id.searchView_home);
         database = RoomDB.getInstance(this);
+        List<Folder> folders = database.mainDAO().getAllFolder();
+        if (folders.isEmpty()) {
+            // Handle the case where no folders are available
+            // For example, you can create a default folder and assign it to selectedFolder
+            selectedFolder = new Folder();
+            selectedFolder.setId(1);
+            selectedFolder.setName("All Notes");
+            database.mainDAO().insertFolder(selectedFolder);
+        } else {
+            selectedFolder = folders.get(0);
+        }
+
+        if (selectedFolder != null) {
+            if (selectedFolder.getId() != 1) {
+                notes = database.mainDAO().getAll(selectedFolder.getId());
+            } else {
+                notes = database.mainDAO().getAll();
+            }
+        }
+
         fabOptionAddNote = findViewById(R.id.fab_add_note);
         fabOptionCheckList = findViewById(R.id.fab_check_list);
         fabOptionDraw = findViewById(R.id.fab_draw);
@@ -113,6 +134,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             notes = database.mainDAO().getAll();
 
         }
+
         updateRecycler(notes);
 
         btnListener();
@@ -121,7 +143,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             intent.putExtra("noteType", 2); // Use 2 to represent checklist note type
             startActivityForResult(intent, 101);
         });
-
 
         // Implements the drag and drop movement of the notes
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
