@@ -40,7 +40,7 @@ public class FolderListMainAdapter extends RecyclerView.Adapter<MainFolderViewHo
         holder.binding.tvName.setText(list.get(position).getName());
         if (list.get(position).isSelected()) {
             holder.binding.card.setCardBackgroundColor(
-                    ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.color1));
+                    ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.grey)); //color of folder background
         } else {
             holder.binding.card.setCardBackgroundColor(
                     ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.grey));

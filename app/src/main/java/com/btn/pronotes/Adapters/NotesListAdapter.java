@@ -34,12 +34,14 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     Context context;
     List<Notes> list;
     NotesClickListener listener;
+    private int cardBackgroundColor;
 
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
+
     }
 
     @NonNull
