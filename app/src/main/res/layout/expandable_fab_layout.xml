@@ -21,7 +21,8 @@
             app:efab_icon="@drawable/ic_add"
             app:efab_iconAnimationRotationDeg="-225"
             app:efab_closingAnticipateTension="0"
-            />
+            app:efab_openingAnimationDurationMs="50" /><!-- changes time it takes to open menu -->
+
 
         <com.nambimobile.widgets.efab.FabOption
             android:layout_width="wrap_content"

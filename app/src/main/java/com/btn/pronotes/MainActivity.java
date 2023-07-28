@@ -5,6 +5,10 @@ import static com.btn.pronotes.utils.CONSTANTS.EMAIL;
 import static com.btn.pronotes.utils.CONSTANTS.NOTE;
 import static com.btn.pronotes.utils.CONSTANTS.RESTORE_ACTION;
 
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistItem;
 import android.app.Activity;
 import android.app.KeyguardManager;
 import android.appwidget.AppWidgetManager;
@@ -25,6 +29,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -96,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         keyguardManager = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         recyclerView = findViewById(R.id.recycler_home);
         rvFolder = findViewById(R.id.recycler_folder);
@@ -136,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
 
         updateRecycler(notes);
-
         btnListener();
         fabOptionCheckList.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ChecklistNotesActivity.class);

@@ -25,9 +25,9 @@
             android:exported="false"
             android:label="@string/title_activity_drawing"
             android:theme="@style/Theme.ProNotes.NoActionBar" />
-        <activity android:name=".ChecklistActivity" />
+        <activity android:name=".Checklist.ChecklistActivity" />
         <activity
-            android:name=".ChecklistNotesActivity"
+            android:name=".Checklist.ChecklistNotesActivity"
             android:label="Checklist Notes" />
         <activity
             android:name=".FolderActivity"

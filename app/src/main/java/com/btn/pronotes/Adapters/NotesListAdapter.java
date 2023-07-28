@@ -16,7 +16,10 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.btn.pronotes.ChecklistItem;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistItem;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.NotesClickListener;
 import com.btn.pronotes.R;

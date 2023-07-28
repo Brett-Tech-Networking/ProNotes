@@ -1,5 +1,6 @@
-package com.btn.pronotes;
+package com.btn.pronotes.Checklist;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistItem;
+import com.btn.pronotes.Checklist.ChecklistItem;
+import com.btn.pronotes.R;
 import com.google.android.material.checkbox.MaterialCheckBox;
 
 import java.util.ArrayList;

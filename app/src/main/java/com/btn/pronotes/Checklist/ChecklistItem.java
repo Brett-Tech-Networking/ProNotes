@@ -1,5 +1,8 @@
-package com.btn.pronotes;
-
+package com.btn.pronotes.Checklist;
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistItem;
 public class ChecklistItem {
     private String text;
     private boolean isChecked;

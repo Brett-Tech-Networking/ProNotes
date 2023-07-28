@@ -1,4 +1,4 @@
-package com.btn.pronotes;
+package com.btn.pronotes.Checklist;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,15 +14,21 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.btn.pronotes.ChecklistAdapter;
-import com.btn.pronotes.ChecklistItem;
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistItem;
 import com.btn.pronotes.Models.Notes;
+import com.btn.pronotes.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
+import com.btn.pronotes.Checklist.ChecklistNotesActivity;
+import com.btn.pronotes.Checklist.ChecklistActivity;
+import com.btn.pronotes.Checklist.ChecklistAdapter;
+import com.btn.pronotes.Checklist.ChecklistItem;
 
 public class ChecklistNotesActivity extends AppCompatActivity {
 
@@ -103,6 +109,7 @@ public class ChecklistNotesActivity extends AppCompatActivity {
             content.append("- ");
             if (item.isChecked()) {
                 content.append("[x] ");
+
             } else {
                 content.append("[ ] ");
             }

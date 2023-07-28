@@ -101,7 +101,7 @@
             android:layout_gravity="bottom|end"
             android:tooltipText="Create New Note,Image,Drawing etc..."
             app:efab_closingAnticipateTension="0"
-            app:efab_color="#9374DE"
+            app:efab_color="#5E08D8"
             app:efab_icon="@drawable/ic_add"
             app:efab_iconAnimationRotationDeg="-225" />
 
