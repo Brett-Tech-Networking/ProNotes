@@ -6,7 +6,7 @@
     android:layout_margin="8dp"
     android:elevation="8dp"
     android:orientation="vertical"
-    android:background="@color/colorNoteColor2"
+    android:background="@color/colorNoteColortrans"
     android:layout_gravity=""
     android:padding="10dp" >
     <TextView

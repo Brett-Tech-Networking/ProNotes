@@ -26,6 +26,7 @@
     <color name="colorNoteColor3">#FF5722</color>
     <color name="colorNoteColor4">#1032EA</color>
     <color name="colorNoteColor5">#000000</color>
+    <color name="colorNoteColortrans">#56FFFB04</color>
 
 
     <color name="colorPrimary">#292929</color>
