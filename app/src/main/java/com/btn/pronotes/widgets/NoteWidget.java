@@ -61,10 +61,13 @@ public class NoteWidget extends AppWidgetProvider {
                 // Set up a pending intent to launch the note editor when the edit button is clicked
                 Intent editIntent = new Intent(context, NotesTakerActivity.class);
                 editIntent.putExtra("old_note", notesList.get(0));
-                PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_MUTABLE);
+                PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.imageView_edit, editPendingIntent);
             }
-
+                // Set up a pending intent to launch the WidgetConfigActivity when the settings icon is clicked
+                Intent configIntent = new Intent(context, WidgetConfigActivity.class);
+            PendingIntent configPendingIntent = PendingIntent.getActivity(context, 1, configIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                views.setOnClickPendingIntent(R.id.settingsIcon, configPendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }

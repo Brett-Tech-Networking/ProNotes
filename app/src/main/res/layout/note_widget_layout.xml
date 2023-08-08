@@ -79,5 +79,12 @@
             android:textColor="@color/grey"
             android:textSize="@dimen/_14ssp"
             android:textStyle="normal" />
+    <ImageView
+        android:id="@+id/settingsIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:src="@drawable/baseline_settings_24_black" />
+
 
 </LinearLayout>
