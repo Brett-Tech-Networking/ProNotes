@@ -157,8 +157,8 @@ public class WidgetConfigActivity extends Activity {
     // Helper method to update the color of the colorPickerButton
     private void setColorPickerButtonColor(int color) {
         currentColor = color;
-        // Update the color of the colorPickerButton
-        // colorPickerButton.setBackgroundColor(color);
+         colorPickerButton.setTextColor(currentColor); // Update the color of the colorPickerButton
+         textColorPickerButton.setTextColor(currentTextColor); // Update the color of the TextcolorPicker
     }
 
     // Helper method to apply the text color to the NoteWidget
