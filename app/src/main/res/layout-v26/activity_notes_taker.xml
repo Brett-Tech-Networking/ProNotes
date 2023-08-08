@@ -115,6 +115,7 @@
         android:textColorHint="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:background="@drawable/noteborder"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_style_toolbar" />

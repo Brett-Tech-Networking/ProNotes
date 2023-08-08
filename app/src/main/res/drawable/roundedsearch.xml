@@ -6,4 +6,5 @@
         android:bottom="8dp"
         android:right="8dp"
         android:top="8dp"/>
+    <stroke android:width="4dip" android:color="#003FFF"/>
 </shape>
