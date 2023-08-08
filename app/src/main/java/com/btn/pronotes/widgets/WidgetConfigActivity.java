@@ -78,7 +78,7 @@ public class WidgetConfigActivity extends Activity {
         textColorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] colors = {"Black", "Red", "Blue", "Green", "Yellow"};
+                final String[] colors = {"Black", "Red", "Blue", "Green", "Yellow", "Pink", "Orange"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigActivity.this);
                 builder.setTitle("Pick a text color")
                         .setItems(colors, new DialogInterface.OnClickListener() {
@@ -99,6 +99,12 @@ public class WidgetConfigActivity extends Activity {
                                     case 4:
                                         currentTextColor = Color.YELLOW;
                                         break;
+                                    case 5:
+                                        currentTextColor = Color.rgb(255, 105, 180);
+                                        break;
+                                    case 6:
+                                        currentTextColor = Color.rgb(255, 172, 28);
+                                        break;
                                 }
                                 // Update the sample view here if you have one
                                 setColorPickerButtonColor(currentColor);
@@ -111,22 +117,25 @@ public class WidgetConfigActivity extends Activity {
         colorPickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String[] colors = {"Red", "Blue", "Green", "Yellow"};
+                final String[] colors = {"Black", "Red", "Blue", "Green", "Yellow"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigActivity.this);
                 builder.setTitle("Pick a color")
                         .setItems(colors, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case 0:
-                                        currentColor = Color.RED;
+                                        currentColor = Color.BLACK;
                                         break;
                                     case 1:
-                                        currentColor = Color.BLUE;
+                                        currentColor = Color.RED;
                                         break;
                                     case 2:
-                                        currentColor = Color.GREEN;
+                                        currentColor = Color.BLUE;
                                         break;
                                     case 3:
+                                        currentColor = Color.GREEN;
+                                        break;
+                                    case 4:
                                         currentColor = Color.YELLOW;
                                         break;
                                 }

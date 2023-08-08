@@ -56,6 +56,10 @@ public class NoteWidget extends AppWidgetProvider {
             views.setTextColor(R.id.textView_note_body, currentTextColor);
             views.setTextColor(R.id.textView_note_date, currentTextColor);
 
+            // Apply the saved note details
+            views.setTextViewText(R.id.textView_note_title, savedNoteTitle);
+            views.setTextViewText(R.id.textView_note_body, savedNoteBody);
+
             if (!savedNoteTitle.isEmpty() && !savedNoteBody.isEmpty()) {
                 views.setViewVisibility(R.id.textView_note_title, View.VISIBLE);
                 views.setViewVisibility(R.id.textView_note_body, View.VISIBLE);

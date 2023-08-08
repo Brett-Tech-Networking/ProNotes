@@ -3,13 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+   android:background="@color/grey"
     android:padding="16dp">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="Widget Settings"
+    android:fontFamily="@font/ubuntu_bold"
+    android:textSize="@dimen/_21sdp"
+    android:textColor="@color/white"
+    android:textAlignment="center"
+    />
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/_21sdp"/>
 
 <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:text="Widget Transparency"
     android:textAlignment="center"
+    android:textColor="@color/white"
     android:fontFamily="@font/ubuntu_bold"
 
     />
@@ -46,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:src="@drawable/baseline_settings_24_black" />
+        android:src="@drawable/baseline_settings_24_blue" />
 <Space
     android:layout_width="match_parent"
     android:layout_height="match_parent"

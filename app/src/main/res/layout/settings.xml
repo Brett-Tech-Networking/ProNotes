@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black"
+    android:background="@color/grey"
     android:alwaysRetainTaskState="true"
     tools:context=".OpenSettings">
 
@@ -36,7 +36,7 @@
      android:layout_height="wrap_content"
      android:text="@string/settings1"
      android:fontFamily="@font/ubuntu_bold"
-     android:textColor="@color/color4"
+     android:textColor="@color/white"
      android:textSize="32sp"
      android:textAlignment="center"/>
     <androidx.appcompat.widget.SwitchCompat
@@ -46,7 +46,7 @@
         android:layout_marginTop="40dp"
         android:textColor="@color/yellow"
         android:textStyle="bold"
-        android:background="@color/grey"
+        android:background="@drawable/border"
         android:textAlignment="center"
         android:text="Enable/Disable Color Changing tiles"
         >
