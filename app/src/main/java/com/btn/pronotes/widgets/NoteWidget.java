@@ -1,13 +1,11 @@
 package com.btn.pronotes.widgets;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -28,15 +26,18 @@ public class NoteWidget extends AppWidgetProvider {
 
     private int[] widgetIDs;
     public static final String WIDGET_UPDATE_ACTION = "com.btn.pronotes.WIDGET_UPDATE_ACTION";
+    private int currentTextColor = Color.BLACK; // Default text color (black)
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        widgetIDs = appWidgetIds;
+
         SharedPreferences sharedPref = context.getSharedPreferences("widget_settings", Context.MODE_PRIVATE);
         int selectedColor = sharedPref.getInt("color", Color.RED);  // Default color is RED
         int selectedTransparency = sharedPref.getInt("transparency", 255);  // Default transparency is opaque
+        currentTextColor = sharedPref.getInt("textColor", Color.BLACK); // Get the saved text color
 
-        widgetIDs = appWidgetIds;
         RoomDB roomDB = RoomDB.getInstance(context);
         new SharedPreferenceHelper(context).setWidgetId(appWidgetIds[0]);
 
@@ -48,6 +49,10 @@ public class NoteWidget extends AppWidgetProvider {
             // Setting the color and transparency to the widget layout
             views.setInt(R.id.notes_container, "setBackgroundColor", Color.argb(selectedTransparency, Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
 
+            // Update the text color in the widget layout
+            views.setTextColor(R.id.textView_note_title, currentTextColor);
+            views.setTextColor(R.id.textView_note_body, currentTextColor);
+            views.setTextColor(R.id.textView_note_date, currentTextColor);
 
             if (notesList.isEmpty()) {
                 views.setViewVisibility(R.id.textView_note_title, View.GONE);
@@ -73,14 +78,16 @@ public class NoteWidget extends AppWidgetProvider {
                 PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 views.setOnClickPendingIntent(R.id.imageView_edit, editPendingIntent);
             }
-                // Set up a pending intent to launch the WidgetConfigActivity when the settings icon is clicked
-                Intent configIntent = new Intent(context, WidgetConfigActivity.class);
+
+            // Set up a pending intent to launch the WidgetConfigActivity when the settings icon is clicked
+            Intent configIntent = new Intent(context, WidgetConfigActivity.class);
             PendingIntent configPendingIntent = PendingIntent.getActivity(context, 1, configIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                views.setOnClickPendingIntent(R.id.settingsIcon, configPendingIntent);
+            views.setOnClickPendingIntent(R.id.settingsIcon, configPendingIntent);
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
@@ -98,13 +105,8 @@ public class NoteWidget extends AppWidgetProvider {
     public void onEnabled(Context context) {
         super.onEnabled(context);
 
-//        // Set up a repeating alarm to update the widget every minute.
-//        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//        Intent updateIntent = new Intent(context, NoteWidget.class);
-//        updateIntent.setAction(WIDGET_UPDATE_ACTION);
-//        PendingIntent updatePendingIntent = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_IMMUTABLE);
-//        alarmManager.setRepeating(AlarmManager.RTC, System.currentTimeMillis(),  100, updatePendingIntent);
-//
+        // Set up a repeating alarm to update the widget every minute.
+        // ...
     }
 
     // Override the onDisabled method to cancel the widget update interval.
@@ -112,11 +114,7 @@ public class NoteWidget extends AppWidgetProvider {
     public void onDisabled(Context context) {
         super.onDisabled(context);
 
-//        // Cancel the repeating alarm that updates the widget.
-//        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-//        Intent updateIntent = new Intent(context, NoteWidget.class);
-//        updateIntent.setAction(WIDGET_UPDATE_ACTION);
-//        PendingIntent updatePendingIntent = PendingIntent.getBroadcast(context, 0, updateIntent, PendingIntent.FLAG_IMMUTABLE);
-//        alarmManager.cancel(updatePendingIntent);
+        // Cancel the repeating alarm that updates the widget.
+        // ...
     }
 }

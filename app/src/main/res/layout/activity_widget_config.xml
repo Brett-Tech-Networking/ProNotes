@@ -25,7 +25,16 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Choose Widget Color" />
-
+    <!-- Text Color Picker Button -->
+    <Button
+        android:id="@+id/textColorPickerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Choose Text Color" />
     <Button
         android:id="@+id/applyButton"
         android:layout_width="match_parent"
