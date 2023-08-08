@@ -1,17 +1,17 @@
 package com.btn.pronotes.widgets;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.PopupMenu;
-import android.widget.RemoteViews;
 import android.widget.SeekBar;
 
 import com.btn.pronotes.R;
@@ -21,61 +21,100 @@ public class WidgetConfigActivity extends Activity {
     private SeekBar transparencySeekBar;
     private Button colorPickerButton;
     private Button applyButton;
+    private int currentColor = Color.RED;  // Default color
+    private int currentTransparency = 255;  // Default transparency (opaque)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_widget_config);
 
-    transparencySeekBar = findViewById(R.id.transparencySeekBar);
+        transparencySeekBar = findViewById(R.id.transparencySeekBar);
         colorPickerButton = findViewById(R.id.colorPickerButton);
         applyButton = findViewById(R.id.applyButton);
+        SharedPreferences sharedPref = getSharedPreferences("widget_settings", Context.MODE_PRIVATE);
+        currentColor = sharedPref.getInt("color", Color.RED);
+        currentTransparency = sharedPref.getInt("transparency", 255);
+        // Set the initial values for color and transparency
+        setColorPickerButtonColor(currentColor);
+        transparencySeekBar.setProgress(currentTransparency);
 
-        // TODO: Add logic for handling transparency and color change
+        // Transparency SeekBar listener
+        transparencySeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                currentTransparency = progress;
+                // Update the sample view here if you have one
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        // Color Picker Button listener
+        colorPickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] colors = {"Red", "Blue", "Green", "Yellow"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(WidgetConfigActivity.this);
+                builder.setTitle("Pick a color")
+                        .setItems(colors, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0:
+                                        currentColor = Color.RED;
+                                        break;
+                                    case 1:
+                                        currentColor = Color.BLUE;
+                                        break;
+                                    case 2:
+                                        currentColor = Color.GREEN;
+                                        break;
+                                    case 3:
+                                        currentColor = Color.YELLOW;
+                                        break;
+                                }
+                            }
+                        }).show();
+            }
+        });
 
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Save settings to SharedPreferences
                 SharedPreferences sharedPref = getSharedPreferences("widget_settings", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
-                // TODO: Save the selected transparency and color values
+                editor.putInt("color", currentColor);
+                editor.putInt("transparency", currentTransparency);
                 editor.apply();
 
-                // Update the widget
-                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(WidgetConfigActivity.this);
-                ComponentName thisWidget = new ComponentName(WidgetConfigActivity.this, NoteWidget.class);
-                int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-                for (int widgetId : allWidgetIds) {
-                    RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.note_widget_layout);
-                    appWidgetManager.updateAppWidget(widgetId, remoteViews);
-                }
+                // Send a broadcast to update the widget immediately
+                Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, WidgetConfigActivity.this, NoteWidget.class);
+                intent.setComponent(new ComponentName(WidgetConfigActivity.this, NoteWidget.class));
+                sendBroadcast(intent);
 
-                finish();  // Close the activity
+                finishAffinity(); // Close the entire app
             }
         });
-
-        // Add this to show the popup menu when the settings button is clicked
-      }
-    private void showPopupMenu(View view) {
-        PopupMenu popup = new PopupMenu(WidgetConfigActivity.this, view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.widget_config_menu, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.action_change_color:
-                        // Handle color change
-                        return true;
-                    case R.id.action_change_transparency:
-                        // Handle transparency change
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
-        popup.show();
     }
-}
+
+    // Show the color picker dialog
+    private void showColorPickerDialog() {
+        // Show the color picker dialog and update the currentColor
+        // You can use any color picker library or custom implementation
+        // For simplicity, let's assume we use a basic color picker dialog
+        // Update the currentColor variable based on the selected color
+        // setColorPickerButtonColor(currentColor);
+    }
+
+    // Helper method to update the color of the colorPickerButton
+    private void setColorPickerButtonColor(int color) {
+        currentColor = color;
+        // Update the color of the colorPickerButton
+        // colorPickerButton.setBackgroundColor(color);
+        }
+        }
+

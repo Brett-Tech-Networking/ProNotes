@@ -8,6 +8,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
@@ -30,6 +32,9 @@ public class NoteWidget extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+        SharedPreferences sharedPref = context.getSharedPreferences("widget_settings", Context.MODE_PRIVATE);
+        int selectedColor = sharedPref.getInt("color", Color.RED);  // Default color is RED
+        int selectedTransparency = sharedPref.getInt("transparency", 255);  // Default transparency is opaque
 
         widgetIDs = appWidgetIds;
         RoomDB roomDB = RoomDB.getInstance(context);
@@ -39,6 +44,10 @@ public class NoteWidget extends AppWidgetProvider {
 
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_layout);
+
+            // Setting the color and transparency to the widget layout
+            views.setInt(R.id.notes_container, "setBackgroundColor", Color.argb(selectedTransparency, Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
+
 
             if (notesList.isEmpty()) {
                 views.setViewVisibility(R.id.textView_note_title, View.GONE);
@@ -72,46 +81,17 @@ public class NoteWidget extends AppWidgetProvider {
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
-//
-//    @Override
-//    public void onReceive(Context context, Intent intent) {
-//        super.onReceive(context, intent);
-//        if (intent.getAction().equals(WIDGET_UPDATE_ACTION)) {
-//
-//            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//            ComponentName thisAppWidget = new ComponentName(context.getPackageName(), NoteWidget.class.getName());
-//            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisAppWidget);
-////            RoomDB roomDB = RoomDB.getInstance(context);
-////            List<Notes> notesList = roomDB.mainDAO().getPinNotes();
-//            onUpdate(context,appWidgetManager,appWidgetIds);
-//
-////            for (int appWidgetId : appWidgetIds) {
-////                RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_layout);
-////
-////                if (notesList.isEmpty()) {
-////                    views.setViewVisibility(R.id.textView_note_title, View.GONE);
-////                    views.setViewVisibility(R.id.textView_note_body, View.GONE);
-////                    views.setViewVisibility(R.id.textView_note_date, View.GONE);
-////                    views.setViewVisibility(R.id.imageView_edit, View.GONE);
-////                    views.setViewVisibility(R.id.textView_empty, View.VISIBLE);
-////                } else {
-////                    views.setTextViewText(R.id.textView_note_title, notesList.get(0).getTitle());
-////                    views.setTextViewText(R.id.textView_note_body, notesList.get(0).getNotes());
-////                    views.setTextViewText(R.id.textView_note_date, notesList.get(0).getDate());
-////
-////                    // Set up a pending intent to launch the note editor when the edit button is clicked
-////                    Intent editIntent = new Intent(context, NotesTakerActivity.class);
-////                    editIntent.putExtra("old_note", notesList.get(0));
-////                    PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_MUTABLE);
-////                    views.setOnClickPendingIntent(R.id.imageView_edit, editPendingIntent);
-////                }
-////
-////
-////                appWidgetManager.updateAppWidget(appWidgetId, views);
-////            }
-//        }
-//    }
-//
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        if (AppWidgetManager.ACTION_APPWIDGET_UPDATE.equals(intent.getAction())) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisWidget = new ComponentName(context, NoteWidget.class);
+            int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+            onUpdate(context, appWidgetManager, allWidgetIds);
+        }
+    }
 
     // Override the onEnabled method to set up the widget update interval.
     @Override
