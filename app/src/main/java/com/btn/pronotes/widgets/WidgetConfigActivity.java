@@ -10,12 +10,22 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RemoteViews;
 import android.widget.SeekBar;
+import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.btn.pronotes.Database.RoomDB;
+import com.btn.pronotes.Models.Notes;
+import com.btn.pronotes.NoteAdapter;
 import com.btn.pronotes.R;
+
+import java.util.List;
 
 public class WidgetConfigActivity extends Activity {
 
@@ -143,6 +153,14 @@ public class WidgetConfigActivity extends Activity {
                 finishAffinity(); // Close the entire app
             }
         });
+
+        Button selectNoteButton = findViewById(R.id.selectNoteButton);
+        selectNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openNotePickerDialog();
+            }
+        });
     }
 
     // Show the color picker dialog
@@ -157,8 +175,8 @@ public class WidgetConfigActivity extends Activity {
     // Helper method to update the color of the colorPickerButton
     private void setColorPickerButtonColor(int color) {
         currentColor = color;
-         colorPickerButton.setTextColor(currentColor); // Update the color of the colorPickerButton
-         textColorPickerButton.setTextColor(currentTextColor); // Update the color of the TextcolorPicker
+        colorPickerButton.setTextColor(currentColor); // Update the color of the colorPickerButton
+        textColorPickerButton.setTextColor(currentTextColor); // Update the color of the TextcolorPicker
     }
 
     // Helper method to apply the text color to the NoteWidget
@@ -175,5 +193,70 @@ public class WidgetConfigActivity extends Activity {
         for (int appWidgetId : allWidgetIds) {
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+    }
+
+    private void openNotePickerDialog() {
+        RoomDB roomDB = RoomDB.getInstance(this);
+        List<Notes> notesList = roomDB.mainDAO().getAll();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select a Note");
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_note_picker, null);
+        RecyclerView noteRecyclerView = view.findViewById(R.id.noteRecyclerView);
+        noteRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Declare dialog here so it can be referenced inside the onNoteClick() method
+        final AlertDialog dialog = builder.create();
+
+        NoteAdapter noteAdapter = new NoteAdapter(notesList, new NoteAdapter.OnNoteClickListener() {
+            @Override
+            public void onNoteClick(Notes note) {
+                updateWidgetWithNote(note);
+
+                // Dismiss the dialog
+                dialog.dismiss();
+
+                // Show a toast message
+                Toast.makeText(WidgetConfigActivity.this, "Widget updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        noteRecyclerView.setAdapter(noteAdapter);
+
+        // Set the view before calling dialog.show()
+        dialog.setView(view);
+        dialog.show();
+    }
+
+
+    private void updateWidgetWithNote(Notes note) {
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        ComponentName thisWidget = new ComponentName(this, NoteWidget.class);
+        int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+
+        // Save the note details in SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("widget_settings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("note_title", note.getTitle());
+        editor.putString("note_body", note.getNotes());
+        editor.putInt("color", currentColor);
+        editor.putInt("transparency", currentTransparency);
+        editor.putInt("textColor", currentTextColor);
+        editor.apply();
+
+        RemoteViews views = new RemoteViews(getPackageName(), R.layout.note_widget_layout);
+        views.setTextViewText(R.id.textView_note_title, note.getTitle());
+        views.setTextViewText(R.id.textView_note_body, note.getNotes());
+        // You can add more views to update here if needed
+
+        for (int appWidgetId : allWidgetIds) {
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        }
+
+        // Send a broadcast to update the widget immediately
+        Intent intent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, this, NoteWidget.class);
+        intent.setComponent(new ComponentName(this, NoteWidget.class));
+        sendBroadcast(intent);
     }
 }

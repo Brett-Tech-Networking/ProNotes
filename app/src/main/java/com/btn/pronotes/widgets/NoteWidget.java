@@ -37,6 +37,8 @@ public class NoteWidget extends AppWidgetProvider {
         int selectedColor = sharedPref.getInt("color", Color.RED);  // Default color is RED
         int selectedTransparency = sharedPref.getInt("transparency", 255);  // Default transparency is opaque
         currentTextColor = sharedPref.getInt("textColor", Color.BLACK); // Get the saved text color
+        String savedNoteTitle = sharedPref.getString("note_title", ""); // Get the saved note title
+        String savedNoteBody = sharedPref.getString("note_body", ""); // Get the saved note body
 
         RoomDB roomDB = RoomDB.getInstance(context);
         new SharedPreferenceHelper(context).setWidgetId(appWidgetIds[0]);
@@ -54,13 +56,15 @@ public class NoteWidget extends AppWidgetProvider {
             views.setTextColor(R.id.textView_note_body, currentTextColor);
             views.setTextColor(R.id.textView_note_date, currentTextColor);
 
-            if (notesList.isEmpty()) {
-                views.setViewVisibility(R.id.textView_note_title, View.GONE);
-                views.setViewVisibility(R.id.textView_note_body, View.GONE);
-                views.setViewVisibility(R.id.textView_note_date, View.GONE);
-                views.setViewVisibility(R.id.imageView_edit, View.GONE);
-                views.setViewVisibility(R.id.textView_empty, View.VISIBLE);
-            } else {
+            if (!savedNoteTitle.isEmpty() && !savedNoteBody.isEmpty()) {
+                views.setViewVisibility(R.id.textView_note_title, View.VISIBLE);
+                views.setViewVisibility(R.id.textView_note_body, View.VISIBLE);
+                views.setViewVisibility(R.id.textView_note_date, View.VISIBLE);
+                views.setViewVisibility(R.id.imageView_edit, View.VISIBLE);
+                views.setViewVisibility(R.id.textView_empty, View.GONE);
+                views.setTextViewText(R.id.textView_note_title, savedNoteTitle);
+                views.setTextViewText(R.id.textView_note_body, savedNoteBody);
+            } else if (!notesList.isEmpty()) {
                 Spanned spannedString = Html.fromHtml(notesList.get(0).getNotes());
 
                 views.setViewVisibility(R.id.textView_note_title, View.VISIBLE);
@@ -71,13 +75,18 @@ public class NoteWidget extends AppWidgetProvider {
                 views.setTextViewText(R.id.textView_note_title, notesList.get(0).getTitle());
                 views.setTextViewText(R.id.textView_note_body, spannedString);
                 views.setTextViewText(R.id.textView_note_date, notesList.get(0).getDate());
-
-                // Set up a pending intent to launch the note editor when the edit button is clicked
-                Intent editIntent = new Intent(context, NotesTakerActivity.class);
-                editIntent.putExtra("old_note", notesList.get(0));
-                PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-                views.setOnClickPendingIntent(R.id.imageView_edit, editPendingIntent);
+            } else {
+                views.setViewVisibility(R.id.textView_note_title, View.GONE);
+                views.setViewVisibility(R.id.textView_note_body, View.GONE);
+                views.setViewVisibility(R.id.textView_note_date, View.GONE);
+                views.setViewVisibility(R.id.imageView_edit, View.GONE);
+                views.setViewVisibility(R.id.textView_empty, View.VISIBLE);
             }
+
+            // Set up a pending intent to launch the note editor when the edit button is clicked
+            Intent editIntent = new Intent(context, NotesTakerActivity.class);
+            PendingIntent editPendingIntent = PendingIntent.getActivity(context, 0, editIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            views.setOnClickPendingIntent(R.id.imageView_edit, editPendingIntent);
 
             // Set up a pending intent to launch the WidgetConfigActivity when the settings icon is clicked
             Intent configIntent = new Intent(context, WidgetConfigActivity.class);
