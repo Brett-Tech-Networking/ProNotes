@@ -41,9 +41,12 @@ public class NoteWidget extends AppWidgetProvider {
         String savedNoteBody = sharedPref.getString("note_body", ""); // Get the saved note body
 
         RoomDB roomDB = RoomDB.getInstance(context);
-        new SharedPreferenceHelper(context).setWidgetId(appWidgetIds[0]);
 
-        List<Notes> notesList = roomDB.mainDAO().getPinNotes();
+        List<Notes> notesList = null;
+        if (appWidgetIds.length > 0) {
+            new SharedPreferenceHelper(context).setWidgetId(appWidgetIds[0]);
+            notesList = roomDB.mainDAO().getPinNotes();
+        }
 
         for (int appWidgetId : appWidgetIds) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.note_widget_layout);
