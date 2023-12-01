@@ -149,6 +149,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             startActivityForResult(intent, 101);
         });
 
+
+        // Initialize searchView_home from your layout
+        searchView_home = findViewById(R.id.searchView_home);
+
+        // Set up the OnQueryTextListener for the SearchView
+        searchView_home.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Handle query submission if needed (optional)
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filter(newText); // Call the filter method with the entered text
+                return true;
+            }
+        });
+
         // Implements the drag and drop movement of the notes
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
             @Override
