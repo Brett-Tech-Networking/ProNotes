@@ -146,7 +146,7 @@
     <jp.wasabeef.richeditor.RichEditor
         android:id="@+id/editText_notes"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/border"
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_15sdp"

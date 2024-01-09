@@ -125,7 +125,7 @@
         android:id="@+id/editText_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintHeight_max="@dimen/_240sdp"
+        app:layout_constraintHeight_max="@dimen/_400sdp"
         android:background="@drawable/border"
         android:layout_marginStart="@dimen/_25sdp"
         android:layout_marginTop="@dimen/_15sdp"
