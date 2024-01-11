@@ -4,12 +4,12 @@
     <item
         android:id="@+id/pin1"
         android:checkable="true"
-        android:title="Pin | Unpin" />
+        android:title="Pin Note" />
 
     <item
         android:id="@+id/lock"
         android:checkable="true"
-        android:title="Lock | Unlock"
+        android:title="Lock Note"
         />
     <item
         android:id="@+id/move"
