@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -222,6 +223,7 @@ public class WidgetConfigActivity extends Activity {
             @Override
             public void onNoteClick(Notes note) {
                 updateWidgetWithNote(note);
+                String formattedNoteDescription = Html.fromHtml(note.getNotes()).toString();
 
                 // Dismiss the dialog
                 dialog.dismiss();
