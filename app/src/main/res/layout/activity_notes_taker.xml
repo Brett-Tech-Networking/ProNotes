@@ -66,17 +66,7 @@
             android:textOn=""
             android:layout_marginHorizontal="5dp"
             />
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/boldbutton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="5dp"-->
-        <!--            android:background="@drawable/background_miscellaneous"-->
-        <!--            android:clickable="false"-->
-        <!--            android:focusable="true"-->
-        <!--            android:onClick="@null"-->
-        <!--            android:src="@drawable/ic_bold"-->
-        <!--            android:tooltipText="Bold Button"></ImageButton>-->
+
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/italicbutton"
             android:layout_width="30dp"
@@ -90,17 +80,6 @@
             android:layout_marginHorizontal="5dp"
 
             />
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/italicbutton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="6dp"-->
-        <!--            android:layout_marginTop="5dp"-->
-        <!--            android:background="@drawable/background_miscellaneous"-->
-        <!--            android:clickable="true"-->
-        <!--            android:focusable="true"-->
-        <!--            android:src="@drawable/ic_italic"-->
-        <!--            android:tooltipText="Italic Button"></ImageButton>-->
 
         <androidx.appcompat.widget.AppCompatToggleButton
             android:id="@+id/underlinebutton"
@@ -113,19 +92,9 @@
             android:textOff=""
             android:textOn=""
             android:layout_marginHorizontal="5dp"
-
             />
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/underlinebutton"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginStart="6dp"-->
-        <!--            android:layout_marginTop="5dp"-->
-        <!--            android:background="@drawable/background_miscellaneous"-->
-        <!--            android:clickable="true"-->
-        <!--            android:focusable="true"-->
-        <!--            android:src="@drawable/ic_underlined"-->
-        <!--            android:tooltipText="Underline Button"></ImageButton>-->
+
+
     </Toolbar>
 
     <EditText

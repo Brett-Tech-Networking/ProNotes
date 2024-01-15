@@ -547,7 +547,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 updateNoteWidget();
                 return true;
 
-
             case R.id.move:
 
                 Intent intent = new Intent(this, FolderActivity.class);
@@ -577,6 +576,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return false;
         }
     }
+
 
 
     private void updateNoteWidget() {

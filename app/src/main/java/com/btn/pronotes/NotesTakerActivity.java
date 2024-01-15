@@ -290,10 +290,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                             Toast.makeText(this, "Permission needed to draw", Toast.LENGTH_SHORT).show();
                         }
                     });
-
         });
-
-
     }
 
     private void saveTheNote() {

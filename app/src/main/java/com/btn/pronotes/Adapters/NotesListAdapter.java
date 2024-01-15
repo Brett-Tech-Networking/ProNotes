@@ -55,9 +55,13 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
         holder.textView_title.setText(list.get(position).getTitle());
         holder.textView_title.setSelected(true); //sets horizontal scrolling
-        Spanned spannedString = Html.fromHtml(list.get(position).getNotes());
 
-        holder.textView_notes.setText(spannedString);
+        if (list.get(position).getNotes() != null) {
+            Spanned spannedString = Html.fromHtml(list.get(position).getNotes());
+            holder.textView_notes.setText(spannedString);
+        } else {
+            holder.textView_notes.setText(""); // or set a default value
+        }
 
         holder.textView_date.setText(list.get(position).getDate());
         holder.textView_date.setSelected(true); //sets horizontal scrolling
@@ -79,8 +83,6 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
             } else {
                 holder.notes_container.setCardBackgroundColor(holder.itemView.getResources().getColor(R.color.color1, null));
             }
-
-
         }
 
         holder.notes_container.setOnClickListener(v -> listener.onClick(list.get(holder.getAdapterPosition())));

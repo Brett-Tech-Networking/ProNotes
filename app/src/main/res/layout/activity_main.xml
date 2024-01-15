@@ -51,11 +51,12 @@
         />
     <ImageView
         android:id="@+id/iv_add_folder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
         android:tooltipText="Create New Category"
-        android:src="@drawable/baseline_create_new_folder_24"
+        android:src="@drawable/ic_folder_add"
         android:scaleType="centerCrop"
+        android:layout_marginStart="18dp"
         android:paddingRight="@dimen/_8sdp"
         android:layout_alignParentEnd="true"
         android:layout_alignTop="@id/recycler_folder"

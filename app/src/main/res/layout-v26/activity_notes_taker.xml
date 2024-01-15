@@ -101,6 +101,49 @@
             android:textOn=""
             android:layout_marginHorizontal="5dp"
             />
+
+        <!-- Share Option -->
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/share"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="180dp"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/share_svgrepo_com"
+            android:visibility="invisible"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:layout_marginHorizontal="5dp" />
+
+        <!-- Delete Option -->
+        <ImageButton
+            android:id="@+id/deleteNote"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/ic_delete_green"
+            android:clickable="true"
+            android:visibility="invisible"
+            android:textOff=""
+            android:textOn=""
+            android:layout_marginHorizontal="5dp"
+            android:focusable="true" />
+
+        <!-- Pin Star Option -->
+        <androidx.appcompat.widget.AppCompatToggleButton
+            android:id="@+id/pinNote"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/star_svgrepo_com"
+            android:visibility="invisible"
+            android:checked="false"
+            android:textOff=""
+            android:textOn=""
+            android:layout_marginHorizontal="5dp" />
     </Toolbar>
 
     <EditText
