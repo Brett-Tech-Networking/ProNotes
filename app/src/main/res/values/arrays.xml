@@ -1,0 +1,9 @@
+<resources>
+    <array name="color_options">
+        <item>Default</item>
+        <item>Faded Black</item>
+        <item>Faded Grey</item>
+        <item>Faded Red</item>
+        <item>Faded Blue</item>
+    </array>
+</resources>

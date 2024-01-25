@@ -79,6 +79,26 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+    <TextView
+        android:id="@+id/textView_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Note Header Color"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp" />
 
+    <!-- Add Spinner for color selection -->
+    <Spinner
+        android:id="@+id/color_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:background="@drawable/border"
+        android:textAlignment="center"
+        android:entries="@array/color_options" /> <!-- Define color_options array in your resources -->
 
 </LinearLayout>
