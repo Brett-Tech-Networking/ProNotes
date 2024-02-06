@@ -22,6 +22,7 @@ import com.btn.pronotes.Checklist.ChecklistNotesActivity;
 import com.btn.pronotes.Checklist.ChecklistItem;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.NotesClickListener;
+import com.btn.pronotes.OpenSettings;
 import com.btn.pronotes.R;
 import com.btn.pronotes.utils.SharedPreferenceHelper;
 
@@ -35,6 +36,8 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     List<Notes> list;
     NotesClickListener listener;
     private int cardBackgroundColor;
+
+
 
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {

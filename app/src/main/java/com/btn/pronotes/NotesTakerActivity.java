@@ -80,8 +80,9 @@ public class NotesTakerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_taker);
-        Spinner spinner = findViewById(R.id.color_spinner);
-        TextView textViewTitle = findViewById(R.id.textView_title);
+// In Activity where notes_list is inflated
+        View notesListView = getLayoutInflater().inflate(R.layout.notes_list, null);
+        OpenSettings openSettings = new OpenSettings();
 
         imageView_save = findViewById(R.id.imageView_save);
         imageView_back = findViewById(R.id.imageView_back);
@@ -110,47 +111,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         getArguments();
 
         //back button inside of note
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedOption = spinner.getSelectedItem().toString();
-                changeTextViewBackground(selectedOption);
-                textView_title.setText(selectedOption);
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Handle if nothing is selected, if needed
-            }
-        });
-
     }
-    private void changeTextViewBackground(String selectedOption) {
-        switch (selectedOption) {
-            case "Default":
-                // Use default background color (e.g., from your app's theme)
-                textView_title.setBackgroundResource(android.R.color.transparent); // Example
-                break;
-            case "Faded Black":
-                textView_title.setBackgroundResource(R.drawable.multiblack);
-                break;
-            case "Faded Grey":
-                textView_title.setBackgroundResource(R.drawable.multigrey);
-                break;
-            case "Faded Red":
-                textView_title.setBackgroundResource(R.drawable.multired);
-                break;
-            case "Faded Blue":
-                textView_title.setBackgroundResource(R.drawable.multiblue);
-                break;
-            default:
-                // Handle if an unexpected option is selected
-        }
-    }
-
-
-
 
     private void setupMediaRecyclerView() {
         mediaListAdapter = new MediaListAdapter(this, new ArrayList<>(), new MediaClickListener() {
