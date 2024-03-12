@@ -60,12 +60,12 @@ public class OpenSettings extends AppCompatActivity {
         setContentView(layout.settings);
         selectedColor = new SharedPreferenceHelper(this).getSelectedColor();
 
-        Spinner spinner = findViewById(id.color_spinner);
+       /* Spinner spinner = findViewById(id.color_spinner);
         TextView textViewTitle = findViewById(id.textView_title);
+*/
 
 
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedOption = spinner.getSelectedItem().toString();
@@ -77,7 +77,7 @@ public class OpenSettings extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
                 // Handle if nothing is selected, if needed
             }
-        });
+        });*/
 
         findViewById(id.imageView_back1).setOnClickListener(view -> finish());
         colorTilesSwitch = findViewById(id.color_tile_switch);
@@ -102,11 +102,11 @@ public class OpenSettings extends AppCompatActivity {
                     .show();
         });
     }
-    private void changeTextViewBackground(String selectedOption) {
+/*    private void changeTextViewBackground(String selectedOption) {
         switch (selectedOption) {
             case "Default":
                 // Use default background color (e.g., from your app's theme)
-                textView_title.setBackgroundResource(android.R.color.transparent); // Example
+                textView_title.setBackgroundResource(drawable.multiblack_round); // Example
                 break;
             case "Faded Black":
                 textView_title.setBackgroundResource(drawable.multiblack);
@@ -123,7 +123,7 @@ public class OpenSettings extends AppCompatActivity {
             default:
                 // Handle if an unexpected option is selected
         }
-    }
+    }*/
 }
 
 
