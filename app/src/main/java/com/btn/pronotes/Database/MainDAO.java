@@ -6,6 +6,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.btn.pronotes.Models.Folder;
 import com.btn.pronotes.Models.Media;
@@ -86,6 +87,9 @@ public interface MainDAO {
 
     @Delete
     void deleteFolder(Folder folder);
+
+    @Update
+    void updateFolder(Folder folder);
 
     // media
     @Insert(onConflict = REPLACE)

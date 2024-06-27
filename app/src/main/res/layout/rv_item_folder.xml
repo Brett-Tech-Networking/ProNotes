@@ -41,6 +41,7 @@
             app:layout_constraintStart_toEndOf="@id/iv_current_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <ImageButton
             android:id="@+id/deletebutton"
             android:layout_width="45dp"
@@ -49,6 +50,16 @@
             android:src="@drawable/ic_delete"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/tv_name"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/editbutton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@color/trans"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/deletebutton"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
