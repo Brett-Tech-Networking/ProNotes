@@ -84,6 +84,9 @@ public interface MainDAO {
     @Query("UPDATE folder SET count = :count WHERE ID = :id")
     void setFolderItemCount(int id, int count);
 
+    @Delete
+    void deleteFolder(Folder folder);
+
     // media
     @Insert(onConflict = REPLACE)
     void insertMedia(List<Media> mediaList);

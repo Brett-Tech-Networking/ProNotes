@@ -39,30 +39,34 @@ public class FolderListAdapter extends RecyclerView.Adapter<FolderViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull FolderViewHolder holder, int position) {
+        Folder folder = list.get(position);
 
-        holder.binding.tvName.setText(list.get(position).getName());
-        if (list.get(position).getId() != 1) {
-            int count = RoomDB.getInstance(context).mainDAO().getNotesCount(list.get(position).getId());
-            holder.binding.tvCount.setText(String.valueOf(count));
-        } else {
-            int count = RoomDB.getInstance(context).mainDAO().getNotesCount();
-            holder.binding.tvCount.setText(String.valueOf(count));
-        }
-        if (list.get(position).isSelected()) {
+        holder.binding.tvName.setText(folder.getName()); // Change here
+        int count = folder.getId() != 1 ?
+                RoomDB.getInstance(context).mainDAO().getNotesCount(folder.getId()) :
+                RoomDB.getInstance(context).mainDAO().getNotesCount();
+        holder.binding.tvCount.setText(String.valueOf(count));
+
+        if (folder.isSelected()) {
             holder.binding.ivCurrentIcon.setVisibility(View.VISIBLE);
             holder.binding.tvName.setTextColor(ContextCompat.getColor(context, R.color.white));
             holder.binding.tvCount.setTextColor(ContextCompat.getColor(context, R.color.white));
             holder.binding.card.setStrokeWidth(1);
-
         } else {
             holder.binding.tvName.setTextColor(ContextCompat.getColor(context, R.color.grey1));
             holder.binding.tvCount.setTextColor(ContextCompat.getColor(context, R.color.grey1));
             holder.binding.ivCurrentIcon.setVisibility(View.INVISIBLE);
             holder.binding.card.setStrokeWidth(0);
-
         }
 
-        holder.binding.card.setOnClickListener(v -> listener.onClick(list.get(position)));
+        holder.binding.card.setOnClickListener(v -> listener.onClick(folder));
+
+        // Handle delete button click
+        holder.binding.deletebutton.setOnClickListener(v -> {
+            RoomDB.getInstance(context).mainDAO().deleteFolder(folder);
+            list.remove(position);
+            notifyItemRemoved(position);
+        });
     }
 
     public void setList(List<Folder> list) {
@@ -83,11 +87,8 @@ class FolderViewHolder extends RecyclerView.ViewHolder {
 
     RvItemFolderBinding binding;
 
-    public FolderViewHolder(@NonNull RvItemFolderBinding binding) {
+    public FolderViewHolder(@NonNull RvItemFolderBinding binding) { // Change here
         super(binding.getRoot());
-
         this.binding = binding;
-
-
     }
 }

@@ -37,7 +37,6 @@ public class FolderActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         database = RoomDB.getInstance(this);
-
         btnListeners();
         setupFolderRecyclerView();
 
@@ -71,7 +70,6 @@ public class FolderActivity extends AppCompatActivity {
         private void setupFolderRecyclerView() {
 
         List<Folder> folders = new ArrayList<>(database.mainDAO().getAllFolder());
-
         folderListAdapter = new FolderListAdapter(this, folders, folder -> {
 
             if (!isChangeFolderEnabled) {
