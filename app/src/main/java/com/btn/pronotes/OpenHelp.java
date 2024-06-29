@@ -17,12 +17,16 @@ public class OpenHelp extends AppCompatActivity {
         setContentView(R.layout.help);
     }
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.websitebutton) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.brett-techrepair.com")));
         }
         return super.onOptionsItemSelected(item);
+    }*/
 
+    public void btnwebsite(View view) {
+        // Handle button click here
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.brett-techrepair.com")));
     }
 }
