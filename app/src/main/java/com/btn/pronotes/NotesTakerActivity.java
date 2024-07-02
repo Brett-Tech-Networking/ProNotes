@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -238,10 +239,16 @@ public class NotesTakerActivity extends AppCompatActivity {
 
 
     private void btnListeners() {
-
         imageView_save.setOnClickListener(v -> {
-            saveTheNote();
+            Log.d("NotesTakerActivity", "Save button clicked");
+            try {
+                saveTheNote();
+            } catch (Exception e) {
+                Log.e("NotesTakerActivity", "Error in saveTheNote", e);
+                Toast.makeText(this, "Error saving note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
+
         imageView_back.setOnClickListener(view -> finish());
 
 /*

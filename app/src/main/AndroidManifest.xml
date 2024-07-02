@@ -36,6 +36,7 @@
         <activity
             android:name=".NotesTakerActivity"
             android:exported="false"
+            android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustPan"
             android:alwaysRetainTaskState="true"
             android:theme="@style/Theme.ProNotes.NoActionBar" />

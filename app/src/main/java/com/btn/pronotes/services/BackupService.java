@@ -1,3 +1,4 @@
+/*
 package com.btn.pronotes.services;
 
 import static com.btn.pronotes.utils.CONSTANTS.BACKUP_ACTION;
@@ -320,3 +321,4 @@ public class BackupService extends Service {
         return null;
     }
 }
+*/

@@ -48,7 +48,9 @@ import com.btn.pronotes.Models.Folder;
 import com.btn.pronotes.Models.Media;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.databinding.CustomDialogAddBackupBinding;
+/*
 import com.btn.pronotes.services.BackupService;
+*/
 import com.btn.pronotes.widgets.NoteWidget;
 import com.nambimobile.widgets.efab.FabOption;
 
@@ -304,12 +306,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             Intent intent = new Intent(MainActivity.this, OpenSettings.class);
             startActivity(intent);
         }
-        if (item.getItemId() == R.id.backup) {
+      /*  if (item.getItemId() == R.id.backup) {
             showBackUpDialog(true);
         }
         if (item.getItemId() == R.id.restore) {
             showBackUpDialog(false);
-        }
+        }*/
 
         //pinned/checked
         if (item.getItemId() == R.id.pin1) {
@@ -591,7 +593,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         sendBroadcast(intent);
     }
 
-    private void showBackUpDialog(boolean isbackUp) {
+    /*private void showBackUpDialog(boolean isbackUp) {
         CustomDialogAddBackupBinding dialogBinding = CustomDialogAddBackupBinding.inflate(getLayoutInflater());
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).setView(dialogBinding.getRoot())
@@ -621,5 +623,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             } else {
                 Toast.makeText(this, "Please enter a valid email", Toast.LENGTH_SHORT).show();
             }
-        });
-    }}
+        });*/
+    }
