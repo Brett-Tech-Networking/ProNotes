@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.btn.pronotes"
-        minSdk 23
+        minSdk 27
         targetSdk 34
         versionCode 13
         versionName "13.0"
