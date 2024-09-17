@@ -2,7 +2,6 @@ package com.btn.pronotes.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
@@ -12,17 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.btn.pronotes.Checklist.ChecklistActivity;
-import com.btn.pronotes.Checklist.ChecklistAdapter;
-import com.btn.pronotes.Checklist.ChecklistNotesActivity;
-import com.btn.pronotes.Checklist.ChecklistItem;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.NotesClickListener;
-import com.btn.pronotes.OpenSettings;
 import com.btn.pronotes.R;
 import com.btn.pronotes.utils.SharedPreferenceHelper;
 
@@ -30,21 +23,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-//Notes List Adapter Class
-public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
+public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.NotesViewHolder> {
     Context context;
     List<Notes> list;
     NotesClickListener listener;
     private int cardBackgroundColor;
 
-
-
-
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
-
     }
 
     @NonNull
@@ -53,44 +41,29 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         return new NotesViewHolder(LayoutInflater.from(context).inflate(R.layout.notes_list, parent, false));
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
         Notes note = list.get(position);
         holder.textView_title.setText(note.getTitle());
-        holder.textView_title.setText(list.get(position).getTitle());
-        holder.textView_title.setSelected(true); //sets horizontal scrolling
-        // Check the note type
+        holder.textView_title.setSelected(true); // Sets horizontal scrolling
+
         if (note.getNoteType() == 2) {
             // This is a checklist note
-            holder.textView_notes.setText(note.getNotes());
-            // Optionally, set a different background or icon to indicate it's a checklist
+            holder.textView_notes.setText(Html.fromHtml(formatChecklistPreview(note.getNotes())));
         } else {
             // Regular note
             holder.textView_notes.setText(note.getNotes());
         }
-        if (note.getNotes() != null) {
-            Spanned spannedString = Html.fromHtml(note.getNotes());
-            holder.textView_notes.setText(spannedString);
-        } else {
-            holder.textView_notes.setText(""); // Or set a default value
-        }
 
-        if (list.get(position).getNotes() != null) {
-            Spanned spannedString = Html.fromHtml(list.get(position).getNotes());
-            holder.textView_notes.setText(spannedString);
-        } else {
-            holder.textView_notes.setText(""); // or set a default value
-        }
+        holder.textView_date.setText(note.getDate());
+        holder.textView_date.setSelected(true); // Sets horizontal scrolling
 
-        holder.textView_date.setText(list.get(position).getDate());
-        holder.textView_date.setSelected(true); //sets horizontal scrolling
-
-        if (list.get(position).isPinned()) {
+        if (note.isPinned()) {
             holder.imageView_pin.setImageResource(R.drawable.ic_pin);
         } else {
             holder.imageView_pin.setImageResource(0);
         }
+
         int color_code = 0;
         if (new SharedPreferenceHelper(context).isColorChangingTiles()) {
             color_code = getRandomColor();
@@ -113,7 +86,22 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         });
     }
 
-    // get random color for note tiles
+    private String formatChecklistPreview(String notesContent) {
+        StringBuilder formattedContent = new StringBuilder();
+        String[] lines = notesContent.split("\n");
+
+        for (String line : lines) {
+            if (line.contains("[x]")) {
+                formattedContent.append("&#x2611; ").append(line.replace("- [x] ", "")).append("<br>");
+            } else {
+                formattedContent.append("&#x2610; ").append(line.replace("- [ ] ", "")).append("<br>");
+            }
+        }
+
+        return formattedContent.toString();
+    }
+
+    // Get random color for note tiles
     private int getRandomColor() {
         List<Integer> colorCode = new ArrayList<>();
 
@@ -133,17 +121,6 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         this.list.addAll(list);
     }
 
-    //get static color for note tiles
-    private int getStaticColor() {
-        List<Integer> colorCode2 = new ArrayList<>();
-
-        colorCode2.add(R.color.color3);
-
-        Random random = new Random();
-        int random_color = random.nextInt(colorCode2.size());
-        return colorCode2.get(random_color);
-    }
-
     @Override
     public int getItemCount() {
         return list.size();
@@ -153,45 +130,19 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
         list = filteredList;
         notifyDataSetChanged();
     }
-}
 
-//Notes View Holder Class
-class NotesViewHolder extends RecyclerView.ViewHolder {
-    CardView notes_container;
-    TextView textView_title, textView_notes, textView_date;
-    ImageView imageView_pin;
+    public static class NotesViewHolder extends RecyclerView.ViewHolder {
+        CardView notes_container;
+        TextView textView_title, textView_notes, textView_date;
+        ImageView imageView_pin;
 
-    public NotesViewHolder(@NonNull View itemView) {
-        super(itemView);
-        notes_container = itemView.findViewById(R.id.notes_container);
-        textView_title = itemView.findViewById(R.id.textView_title);
-        textView_notes = itemView.findViewById(R.id.textView_notes);
-        textView_date = itemView.findViewById(R.id.textView_date);
-        imageView_pin = itemView.findViewById(R.id.imageView_pin);
-    }
-    public class Notes {
-        // Existing fields
-
-        private List<ChecklistItem> checklistItems;
-
-        public Notes() {
-            // Existing constructor code
-            checklistItems = new ArrayList<>();
-        }
-
-        // Existing getter and setter methods
-
-        public List<ChecklistItem> getChecklistItems() {
-            return checklistItems;
-        }
-
-        public void setChecklistItems(List<ChecklistItem> checklistItems) {
-            this.checklistItems = checklistItems;
-        }
-
-        public void addChecklistItem(ChecklistItem item) {
-            checklistItems.add(item);
+        public NotesViewHolder(@NonNull View itemView) {
+            super(itemView);
+            notes_container = itemView.findViewById(R.id.notes_container);
+            textView_title = itemView.findViewById(R.id.textView_title);
+            textView_notes = itemView.findViewById(R.id.textView_notes);
+            textView_date = itemView.findViewById(R.id.textView_date);
+            imageView_pin = itemView.findViewById(R.id.imageView_pin);
         }
     }
-
 }

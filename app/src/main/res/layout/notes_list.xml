@@ -6,16 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:alwaysRetainTaskState="true"
     android:elevation="8dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp"
->
+    app:cardCornerRadius="8dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-      >
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,7 +23,6 @@
                 android:id="@+id/textView_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:background="@drawable/multiblack"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -61,7 +58,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="10"
             android:padding="8dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
