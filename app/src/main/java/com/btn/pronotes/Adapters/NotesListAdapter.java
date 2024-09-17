@@ -56,8 +56,25 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesViewHolder> {
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
+        Notes note = list.get(position);
+        holder.textView_title.setText(note.getTitle());
         holder.textView_title.setText(list.get(position).getTitle());
         holder.textView_title.setSelected(true); //sets horizontal scrolling
+        // Check the note type
+        if (note.getNoteType() == 2) {
+            // This is a checklist note
+            holder.textView_notes.setText(note.getNotes());
+            // Optionally, set a different background or icon to indicate it's a checklist
+        } else {
+            // Regular note
+            holder.textView_notes.setText(note.getNotes());
+        }
+        if (note.getNotes() != null) {
+            Spanned spannedString = Html.fromHtml(note.getNotes());
+            holder.textView_notes.setText(spannedString);
+        } else {
+            holder.textView_notes.setText(""); // Or set a default value
+        }
 
         if (list.get(position).getNotes() != null) {
             Spanned spannedString = Html.fromHtml(list.get(position).getNotes());

@@ -11,6 +11,9 @@ import java.util.List;
 
 @Entity(tableName = "notes") //Required for main database
 public class Notes implements Serializable {
+    @ColumnInfo(name = "noteType")
+    private int noteType;
+
     @PrimaryKey(autoGenerate = true)
     int ID = 0;
 
@@ -116,4 +119,8 @@ public class Notes implements Serializable {
     public void setPinned(boolean pinned) {
         this.pinned = pinned;
     }
+
+    public int getNoteType() { return noteType; }
+
+    public void setNoteType(int noteType) { this.noteType = noteType; }
 }

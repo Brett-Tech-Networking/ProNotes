@@ -2,20 +2,16 @@ package com.btn.pronotes.Checklist;
 
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import com.btn.pronotes.Checklist.ChecklistNotesActivity;
-import com.btn.pronotes.Checklist.ChecklistActivity;
-import com.btn.pronotes.Checklist.ChecklistAdapter;
-import com.btn.pronotes.Checklist.ChecklistItem;
-import com.btn.pronotes.Checklist.ChecklistItem;
+
 import com.btn.pronotes.R;
 import com.google.android.material.checkbox.MaterialCheckBox;
 
@@ -26,15 +22,17 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
 
     private List<ChecklistItem> checklistItems;
 
-    public ChecklistAdapter() {
-        checklistItems = new ArrayList<>();
+    public ChecklistAdapter(ArrayList<ChecklistItem> checklistItems) {
+        this.checklistItems = checklistItems;
     }
+
 
     public void setChecklistItems(List<ChecklistItem> items) {
         checklistItems.clear();
         if (items != null) {
             checklistItems.addAll(items);
         }
+        Log.d("ChecklistAdapter", "Item count: " + checklistItems.size());
         notifyDataSetChanged();
     }
 
@@ -48,6 +46,7 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
     @Override
     public void onBindViewHolder(@NonNull ChecklistViewHolder holder, int position) {
         ChecklistItem item = checklistItems.get(position);
+        Log.d("ChecklistAdapter", "Binding item at position: " + position + " with text: " + item.getText());
         holder.bindItem(item);
     }
 
@@ -58,46 +57,44 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
 
     class ChecklistViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         private MaterialCheckBox cbItem;
+        private TextView textItem;
 
         ChecklistViewHolder(@NonNull View itemView) {
             super(itemView);
-            cbItem = itemView.findViewById(R.id.checkBox_item);
+            cbItem = itemView.findViewById(R.id.checkbox_item);
+            textItem = itemView.findViewById(R.id.text_item);
             cbItem.setOnCheckedChangeListener(this);
         }
 
         void bindItem(ChecklistItem item) {
-            cbItem.setText(item.getText());
+            cbItem.setTag(item);  // Set the tag before accessing it later
+            textItem.setText(item.getText());
             cbItem.setChecked(item.isChecked());
             cbItem.setClickable(true);
             cbItem.setFocusable(false);
-            cbItem.setTag(item);
+            textItem.setTextColor(Color.WHITE);
 
-            // Update the original checked state of the item
-            ((ChecklistItem) cbItem.getTag()).setChecked(item.isChecked());
             itemView.setOnClickListener(v -> cbItem.setChecked(!cbItem.isChecked()));
             if (item.isChecked()) {
-                cbItem.setPaintFlags(cbItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                textItem.setPaintFlags(textItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
             } else {
-                cbItem.setPaintFlags(cbItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                textItem.setPaintFlags(textItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
             }
         }
 
         @Override
         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
             ChecklistItem item = (ChecklistItem) buttonView.getTag();
-            item.setChecked(isChecked);
-            // allows cbitems to be checked and unchecked
-            if (isChecked) {
-                cbItem.setPaintFlags(cbItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-            } else {
-                cbItem.setPaintFlags(cbItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            if (item != null) {  // Check if the item is not null before accessing it
+                item.setChecked(isChecked);
+                // allows cbItems to be checked and unchecked
+                if (isChecked) {
+                    textItem.setPaintFlags(textItem.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    textItem.setPaintFlags(textItem.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+                }
             }
         }
-        }
-
-        private void onItemCheckedChanged(int position, boolean isChecked) {
-            ChecklistItem item = checklistItems.get(position);
-            item.setChecked(isChecked);
-            notifyItemChanged(position);
-        }
     }
+
+}

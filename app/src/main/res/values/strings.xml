@@ -22,10 +22,12 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="add_checklist_item">Add Checklist Item</string>
-    <string name="back_button">back button</string>
-    <string name="save_button">save button</string>
     <string name="hint_checklist_item">hint checklist item</string>
-    <string name="add_button">add button</string>
     <string name="settings1">Settings</string>
     <string name="restart_app">Restart App</string>
+
+    <string name="back_button">Back</string>
+    <string name="save_button">Save</string>
+    <string name="add_button">Add</string>
+
 </resources>
