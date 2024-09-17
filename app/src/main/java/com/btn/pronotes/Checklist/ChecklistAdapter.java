@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +26,6 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
     public ChecklistAdapter(ArrayList<ChecklistItem> checklistItems) {
         this.checklistItems = checklistItems;
     }
-
 
     public void setChecklistItems(List<ChecklistItem> items) {
         checklistItems.clear();
@@ -48,6 +48,11 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
         ChecklistItem item = checklistItems.get(position);
         Log.d("ChecklistAdapter", "Binding item at position: " + position + " with text: " + item.getText());
         holder.bindItem(item);
+
+        // Handle delete button click
+        holder.deleteItemButton.setOnClickListener(v -> {
+            removeChecklistItem(position);
+        });
     }
 
     @Override
@@ -58,11 +63,13 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
     class ChecklistViewHolder extends RecyclerView.ViewHolder implements CompoundButton.OnCheckedChangeListener {
         private MaterialCheckBox cbItem;
         private TextView textItem;
+        private ImageView deleteItemButton;
 
         ChecklistViewHolder(@NonNull View itemView) {
             super(itemView);
             cbItem = itemView.findViewById(R.id.checkbox_item);
             textItem = itemView.findViewById(R.id.text_item);
+            deleteItemButton = itemView.findViewById(R.id.delete_item_button);
             cbItem.setOnCheckedChangeListener(this);
         }
 
@@ -97,4 +104,10 @@ public class ChecklistAdapter extends RecyclerView.Adapter<ChecklistAdapter.Chec
         }
     }
 
+    // Method to remove a checklist item
+    private void removeChecklistItem(int position) {
+        checklistItems.remove(position);
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, checklistItems.size());
+    }
 }

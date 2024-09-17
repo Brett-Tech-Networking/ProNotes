@@ -29,5 +29,7 @@
     <string name="back_button">Back</string>
     <string name="save_button">Save</string>
     <string name="add_button">Add</string>
+    <string name="delete_button_description">delete_button_description</string>
+    <string name="add_button_description">add_button_description</string>
 
 </resources>

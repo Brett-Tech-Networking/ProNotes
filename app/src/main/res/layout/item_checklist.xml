@@ -23,4 +23,11 @@
         android:text="Hello World"
         android:textSize="16sp"
         android:paddingStart="8dp" />
+    <ImageView
+        android:id="@+id/delete_item_button"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_delete"
+        android:contentDescription="@string/delete_button_description"
+        android:padding="4dp" />
 </LinearLayout>
