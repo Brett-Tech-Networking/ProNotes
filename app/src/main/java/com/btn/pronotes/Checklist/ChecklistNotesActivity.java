@@ -3,37 +3,33 @@ package com.btn.pronotes.Checklist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ChecklistNotesActivity extends AppCompatActivity {
 
-    private EditText editTextChecklistItem;
+    private EditText editTextChecklistItem, editTextTitle;
     private RecyclerView recyclerViewChecklist;
     private FloatingActionButton fabAddChecklistItem;
     private ArrayList<ChecklistItem> checklistItems;
     private ChecklistAdapter checklistAdapter;
-    private ImageView backButton;
-    private ImageView saveButton;
-
+    private ImageView backButton, saveButton;
     private Notes oldNote;
     private boolean isOldNote = false;
-    private boolean isNoteSaved = false; // Flag to prevent multiple saves
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +38,7 @@ public class ChecklistNotesActivity extends AppCompatActivity {
 
         // Initialize views
         editTextChecklistItem = findViewById(R.id.editText_checklist_item);
+        editTextTitle = findViewById(R.id.editText_title);  // Title edit text
         recyclerViewChecklist = findViewById(R.id.rv_checklist);
         fabAddChecklistItem = findViewById(R.id.fab_add_checklist_item);
         backButton = findViewById(R.id.backButton);
@@ -62,30 +59,51 @@ public class ChecklistNotesActivity extends AppCompatActivity {
         if (getIntent().hasExtra("old_note")) {
             oldNote = (Notes) getIntent().getSerializableExtra("old_note");
             isOldNote = true;
+            editTextTitle.setText(oldNote.getTitle());
             parseChecklistItems(oldNote.getNotes());
         }
 
-        // Enable/disable add button based on input
+        // Handle text changes in the checklist item input
         editTextChecklistItem.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                fabAddChecklistItem.setEnabled(!s.toString().trim().isEmpty());
+                fabAddChecklistItem.setEnabled(s.toString().trim().length() > 0);
             }
 
-            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
         });
+
+        // If checklist items were passed from the previous activity
+        Intent intent = getIntent();
+        if (intent != null) {
+            ArrayList<Parcelable> items = intent.getParcelableArrayListExtra("checklistItems");
+            if (items != null) {
+                checklistItems.clear();
+                for (Parcelable item : items) {
+                    if (item instanceof ChecklistItem) {
+                        checklistItems.add((ChecklistItem) item);
+                    }
+                }
+                checklistAdapter.notifyDataSetChanged();
+            }
+        }
     }
 
-    private void addChecklistItem() {
-        String itemText = editTextChecklistItem.getText().toString().trim();
-        if (!itemText.isEmpty()) {
-            ChecklistItem checklistItem = new ChecklistItem(itemText, false);
-            checklistItems.add(checklistItem);
-            checklistAdapter.notifyDataSetChanged();
-            editTextChecklistItem.setText("");
-        } else {
-            Toast.makeText(this, "Please enter an item", Toast.LENGTH_SHORT).show();
+        private void addChecklistItem() {
+        String item = editTextChecklistItem.getText().toString().trim();
+        if (!item.isEmpty()) {
+            ChecklistItem checklistItem = new ChecklistItem(item, false);
+            new Handler().post(() -> {
+                checklistItems.add(checklistItem);
+                editTextChecklistItem.setText("");
+                checklistAdapter.notifyDataSetChanged();
+            });
         }
     }
 
@@ -100,16 +118,10 @@ public class ChecklistNotesActivity extends AppCompatActivity {
     }
 
     private void saveChecklistAsNote() {
-        if (isNoteSaved) return; // Prevent multiple saves
-        isNoteSaved = true;
-
-        if (checklistItems.isEmpty()) {
-            Toast.makeText(this, "Checklist is empty", Toast.LENGTH_SHORT).show();
-            isNoteSaved = false;
-            return;
+        String title = editTextTitle.getText().toString().trim();
+        if (title.isEmpty()) {
+            title = "Checklist Note";
         }
-
-        String title = "Checklist Note";
 
         StringBuilder content = new StringBuilder();
         for (ChecklistItem item : checklistItems) {
@@ -126,26 +138,18 @@ public class ChecklistNotesActivity extends AppCompatActivity {
         newNote.setTitle(title);
         newNote.setNotes(content.toString());
         newNote.setDate(new SimpleDateFormat("EEE, d MMM yyyy HH:mm a").format(System.currentTimeMillis()));
-        newNote.setNoteType(2); // Set noteType to 2 for checklists
+        newNote.setNoteType(2); // Assuming 2 represents checklist notes
 
         // Return the note to MainActivity
         Intent intent = new Intent();
         intent.putExtra("note", newNote);
         setResult(Activity.RESULT_OK, intent);
-        finish(); // Close the activity
+        finish();  // Close the activity after saving
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         saveChecklistAsNote();
-        // No need to call super.onBackPressed()
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Handle any additional results if needed
+        super.onBackPressed(); // Call super to handle the back button
     }
 }
