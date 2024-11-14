@@ -30,15 +30,16 @@
         </RelativeLayout>
     </Toolbar>
 
-
     <TextView
-     android:layout_width="match_parent"
-     android:layout_height="wrap_content"
-     android:text="@string/settings1"
-     android:fontFamily="@font/ubuntu_bold"
-     android:textColor="@color/white"
-     android:textSize="32sp"
-     android:textAlignment="center"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/settings1"
+        android:fontFamily="@font/ubuntu_bold"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textAlignment="center" />
+
+    <!-- Existing SwitchCompat for Color Tiles -->
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/color_tile_switch"
         android:layout_width="match_parent"
@@ -48,10 +49,19 @@
         android:textStyle="bold"
         android:background="@drawable/border"
         android:textAlignment="center"
-        android:text="Enable/Disable Color Changing tiles"
-        >
+        android:text="Enable/Disable Color Changing Tiles" />
 
-    </androidx.appcompat.widget.SwitchCompat>
+    <!-- New SwitchCompat for Autosave -->
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/autosave_switch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:background="@drawable/border"
+        android:textAlignment="center"
+        android:text="Enable/Disable Auto Note Save" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,8 +69,8 @@
         android:orientation="horizontal"
         android:weightSum="2"
         android:layout_margin="@dimen/_15sdp"
-        android:gravity="center"
-        >
+        android:gravity="center">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -68,18 +78,20 @@
             android:textColor="@color/yellow"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_select_color"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:shapeAppearanceOverlay="@style/roundedImageView"
             android:background="@color/color1"
-            android:layout_weight="1"
-            />
+            android:layout_weight="1" />
     </LinearLayout>
-    <!--<TextView
+
+    <!-- Commented out code -->
+    <!--
+    <TextView
         android:id="@+id/textView_title1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,7 +101,7 @@
         android:textSize="16sp"
         android:layout_marginTop="16dp" />
 
-    &lt;!&ndash; Add Spinner for color selection &ndash;&gt;
+    Add Spinner for color selection
     <Spinner
         android:id="@+id/color_spinner"
         android:layout_width="match_parent"
@@ -99,6 +111,7 @@
         android:textStyle="bold"
         android:background="@drawable/border"
         android:textAlignment="center"
-        android:entries="@array/color_options" />--> <!-- Define color_options array in your resources -->
+        android:entries="@array/color_options" />
+    -->
 
 </LinearLayout>

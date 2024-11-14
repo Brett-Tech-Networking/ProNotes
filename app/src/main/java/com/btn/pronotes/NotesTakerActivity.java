@@ -32,6 +32,7 @@ import com.btn.pronotes.Database.RoomDB;
 import com.btn.pronotes.Models.Media;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.interfaces.MediaClickListener;
+import com.btn.pronotes.utils.SharedPreferenceHelper;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.nambimobile.widgets.efab.ExpandableFab;
 import com.nambimobile.widgets.efab.FabOption;
@@ -41,7 +42,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,15 +52,16 @@ import jp.wasabeef.richeditor.RichEditor;
 public class NotesTakerActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_DRAW = 113;
     private static final int PICK_IMAGE_REQUEST = 114;
-    EditText editText_title;
-    RichEditor editText_notes;
-    ImageView imageView_save;
-    ImageView imageView_back;
-    ImageView backButton;
-    Notes notes;
+
+    private EditText editText_title;
+    private RichEditor editText_notes;
+    private ImageView imageView_save;
+    private ImageView imageView_back;
+    private ImageView backButton;
+    private Notes notes;
     private List<String> mediaList = new ArrayList<>();
 
-    boolean isOldNote = false;
+    private boolean isOldNote = false;
 
     private AppCompatToggleButton boldBtn;
     private AppCompatToggleButton italicBtn;
@@ -74,13 +75,45 @@ public class NotesTakerActivity extends AppCompatActivity {
     private MediaListAdapter mediaListAdapter;
 
     private RoomDB database;
-    TextView textView_title;
+    private TextView textView_title;
+
+    private SharedPreferenceHelper sharedPreferenceHelper;
+    private boolean isAutosaveEnabled;
+
+    private TextWatcher titleTextWatcher;
+    private RichEditor.OnTextChangeListener notesTextChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_taker);
 
+        sharedPreferenceHelper = new SharedPreferenceHelper(this);
+        isAutosaveEnabled = sharedPreferenceHelper.isAutosaveEnabled();
+
+        initViews();
+        setupDatabase();
+        setupListeners();
+        setupMediaRecyclerView();
+        getArguments();
+
+        if (isAutosaveEnabled) {
+            setupAutoSaveListeners();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isAutosaveEnabled = sharedPreferenceHelper.isAutosaveEnabled();
+        if (isAutosaveEnabled) {
+            setupAutoSaveListeners();
+        } else {
+            removeAutoSaveListeners();
+        }
+    }
+
+    private void initViews() {
         imageView_save = findViewById(R.id.imageView_save);
         imageView_back = findViewById(R.id.imageView_back);
         backButton = findViewById(R.id.backButton);
@@ -92,41 +125,118 @@ public class NotesTakerActivity extends AppCompatActivity {
         fabOptionDrawing = findViewById(R.id.fab_draw);
         mainFab = findViewById(R.id.expandable_fab);
         rvMedia = findViewById(R.id.rv_media);
-        editText_notes = (RichEditor) findViewById(R.id.editText_notes);
+        editText_notes = findViewById(R.id.editText_notes);
+        textView_title = findViewById(R.id.textView_title);
+
         editText_notes.setPlaceholder("Add Notes:");
         editText_notes.setFontSize(22);
         editText_notes.setTextColor(Color.WHITE);
         editText_notes.setBackgroundColor(Color.BLACK);
         editText_notes.setEditorFontColor(Color.WHITE);
         editText_notes.setPadding(0, 5, 10, 10);
+    }
 
+    private void setupDatabase() {
         database = RoomDB.getInstance(this);
-        bottomSheetSetup();
-        btnListeners();
-        setupMediaRecyclerView();
-        getArguments();
+    }
 
-        setupAutoSaveListeners();
+    private void setupListeners() {
+        imageView_save.setOnClickListener(v -> {
+            try {
+                saveNote();
+                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+                finish(); // Close the activity and return to previous UI
+            } catch (Exception e) {
+                Log.e("NotesTakerActivity", "Error in saveNote", e);
+                Toast.makeText(this, "Error saving note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        imageView_back.setOnClickListener(view -> finish());
+
+        boldBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setBold());
+        underlineBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setUnderline());
+        italicBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setItalic());
+
+        fabOptionPicture.setOnClickListener(view -> {
+            PermissionX.init(this)
+                    .permissions(getPermissionList())
+                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
+                    .request((allGranted, grantedList, deniedList) -> {
+                        if (allGranted) {
+                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                        } else {
+                            Toast.makeText(this, "Permission needed to access pictures", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+
+        fabOptionDrawing.setOnClickListener(v -> {
+            PermissionX.init(this)
+                    .permissions(getPermissionList())
+                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
+                    .request((allGranted, grantedList, deniedList) -> {
+                        if (allGranted) {
+                            Intent intent = new Intent(this, DrawingActivity.class);
+                            startActivityForResult(intent, REQUEST_CODE_DRAW);
+                        } else {
+                            Toast.makeText(this, "Permission needed to draw", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
+
+        bottomSheetSetup();
     }
 
     private void setupAutoSaveListeners() {
-        editText_title.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        // Title TextWatcher
+        if (titleTextWatcher == null) {
+            titleTextWatcher = new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // No action needed
+                }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                liveSaveNote();
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    liveSaveNote();
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+                @Override
+                public void afterTextChanged(Editable s) {
+                    // No action needed
+                }
+            };
+            editText_title.addTextChangedListener(titleTextWatcher);
+        }
 
-        editText_notes.setOnTextChangeListener(text -> liveSaveNote());
+        // Notes OnTextChangeListener
+        if (notesTextChangeListener == null) {
+            notesTextChangeListener = text -> liveSaveNote();
+            editText_notes.setOnTextChangeListener(notesTextChangeListener);
+        }
+    }
+
+    private void removeAutoSaveListeners() {
+        if (titleTextWatcher != null) {
+            editText_title.removeTextChangedListener(titleTextWatcher);
+            titleTextWatcher = null;
+        }
+        if (notesTextChangeListener != null) {
+            editText_notes.setOnTextChangeListener(null);
+            notesTextChangeListener = null;
+        }
     }
 
     private void liveSaveNote() {
+        if (!sharedPreferenceHelper.isAutosaveEnabled()) {
+            return; // Do not save if autosave is disabled
+        }
+        saveNote();
+    }
+
+    private void saveNote() {
         String title = editText_title.getText().toString();
         String description = editText_notes.getHtml();
 
@@ -157,7 +267,7 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        liveSaveNote(); // Save note before exiting
+        saveNote(); // Save note before exiting
         super.onBackPressed();
     }
 
@@ -229,7 +339,7 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     private void bottomSheetSetup() {
         FrameLayout bottomSheet = findViewById(R.id.layout_Miscellaneous2);
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        BottomSheetBehavior<FrameLayout> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -241,55 +351,9 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
-        });
-    }
-
-    private void btnListeners() {
-        imageView_save.setOnClickListener(v -> {
-            try {
-                liveSaveNote();
-                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
-                finish(); // Close the activity and return to previous UI
-            } catch (Exception e) {
-                Log.e("NotesTakerActivity", "Error in saveTheNote", e);
-                Toast.makeText(this, "Error saving note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // No action needed
             }
-        });
-
-
-        imageView_back.setOnClickListener(view -> finish());
-
-        boldBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setBold());
-        underlineBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setUnderline());
-        italicBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setItalic());
-
-        fabOptionPicture.setOnClickListener(view -> {
-            PermissionX.init(this)
-                    .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
-                    .request((allGranted, grantedList, deniedList) -> {
-                        if (allGranted) {
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, PICK_IMAGE_REQUEST);
-                        } else {
-                            Toast.makeText(this, "Permission needed to access pictures", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        });
-
-        fabOptionDrawing.setOnClickListener(v -> {
-            PermissionX.init(this)
-                    .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
-                    .request((allGranted, grantedList, deniedList) -> {
-                        if (allGranted) {
-                            Intent intent = new Intent(this, DrawingActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE_DRAW);
-                        } else {
-                            Toast.makeText(this, "Permission needed to draw", Toast.LENGTH_SHORT).show();
-                        }
-                    });
         });
     }
 
@@ -310,6 +374,7 @@ public class NotesTakerActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Handle drawing activity result
         if (requestCode == REQUEST_CODE_DRAW) {
             if (data != null && data.hasExtra(FILE_PATH)) {
                 mediaList.add(data.getStringExtra(FILE_PATH));
@@ -331,16 +396,20 @@ public class NotesTakerActivity extends AppCompatActivity {
         try {
             InputStream inputStream = getContentResolver().openInputStream(uri);
             File file = new File(getExternalFilesDir(null), "IMG" + System.currentTimeMillis() + ".jpg");
-            OutputStream outputStream = new FileOutputStream(file);
+            FileOutputStream outputStream = new FileOutputStream(file);
             byte[] buffer = new byte[1024];
             int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
+            if (inputStream != null) {
+                while ((length = inputStream.read(buffer)) > 0) {
+                    outputStream.write(buffer, 0, length);
+                }
+                outputStream.flush();
+                outputStream.close();
+                inputStream.close();
+                return file.getAbsolutePath();
+            } else {
+                return null;
             }
-            outputStream.flush();
-            outputStream.close();
-            inputStream.close();
-            return file.getAbsolutePath();
         } catch (IOException e) {
             e.printStackTrace();
             return null;
