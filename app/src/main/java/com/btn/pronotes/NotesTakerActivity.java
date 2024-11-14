@@ -11,13 +11,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,14 +76,10 @@ public class NotesTakerActivity extends AppCompatActivity {
     private RoomDB database;
     TextView textView_title;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_taker);
-// In Activity where notes_list is inflated
-        View notesListView = getLayoutInflater().inflate(R.layout.notes_list, null);
-        OpenSettings openSettings = new OpenSettings();
 
         imageView_save = findViewById(R.id.imageView_save);
         imageView_back = findViewById(R.id.imageView_back);
@@ -96,7 +92,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         fabOptionDrawing = findViewById(R.id.fab_draw);
         mainFab = findViewById(R.id.expandable_fab);
         rvMedia = findViewById(R.id.rv_media);
-//        editText_notes = findViewById(R.id.editText_notes);
         editText_notes = (RichEditor) findViewById(R.id.editText_notes);
         editText_notes.setPlaceholder("Add Notes:");
         editText_notes.setFontSize(22);
@@ -111,7 +106,59 @@ public class NotesTakerActivity extends AppCompatActivity {
         setupMediaRecyclerView();
         getArguments();
 
-        //back button inside of note
+        setupAutoSaveListeners();
+    }
+
+    private void setupAutoSaveListeners() {
+        editText_title.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                liveSaveNote();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        editText_notes.setOnTextChangeListener(text -> liveSaveNote());
+    }
+
+    private void liveSaveNote() {
+        String title = editText_title.getText().toString();
+        String description = editText_notes.getHtml();
+
+        if (description.isEmpty() && title.isEmpty()) {
+            return; // Skip saving if both title and content are empty
+        }
+
+        if (notes == null) {
+            notes = new Notes();
+        }
+        notes.setTitle(title);
+        notes.setNotes(description);
+        notes.setDate(new SimpleDateFormat("EEE, d MMM yyyy HH:mm a").format(new Date()));
+        notes.setMediaItems(mediaList);
+
+        if (isOldNote) {
+            database.mainDAO().update(notes.getID(), notes.getTitle(), notes.getNotes());
+        } else {
+            int noteID = (int) database.mainDAO().insert(notes);
+            notes.setID(noteID); // Set the ID after inserting
+            isOldNote = true;
+        }
+
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("note", notes); // Pass the note object
+        setResult(Activity.RESULT_OK, resultIntent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        liveSaveNote(); // Save note before exiting
+        super.onBackPressed();
     }
 
     private void setupMediaRecyclerView() {
@@ -132,7 +179,6 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
         rvMedia.setAdapter(mediaListAdapter);
-
     }
 
     private boolean deleteFile(int position) {
@@ -149,50 +195,18 @@ public class NotesTakerActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Image not found", Toast.LENGTH_SHORT).show();
             return false;
-
         }
     }
 
     private void getArguments() {
-
-        notes = new Notes();
+        if (notes == null) {
+            notes = new Notes();
+        }
         if (getIntent().hasExtra("old_note")) {
             try {
                 notes = (Notes) getIntent().getSerializableExtra("old_note");
                 editText_title.setText(notes.getTitle());
                 editText_notes.setHtml(notes.getNotes());
-
-                if (notes.getNotes().endsWith("</i>")) {
-                    italicBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</b>")) {
-                    boldBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</u>")) {
-                    underlineBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</u></i></b>") ||
-                        notes.getNotes().endsWith("</u></b></i>") ||
-                        notes.getNotes().endsWith("</i></u></b>") ||
-                        notes.getNotes().endsWith("</i></b></u>") ||
-                        notes.getNotes().endsWith("</b></u></i>") ||
-                        notes.getNotes().endsWith("</b></i></u>")) {
-                    underlineBtn.setChecked(true);
-                    italicBtn.setChecked(true);
-                    boldBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</i></b>") || notes.getNotes().endsWith("</b></i>")) {
-                    italicBtn.setChecked(true);
-                    boldBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</u></b>") || notes.getNotes().endsWith("</b></u>")) {
-                    underlineBtn.setChecked(true);
-                    boldBtn.setChecked(true);
-                }
-                if (notes.getNotes().endsWith("</u></i>") || notes.getNotes().endsWith("</i></u>")) {
-                    underlineBtn.setChecked(true);
-                    italicBtn.setChecked(true);
-                }
                 isOldNote = true;
 
                 List<Media> list = database.mainDAO().getAllMedia(notes.getID());
@@ -206,8 +220,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }else if (getIntent().hasExtra(FILE_PATH)){
-
+        } else if (getIntent().hasExtra(FILE_PATH)) {
             mediaList.add(getIntent().getStringExtra(FILE_PATH));
             mediaListAdapter.setList(mediaList);
             mediaListAdapter.notifyDataSetChanged();
@@ -224,79 +237,52 @@ public class NotesTakerActivity extends AppCompatActivity {
                     mainFab.setVisibility(View.VISIBLE);
                 } else {
                     mainFab.setVisibility(View.GONE);
-
                 }
             }
 
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-
-            }
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {}
         });
     }
 
-    public static final int NOTE_TYPE_CHECKLIST = 2;
-
-
     private void btnListeners() {
         imageView_save.setOnClickListener(v -> {
-            Log.d("NotesTakerActivity", "Save button clicked");
             try {
-                saveTheNote();
+                liveSaveNote();
+                Toast.makeText(this, "Note Saved", Toast.LENGTH_SHORT).show();
+                finish(); // Close the activity and return to previous UI
             } catch (Exception e) {
                 Log.e("NotesTakerActivity", "Error in saveTheNote", e);
                 Toast.makeText(this, "Error saving note: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 
+
         imageView_back.setOnClickListener(view -> finish());
 
-/*
-        backButton.setOnClickListener(view -> finish());
-*/
-
-        boldBtn.setOnCheckedChangeListener((compoundButton, b) -> {
-            editText_notes.setBold();
-        });
-
-        underlineBtn.setOnCheckedChangeListener((compoundButton, b) -> {
-            editText_notes.setUnderline();
-        });
-
-        italicBtn.setOnCheckedChangeListener((compoundButton, b) -> {
-            editText_notes.setItalic();
-        });
+        boldBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setBold());
+        underlineBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setUnderline());
+        italicBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setItalic());
 
         fabOptionPicture.setOnClickListener(view -> {
-
-
             PermissionX.init(this)
                     .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> {
-                        scope.showRequestReasonDialog(deniedList,
-                                "Core fundamental are based on these permissions",
-                                "OK", "Cancel");
-
-                    }).request((allGranted, grantedList, deniedList) -> {
+                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
+                    .request((allGranted, grantedList, deniedList) -> {
                         if (allGranted) {
                             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                             startActivityForResult(intent, PICK_IMAGE_REQUEST);
-
                         } else {
                             Toast.makeText(this, "Permission needed to access pictures", Toast.LENGTH_SHORT).show();
                         }
                     });
-
         });
+
         fabOptionDrawing.setOnClickListener(v -> {
             PermissionX.init(this)
                     .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> {
-                        scope.showRequestReasonDialog(deniedList,
-                                "Core fundamental are based on these permissions",
-                                "OK", "Cancel");
-
-                    }).request((allGranted, grantedList, deniedList) -> {
+                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
+                    .request((allGranted, grantedList, deniedList) -> {
                         if (allGranted) {
                             Intent intent = new Intent(this, DrawingActivity.class);
                             startActivityForResult(intent, REQUEST_CODE_DRAW);
@@ -307,38 +293,17 @@ public class NotesTakerActivity extends AppCompatActivity {
         });
     }
 
-    private void saveTheNote() {
-        String title = editText_title.getText().toString();
-        String description = editText_notes.getHtml();
-        Notes note = new Notes();
-        note.setTitle("Checklist Note");
-
-        if (description.isEmpty()) {
-            Toast.makeText(NotesTakerActivity.this, "Please add notes", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
-        Date date = new Date();
-
-        if (!isOldNote) {
-            notes = new Notes();
-        }
-
-        notes.setTitle(title);
-        notes.setNotes(description);
-        notes.setDate(formatter.format(date));
-        notes.setMediaItems(mediaList);
-
-        if (!getIntent().hasExtra(FILE_PATH)) {
-            Intent intent = new Intent();
-            intent.putExtra("note", notes);
-
-            setResult(Activity.RESULT_OK, intent);
-            finish();
+    private List<String> getPermissionList() {
+        List<String> permissionList = new ArrayList<>();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissionList.add(Manifest.permission.READ_MEDIA_IMAGES);
+        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         } else {
-            STATIC_NOTE = notes;
-            finish();
+            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
+        return permissionList;
     }
 
     @Override
@@ -360,7 +325,6 @@ public class NotesTakerActivity extends AppCompatActivity {
                 mediaListAdapter.notifyDataSetChanged();
             }
         }
-
     }
 
     private String copyFileToInternalStorage(Uri uri) {
@@ -381,19 +345,5 @@ public class NotesTakerActivity extends AppCompatActivity {
             e.printStackTrace();
             return null;
         }
-    }
-
-
-    private List<String> getPermissionList() {
-        List<String> permissionList = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissionList.add(Manifest.permission.READ_MEDIA_IMAGES);
-        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        } else {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-        return permissionList;
     }
 }
