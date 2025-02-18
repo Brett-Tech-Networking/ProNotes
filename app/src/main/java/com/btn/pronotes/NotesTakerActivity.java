@@ -233,23 +233,28 @@ public class NotesTakerActivity extends AppCompatActivity {
         if (!sharedPreferenceHelper.isAutosaveEnabled()) {
             return; // Do not save if autosave is disabled
         }
-        saveNote();
+        String title = editText_title.getText() != null ? editText_title.getText().toString() : "";
+        String description = editText_notes.getHtml() != null ? editText_notes.getHtml() : "";
+        if (!title.isEmpty() || !description.isEmpty()) {
+            saveNote();
+        }
     }
 
     private void saveNote() {
-        String title = editText_title.getText().toString();
-        String description = editText_notes.getHtml();
+        if (notes == null) {
+            notes = new Notes();
+        }
+
+        String title = editText_title.getText() != null ? editText_title.getText().toString() : "";
+        String description = editText_notes.getHtml() != null ? editText_notes.getHtml() : "";
 
         if (description.isEmpty() && title.isEmpty()) {
             return; // Skip saving if both title and content are empty
         }
 
-        if (notes == null) {
-            notes = new Notes();
-        }
         notes.setTitle(title);
         notes.setNotes(description);
-        notes.setDate(new SimpleDateFormat("EEE, d MMM yyyy HH:mm a").format(new Date()));
+        notes.setDate(new SimpleDateFormat("EEE, d MMM yyyy HH:mm a").format(new Date())); // Now 'notes' is guaranteed to be not null
         notes.setMediaItems(mediaList);
 
         if (isOldNote) {
