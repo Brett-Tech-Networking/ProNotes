@@ -374,8 +374,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
         database.mainDAO().insertMedia(mediaList);
-        notes.clear();
-        notes.addAll(database.mainDAO().getAll());
+        if (selectedFolder.getId() != 1) {
+            notes = database.mainDAO().getAll(selectedFolder.getId());
+        } else {
+            notes = database.mainDAO().getAll();
+        }
+        notesListAdapter.setList(notes);
         notesListAdapter.notifyDataSetChanged();
         updateRecycler(notes);
         Toast.makeText(MainActivity.this, "Note Saved!", Toast.LENGTH_SHORT).show();

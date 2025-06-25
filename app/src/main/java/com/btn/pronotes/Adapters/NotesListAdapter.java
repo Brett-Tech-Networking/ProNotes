@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.btn.pronotes.Database.RoomDB;
 import com.btn.pronotes.Models.Notes;
 import com.btn.pronotes.NotesClickListener;
 import com.btn.pronotes.R;
@@ -27,11 +29,13 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
     List<Notes> list;
     NotesClickListener listener;
     private int cardBackgroundColor;
+    private RoomDB database;
 
     public NotesListAdapter(Context context, List<Notes> list, NotesClickListener listener) {
         this.context = context;
         this.list = list;
         this.listener = listener;
+        this.database = RoomDB.getInstance(context);
     }
 
     @NonNull
@@ -47,18 +51,30 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         holder.textView_title.setSelected(true); // Sets horizontal scrolling
 
         String noteContent = note.getNotes().replace("<br>", "\n");
-        holder.textView_notes.setText(noteContent);
+        // Use HtmlCompat to parse HTML tags and render bold text
+        holder.textView_notes.setText(HtmlCompat.fromHtml(noteContent, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         holder.textView_date.setText(note.getDate());
         holder.textView_date.setSelected(true); // Sets horizontal scrolling
 
+        // Set star icon based on pin state
         if (note.isPinned()) {
-            holder.imageView_pin.setImageResource(R.drawable.ic_pin);
+            holder.imageView_pin.setImageResource(R.drawable.ic_star);
         } else {
-            holder.imageView_pin.setImageResource(0);
+            holder.imageView_pin.setImageResource(R.drawable.ic_star_border);
         }
 
-        // Existing code for color settings and listeners
+        // Handle star click to toggle pin state
+        holder.imageView_pin.setOnClickListener(v -> {
+            boolean newPinState = !note.isPinned();
+            note.setPinned(newPinState);
+            database.mainDAO().pin(note.getID(), newPinState);
+            notifyItemChanged(position);
+            String toastMessage = newPinState ? "Note Pinned" : "Note Unpinned!";
+            android.widget.Toast.makeText(context, toastMessage, android.widget.Toast.LENGTH_SHORT).show();
+        });
+
+        // Existing code for color settings
         int color_code = 0;
         if (new SharedPreferenceHelper(context).isColorChangingTiles()) {
             color_code = getRandomColor();
@@ -81,23 +97,21 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
         });
     }
 
-
     private String formatChecklistPreview(String notesContent) {
         StringBuilder formattedContent = new StringBuilder();
         String[] lines = notesContent.split("\n");
 
         for (String line : lines) {
             if (line.contains("[x]")) {
-                formattedContent.append("&#x2611; ").append(line.replace("- [x] ", "")).append("<br>");
+                formattedContent.append("☑ ").append(line.replace("- [x] ", "")).append("<br>");
             } else {
-                formattedContent.append("&#x2610; ").append(line.replace("- [ ] ", "")).append("<br>");
+                formattedContent.append("☐ ").append(line.replace("- [ ] ", "")).append("<br>");
             }
         }
 
         return formattedContent.toString();
     }
 
-    // Get random color for note tiles
     private int getRandomColor() {
         List<Integer> colorCode = new ArrayList<>();
 
