@@ -73,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private KeyguardManager keyguardManager;
     SwipeRefreshLayout swipeRefreshLayout;
 
+    private TextView textViewTotalNotesCount;
+    private RecyclerView recyclerHome;
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -256,7 +259,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         } else if (item.getItemId() == R.id.settings) {
             Intent intent = new Intent(MainActivity.this, OpenSettings.class);
             startActivity(intent);
-        } else if (item.getItemId() == R.id.websitebutton) {
+        } else if (item.getItemId() == R.id.buttonWebsite) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.brett-techrepair.com")));
         } else if (item.getItemId() == R.id.boldbutton) {
             try {

@@ -5,115 +5,157 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_theme_dark_background"
     tools:context=".OpenHelp">
+
   <androidx.constraintlayout.widget.ConstraintLayout
-      android:background="@color/black"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:id="@+id/text_dashboard"
-      tools:context=".ui.dashboard.DashboardFragment"
-      tools:ignore="HardcodedText">
+      android:paddingBottom="48dp">
 
-
-    <View
-        android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="830dp"
-        android:maxHeight="900dp"
-        android:background="@drawable/custom_rectangle"
+    <TextView
+        android:id="@+id/textViewAppName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="24dp"
+        android:text="Pro Notes"
+        android:textColor="@color/md_theme_dark_onBackground"
+        android:textSize="38sp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:nestedScrollingEnabled="false"
         app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:id="@+id/textView"
-        android:textAlignment="center"
-        android:layout_width="match_parent"
+        android:id="@+id/textViewSubtitle"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Your ultimate note-taking companion."
+        android:textColor="@color/md_theme_dark_onBackground_low_emphasis"
+        android:textSize="18sp"
         android:gravity="center_horizontal"
-        android:letterSpacing="0.025"
-        android:text="Pro Notes"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAppName" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="128dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:elevation="12dp"
-        app:cardCornerRadius="8dp"
+        android:id="@+id/cardViewContact"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:cardBackgroundColor="@color/md_theme_dark_surface"
+        app:contentPadding="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textViewSubtitle">
 
       <androidx.constraintlayout.widget.ConstraintLayout
-          android:id="@id/constraint"
           android:layout_width="match_parent"
-          android:layout_height="163dp"
-          android:background="@color/grey">
+          android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewCardTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Brett Tech Networking"
-            android:textAlignment="center"
-            android:textAllCaps="true"
-            android:textColor="@color/white"
-            android:textSize="23sp"
-            android:textStyle="bold"
+            android:text="Need Help?"
+            android:textColor="@color/md_theme_dark_onSurface"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-        <Button
-            android:id="@+id/websitebutton"
-            android:layout_width="122dp"
-            android:layout_height="37dp"
-            android:layout_marginTop="12dp"
-            android:autoLink="web"
-            android:onClick="btnwebsite"
-            android:background="@color/black"
-            android:backgroundTint="@color/black"
-            android:enabled="true"
-
-            android:text="Website"
-            android:textAlignment="center"
-            android:textColor="@color/color1"
-            android:visibility="visible"
-            app:flow_horizontalAlign="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            tools:visibility="visible">
-
-        </Button>
-
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/textViewCompanyName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="support@brett-techrepair.com"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:text="Brett Tech Networking"
+            android:textColor="@color/md_theme_dark_onSurface_high_emphasis"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@id/textViewCardTitle" />
+
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="support@brett-techrepair.com"
+            android:textColor="@color/md_theme_dark_primary"
+            android:textSize="18sp"
+            android:gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCompanyName" />
+
+        <Button
+            android:id="@+id/buttonWebsite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="Visit Our Website"
+            android:onClick="btnwebsite"
+            android:backgroundTint="@color/md_theme_dark_primary"
+            android:textColor="@color/md_theme_dark_onPrimary"
+            android:paddingStart="48dp"
+            android:paddingEnd="48dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            app:cornerRadius="32dp"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewEmail" />
 
       </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/textViewSupportInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="32dp"
+        android:text="We're here to help you get the most out of Pro Notes. Feel free to reach out to us with any questions, feedback, or suggestions. Your input helps us make Pro Notes even better!"
+        android:textColor="@color/md_theme_dark_onBackground_low_emphasis"
+        android:textSize="16sp"
+        android:lineSpacingExtra="6dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewContact" />
+
+    <TextView
+        android:id="@+id/textViewVersion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="32dp"
+        android:text="Version 1.0.0"
+        android:textColor="@color/md_theme_dark_onBackground_low_emphasis"
+        android:textSize="14sp"
+        android:gravity="center_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSupportInfo" />
+
   </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-

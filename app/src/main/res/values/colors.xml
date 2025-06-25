@@ -45,9 +45,14 @@
     <color name="BrettsColor">#3B3C3C</color>
     <color name="transred">#7CFF0000</color>
     <color name="trans">#00FF0000</color>
-
-
-
+    <color name="md_theme_dark_primary">#BB86FC</color>
+    <color name="md_theme_dark_onPrimary">#000000</color>
+    <color name="md_theme_dark_background">#121212</color>
+    <color name="md_theme_dark_onBackground">#FFFFFF</color>
+    <color name="md_theme_dark_onBackground_low_emphasis">#B0B0B0</color>
+    <color name="md_theme_dark_surface">#1F1F1F</color>
+    <color name="md_theme_dark_onSurface">#FFFFFF</color>
+    <color name="md_theme_dark_onSurface_high_emphasis">#E0E0E0</color>
 
 
 </resources>

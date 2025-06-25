@@ -1,23 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="10dp"
-    app:strokeWidth="2dp"
-    app:strokeColor="@color/red"
-    app:cardBackgroundColor="@color/grey"
-    android:layout_marginStart="8dp"
-    android:id="@+id/card">
-    <!-- cardBackgroundColor is also defined in NotesListAdapter.java line 78 -->
+    android:orientation="vertical"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:padding="12dp">
+
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="name of folder"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="18sp"
+        android:textStyle="normal"
         android:textColor="@color/white"
-        android:padding="10dp"
-        />
+        android:shadowColor="#00BCD4"
+        android:shadowRadius="2"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:gravity="center"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-condensed" />
 
-</com.google.android.material.card.MaterialCardView>
+    <View
+        android:id="@+id/underline"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/underline_glow"
+        android:visibility="gone" />
+
+</LinearLayout>

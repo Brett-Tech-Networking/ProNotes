@@ -1,8 +1,11 @@
 package com.btn.pronotes.Adapters;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -15,7 +18,7 @@ import com.btn.pronotes.interfaces.MainFolderClickListener;
 
 import java.util.List;
 
-//Notes List Adapter Class
+// Notes List Adapter Class
 public class FolderListMainAdapter extends RecyclerView.Adapter<MainFolderViewHolder> {
     Context context;
     List<Folder> list;
@@ -36,22 +39,29 @@ public class FolderListMainAdapter extends RecyclerView.Adapter<MainFolderViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MainFolderViewHolder holder, int position) {
+        Folder folder = list.get(position);
 
-        holder.binding.tvName.setText(list.get(position).getName());
-        if (list.get(position).isSelected()) {
-            holder.binding.card.setCardBackgroundColor(
-                    ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.grey)); //color of folder background
+        holder.binding.tvName.setText(folder.getName());
+        if (folder.isSelected()) {
+            holder.binding.underline.setVisibility(View.VISIBLE);
+            animateUnderline(holder.binding.underline);
         } else {
-            holder.binding.card.setCardBackgroundColor(
-                    ContextCompat.getColor(holder.binding.getRoot().getContext(), R.color.grey));
+            holder.binding.underline.setVisibility(View.GONE);
         }
 
-        holder.binding.card.setOnClickListener(v -> {
-            listener.onClick(list.get(position));
+        holder.binding.getRoot().setOnClickListener(v -> {
+            listener.onClick(folder);
             unSelectAll();
-            list.get(position).setSelected(true);
+            folder.setSelected(true);
             notifyDataSetChanged();
         });
+    }
+
+    private void animateUnderline(View underline) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(underline, "scaleX", 0f, 1f);
+        scaleX.setDuration(300);
+        scaleX.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleX.start();
     }
 
     public void unSelectAll() {
@@ -66,23 +76,17 @@ public class FolderListMainAdapter extends RecyclerView.Adapter<MainFolderViewHo
         notifyDataSetChanged();
     }
 
-
     @Override
     public int getItemCount() {
         return list.size();
     }
-
 }
 
 class MainFolderViewHolder extends RecyclerView.ViewHolder {
-
     RvItemFolderMainBinding binding;
 
     public MainFolderViewHolder(@NonNull RvItemFolderMainBinding binding) {
         super(binding.getRoot());
-
         this.binding = binding;
-
-
     }
 }
