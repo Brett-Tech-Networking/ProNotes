@@ -7,6 +7,7 @@
     android:alwaysRetainTaskState="true"
     android:background="@drawable/multiblack"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".MainActivity">
     <ScrollView
         android:layout_width="match_parent"
@@ -18,52 +19,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-    <SearchView
-        android:id="@+id/searchView_home"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/roundedsearch"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search Notes..." />
+            <SearchView
+                android:id="@+id/searchView_home"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/roundedsearch"
+                android:iconifiedByDefault="false"
+                android:queryHint="Search Notes..." />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/searchView_home"
+                android:orientation="horizontal"
+                tools:listitem="@layout/rv_item_folder_main"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/iv_add_folder" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_folder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/searchView_home"
-        android:orientation="horizontal"
-        tools:listitem="@layout/rv_item_folder_main"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@id/iv_add_folder"
-
-        />
-    <ImageView
-        android:id="@+id/iv_add_folder"
-        android:layout_width="40dp"
-        android:layout_height="30dp"
-        android:tooltipText="Create New Category"
-        android:src="@drawable/ic_folder_add"
-        android:scaleType="centerCrop"
-        android:layout_marginStart="18dp"
-        android:paddingRight="@dimen/_8sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@id/recycler_folder"
-        android:layout_alignBottom="@id/recycler_folder"
-        android:layout_marginEnd="15dp"
-
-        />
+            <ImageView
+                android:id="@+id/iv_add_folder"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:tooltipText="Create New Category"
+                android:src="@drawable/ic_folder_add"
+                android:scaleType="centerCrop"
+                android:layout_marginStart="18dp"
+                android:paddingRight="@dimen/_8sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignTop="@id/recycler_folder"
+                android:layout_alignBottom="@id/recycler_folder"
+                android:layout_marginEnd="15dp" />
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/swipeLayout"
@@ -82,15 +78,6 @@
 
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            <!--    <include-->
-    <!--        android:id="@+id/fab_add"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        layout="@layout/expandable_fab_layout"-->
-    <!--        android:layout_alignParentEnd="true"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:layout_margin="16dp"-->
-    <!--        />-->
         </LinearLayout>
     </ScrollView>
     <com.nambimobile.widgets.efab.ExpandableFabLayout
@@ -153,17 +140,6 @@
             app:label_text="Draw" />
 
     </com.nambimobile.widgets.efab.ExpandableFabLayout>
-    <!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-    <!--        android:id="@+id/fab_add"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_alignParentEnd="true"-->
-    <!--        android:layout_alignParentBottom="true"-->
-    <!--        android:layout_marginStart="24dp"-->
-    <!--        android:layout_marginTop="24dp"-->
-    <!--        android:layout_marginEnd="24dp"-->
-    <!--        android:layout_marginBottom="24dp"-->
-    <!--        android:src="@drawable/ic_add" />-->
 
 </RelativeLayout>
 

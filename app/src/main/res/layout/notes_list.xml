@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="8dp"
+    android:elevation="4dp"
     app:cardBackgroundColor="@color/white"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="12dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -23,36 +25,34 @@
                 android:id="@+id/textView_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/multiblack"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:padding="8dp"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
+                android:layout_toStartOf="@id/imageView_pin"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Title"
-                android:textColor="@color/yellow"
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/imageView_pin"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:contentDescription="Pin note"
                 android:clickable="true"
                 android:focusable="true"
-                android:padding="4dp"
-                android:src="@drawable/ic_star_border" />
+                android:src="@drawable/ic_star_border"
+                app:tint="@color/black"/>
         </RelativeLayout>
 
         <TextView
             android:id="@+id/textView_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="10"
-            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:maxLines="4"
+            android:ellipsize="end"
             android:text="Notes."
             android:textColor="@color/black"
             android:textSize="14sp"
@@ -62,14 +62,12 @@
             android:id="@+id/textView_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:padding="8dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Date"
             android:textColor="@color/grey"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal" />
     </LinearLayout>
 
