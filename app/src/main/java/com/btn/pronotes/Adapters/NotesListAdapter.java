@@ -2,8 +2,11 @@ package com.btn.pronotes.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -91,9 +94,52 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.Note
 
         holder.notes_container.setOnClickListener(v -> listener.onClick(list.get(holder.getAdapterPosition())));
 
-        holder.notes_container.setOnLongClickListener(v -> {
-            listener.onLongClick(list.get(holder.getAdapterPosition()), holder.notes_container);
-            return true;
+        holder.notes_container.setOnTouchListener(new View.OnTouchListener() {
+            private Handler handler = new Handler(Looper.getMainLooper());
+            private float startX, startY;
+            private boolean isMoved = false;
+            private boolean isLongPressed = false;
+
+            private Runnable popupRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    if (!isMoved) {
+                        isLongPressed = true;
+                        listener.onLongClick(list.get(holder.getAdapterPosition()), holder.notes_container);
+                    }
+                }
+            };
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = event.getX();
+                        startY = event.getY();
+                        isMoved = false;
+                        isLongPressed = false;
+                        handler.postDelayed(popupRunnable, 800); // Long hold (800ms) for popup
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (!isMoved && !isLongPressed) {
+                            if (Math.abs(event.getX() - startX) > 15 || Math.abs(event.getY() - startY) > 15) {
+                                isMoved = true;
+                                handler.removeCallbacks(popupRunnable);
+                                long duration = event.getEventTime() - event.getDownTime();
+                                // Short hold (300ms) followed by movement triggers drag
+                                if (duration > 300) {
+                                    listener.onStartDrag(holder);
+                                }
+                            }
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        handler.removeCallbacks(popupRunnable);
+                        break;
+                }
+                return false; // Let normal clicks pass through
+            }
         });
     }
 

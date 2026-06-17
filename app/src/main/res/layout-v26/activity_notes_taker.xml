@@ -9,6 +9,13 @@
     android:orientation="vertical"
     tools:context=".NotesTakerActivity">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_status_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="35dp" />
+
     <Toolbar
         android:id="@+id/toolbar_notes"
         android:layout_width="match_parent"
@@ -16,7 +23,7 @@
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@id/guideline_status_bar">
 
         <RelativeLayout
             android:layout_width="wrap_content"

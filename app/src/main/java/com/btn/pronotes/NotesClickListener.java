@@ -7,4 +7,5 @@ import com.btn.pronotes.Models.Notes;
 public interface NotesClickListener {
     void onClick(Notes notes);
     void onLongClick (Notes notes, CardView cardView);
+    void onStartDrag(androidx.recyclerview.widget.RecyclerView.ViewHolder viewHolder);
 }

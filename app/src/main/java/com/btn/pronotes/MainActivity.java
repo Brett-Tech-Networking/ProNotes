@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     List<Notes> notes = new ArrayList<>();
     RoomDB database;
     SearchView searchView_home;
+    ItemTouchHelper itemTouchHelper;
     Notes selectedNote;
     Folder selectedFolder;
     ImageView ivAddFolder;
@@ -146,6 +147,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
             @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
+            }
+
+            @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 int fromPosition = viewHolder.getAdapterPosition();
                 int toPosition = target.getAdapterPosition();
@@ -160,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             }
         };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
@@ -414,6 +420,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             selectedNote = notes;
             selectedFolder = new Folder();
             showPopup(cardView, notes);
+        }
+
+        @Override
+        public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+            if (itemTouchHelper != null) {
+                itemTouchHelper.startDrag(viewHolder);
+            }
         }
     };
 
