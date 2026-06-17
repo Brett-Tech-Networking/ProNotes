@@ -6,24 +6,31 @@
     android:orientation="vertical"
     android:background="@drawable/multiblack"
     android:alwaysRetainTaskState="true"
+    android:fitsSystemWindows="true"
     tools:context=".OpenSettings">
 
     <Toolbar
         android:id="@+id/toolbar_notes"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:contentInsetStart="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <!--For back button-->
             <ImageView
                 android:id="@+id/imageView_back1"
-                android:layout_width="?attr/actionBarSize"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:layout_alignParentStart="true"
-                android:padding="4dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="12dp"
+                android:padding="6dp"
                 android:src="@drawable/ic_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
                 android:visibility="visible"
                 android:clickable="true"
                 android:focusable="true" />
