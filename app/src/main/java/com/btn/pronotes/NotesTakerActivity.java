@@ -36,7 +36,6 @@ import com.btn.pronotes.utils.SharedPreferenceHelper;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.nambimobile.widgets.efab.ExpandableFab;
 import com.nambimobile.widgets.efab.FabOption;
-import com.permissionx.guolindev.PermissionX;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -159,31 +158,13 @@ public class NotesTakerActivity extends AppCompatActivity {
         italicBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setItalic());
 
         fabOptionPicture.setOnClickListener(view -> {
-            PermissionX.init(this)
-                    .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
-                    .request((allGranted, grantedList, deniedList) -> {
-                        if (allGranted) {
-                            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(intent, PICK_IMAGE_REQUEST);
-                        } else {
-                            Toast.makeText(this, "Permission needed to access pictures", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(intent, PICK_IMAGE_REQUEST);
         });
 
         fabOptionDrawing.setOnClickListener(v -> {
-            PermissionX.init(this)
-                    .permissions(getPermissionList())
-                    .onExplainRequestReason((scope, deniedList) -> scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel"))
-                    .request((allGranted, grantedList, deniedList) -> {
-                        if (allGranted) {
-                            Intent intent = new Intent(this, DrawingActivity.class);
-                            startActivityForResult(intent, REQUEST_CODE_DRAW);
-                        } else {
-                            Toast.makeText(this, "Permission needed to draw", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            Intent intent = new Intent(this, DrawingActivity.class);
+            startActivityForResult(intent, REQUEST_CODE_DRAW);
         });
 
         bottomSheetSetup();
@@ -360,19 +341,6 @@ public class NotesTakerActivity extends AppCompatActivity {
                 // No action needed
             }
         });
-    }
-
-    private List<String> getPermissionList() {
-        List<String> permissionList = new ArrayList<>();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            permissionList.add(Manifest.permission.READ_MEDIA_IMAGES);
-        } else if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        } else {
-            permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-        return permissionList;
     }
 
     @Override
