@@ -139,7 +139,12 @@ public class NotesTakerActivity extends AppCompatActivity {
         editText_notes.setEditorFontColor(Color.WHITE);
         editText_notes.setPadding(0, 5, 10, 10);
         attachNotesTextChangeListener();
-        editText_notes.post(this::updateNoteIndicatorHeight);
+        editText_notes.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
+            if ((bottom - top) != (oldBottom - oldTop)) {
+                scheduleNoteIndicatorUpdate();
+            }
+        });
+        scheduleNoteIndicatorUpdate();
     }
 
     private void attachNotesTextChangeListener() {
@@ -157,24 +162,77 @@ public class NotesTakerActivity extends AppCompatActivity {
             return;
         }
         editText_notes.removeCallbacks(updateIndicatorRunnable);
-        editText_notes.postDelayed(updateIndicatorRunnable, 50);
+        editText_notes.post(updateIndicatorRunnable);
+        editText_notes.postDelayed(updateIndicatorRunnable, 150);
     }
 
     private void updateNoteIndicatorHeight() {
         if (editNoteIndicator == null || editText_notes == null) {
             return;
         }
-        int contentHeight = (int) (editText_notes.getContentHeight() * editText_notes.getScale());
-        int minHeight = (int) (24 * getResources().getDisplayMetrics().density);
-        int maxHeight = editText_notes.getHeight();
-        if (maxHeight <= 0) {
-            maxHeight = contentHeight;
-        }
-        int targetHeight = Math.max(minHeight, contentHeight);
-        if (maxHeight > 0) {
-            targetHeight = Math.min(targetHeight, maxHeight);
+
+        // Ask the editor DOM for: line count through last text + computed CSS line-height.
+        editText_notes.evaluateJavascript(
+                "(function(){"
+                        + "var e=document.getElementById('editor');"
+                        + "if(!e){return '0|0';}"
+                        + "var t=(e.innerText||e.textContent||'').replace(/\\u00a0/g,' ');"
+                        + "t=t.replace(/\\s+$/g,'');"
+                        + "if(!/\\S/.test(t)){return '0|0';}"
+                        + "var lines=t.split('\\n').length;"
+                        + "var cs=window.getComputedStyle(e);"
+                        + "var fontSize=parseFloat(cs.fontSize)||22;"
+                        + "var lh=cs.lineHeight;"
+                        + "var linePx=(lh==='normal'||!lh)?(fontSize*1.25):parseFloat(lh);"
+                        + "if(!linePx||linePx<=0){linePx=fontSize*1.25;}"
+                        + "return lines+'|'+linePx;"
+                        + "})();",
+                value -> runOnUiThread(() -> applyIndicatorFromEditorMetrics(value))
+        );
+    }
+
+    private void applyIndicatorFromEditorMetrics(String jsValue) {
+        if (editNoteIndicator == null || editText_notes == null) {
+            return;
         }
 
+        int lineCount = 0;
+        float cssLineHeight = 0f;
+        if (jsValue != null && !"null".equals(jsValue)) {
+            String raw = jsValue.replace("\"", "").trim();
+            String[] parts = raw.split("\\|");
+            try {
+                if (parts.length >= 1) {
+                    lineCount = (int) Float.parseFloat(parts[0]);
+                }
+                if (parts.length >= 2) {
+                    cssLineHeight = Float.parseFloat(parts[1]);
+                }
+            } catch (NumberFormatException ignored) {
+                lineCount = 0;
+            }
+        }
+
+        if (lineCount <= 0) {
+            editNoteIndicator.setVisibility(View.GONE);
+            return;
+        }
+
+        float density = getResources().getDisplayMetrics().density;
+        if (cssLineHeight <= 0f) {
+            cssLineHeight = 22f * 1.25f;
+        }
+        int targetHeight = Math.round(lineCount * cssLineHeight * density)
+                + editText_notes.getPaddingTop();
+
+        // Don't clamp to a mid-keyboard short editor height; allow bar to match text.
+        // Only clamp if it would wildly exceed the editor (e.g. bad reading).
+        int editorHeight = editText_notes.getHeight();
+        if (editorHeight > 0 && targetHeight > editorHeight) {
+            targetHeight = editorHeight;
+        }
+
+        editNoteIndicator.setVisibility(View.VISIBLE);
         ViewGroup.LayoutParams params = editNoteIndicator.getLayoutParams();
         if (params.height != targetHeight) {
             params.height = targetHeight;
