@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="purple_200">#FF000000</color>
-    <color name="purple_500">#000000</color> '
+    <color name="purple_500">#000000</color>
     <!--<color name="purple_500">#FF6200EE</color>  purple 200#FFBB86FC-->
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#38FF00</color>
@@ -17,6 +17,34 @@
     <color name="color3">#F65C5C</color>
     <color name="color4">#4EDA2E</color>
     <color name="color5">#FF5722</color>
+
+    <!-- Keep-style note tile palette (soft pastels for dark UI) -->
+    <color name="note_tile_blue">#AECBFA</color>
+    <color name="note_tile_yellow">#FDE293</color>
+    <color name="note_tile_coral">#F6AEA9</color>
+    <color name="note_tile_green">#A8DAB5</color>
+    <color name="note_tile_teal">#A7FFEB</color>
+    <color name="note_card_stroke">#1A000000</color>
+    <color name="note_card_rim">#33FFFFFF</color>
+    <color name="note_text_primary">#202124</color>
+    <color name="note_text_body">#3C4043</color>
+    <color name="note_text_secondary">#5F6368</color>
+
+    <!-- Sculpted 3D note colors (rich, unique volume) -->
+    <color name="note_sculpt_pink">#FF6B9D</color>
+    <color name="note_sculpt_amber">#FFB84D</color>
+    <color name="note_sculpt_blue">#5B8DEF</color>
+    <color name="note_sculpt_mint">#2DD4BF</color>
+    <color name="note_sculpt_lavender">#B794F6</color>
+    <color name="note_sculpt_coral">#FF8A65</color>
+
+    <!-- Professional note editor surface -->
+    <color name="note_editor_screen">#0F1115</color>
+    <color name="note_editor_surface">#1A1D24</color>
+    <color name="note_editor_stroke">#28FFFFFF</color>
+    <color name="note_editor_divider">#14FFFFFF</color>
+    <color name="note_editor_hint">#7A8190</color>
+    <color name="note_editor_accent">#5B8DEF</color>
 
     <color name="search">?android:attr/windowBackground</color>
 

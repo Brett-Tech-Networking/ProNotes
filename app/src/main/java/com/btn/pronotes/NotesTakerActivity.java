@@ -99,6 +99,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         setupListeners();
         setupMediaRecyclerView();
         getArguments();
+        styleEditor();
 
         if (isAutosaveEnabled) {
             setupAutoSaveListeners();
@@ -132,12 +133,9 @@ public class NotesTakerActivity extends AppCompatActivity {
         editNoteIndicator = findViewById(R.id.editNoteIndicator);
         textView_title = findViewById(R.id.textView_title);
 
-        editText_notes.setPlaceholder("Add Notes:");
-        editText_notes.setFontSize(22);
-        editText_notes.setTextColor(Color.WHITE);
-        editText_notes.setBackgroundColor(Color.BLACK);
-        editText_notes.setEditorFontColor(Color.WHITE);
-        editText_notes.setPadding(0, 5, 10, 10);
+        editText_notes.setPlaceholder("Start writing…");
+        editText_notes.setFontSize(17);
+        editText_notes.setPadding(0, 4, 8, 8);
         attachNotesTextChangeListener();
         editText_notes.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if ((bottom - top) != (oldBottom - oldTop)) {
@@ -145,6 +143,20 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
         scheduleNoteIndicatorUpdate();
+    }
+
+    private void styleEditor() {
+        if (editText_notes == null || editText_title == null) {
+            return;
+        }
+        editText_title.setTextColor(Color.WHITE);
+        editText_title.setHintTextColor(getColor(R.color.note_editor_hint));
+        editText_title.setBackgroundColor(Color.TRANSPARENT);
+
+        editText_notes.setBackgroundColor(Color.TRANSPARENT);
+        editText_notes.setEditorBackgroundColor(Color.TRANSPARENT);
+        editText_notes.setEditorFontColor(0xFFE8EAED);
+        editText_notes.setTextColor(0xFFE8EAED);
     }
 
     private void attachNotesTextChangeListener() {
@@ -256,11 +268,29 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
         });
 
-        imageView_back.setOnClickListener(view -> finish());
+        imageView_back.setOnClickListener(view -> {
+            saveNote();
+            finish();
+        });
 
-        boldBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setBold());
-        underlineBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setUnderline());
-        italicBtn.setOnCheckedChangeListener((compoundButton, b) -> editText_notes.setItalic());
+        boldBtn.setOnCheckedChangeListener((compoundButton, checked) -> {
+            editText_notes.setBold();
+            if (compoundButton.getParent() instanceof View) {
+                ((View) compoundButton.getParent()).setSelected(checked);
+            }
+        });
+        underlineBtn.setOnCheckedChangeListener((compoundButton, checked) -> {
+            editText_notes.setUnderline();
+            if (compoundButton.getParent() instanceof View) {
+                ((View) compoundButton.getParent()).setSelected(checked);
+            }
+        });
+        italicBtn.setOnCheckedChangeListener((compoundButton, checked) -> {
+            editText_notes.setItalic();
+            if (compoundButton.getParent() instanceof View) {
+                ((View) compoundButton.getParent()).setSelected(checked);
+            }
+        });
 
         fabOptionPicture.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

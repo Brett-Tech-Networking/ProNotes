@@ -215,8 +215,30 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             saveNote(STATIC_NOTE);
             STATIC_NOTE = null;
         }
-        notesListAdapter.notifyDataSetChanged();
-        folderListMainAdapter.setList(database.mainDAO().getAllFolder());
+        refreshNotesList();
+        if (folderListMainAdapter != null) {
+            folderListMainAdapter.setList(database.mainDAO().getAllFolder());
+        }
+    }
+
+    private void refreshNotesList() {
+        if (selectedFolder == null || database == null) {
+            return;
+        }
+        if (selectedFolder.getId() != 1) {
+            notes = database.mainDAO().getAll(selectedFolder.getId());
+        } else {
+            notes = database.mainDAO().getAll();
+        }
+        if (notesListAdapter != null) {
+            notesListAdapter.setList(notes);
+            notesListAdapter.notifyDataSetChanged();
+        } else if (notes != null) {
+            updateRecycler(notes);
+        }
+        if (searchView_home != null && searchView_home.getQuery().length() > 0) {
+            filter(searchView_home.getQuery().toString());
+        }
     }
 
     private void btnListener() {
@@ -238,9 +260,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);
-            notesListAdapter.setList(database.mainDAO().getAll());
-            notesListAdapter.notifyDataSetChanged();
-            folderListMainAdapter.setList(database.mainDAO().getAllFolder());
+            refreshNotesList();
+            if (folderListMainAdapter != null) {
+                folderListMainAdapter.setList(database.mainDAO().getAllFolder());
+            }
         });
     }
 

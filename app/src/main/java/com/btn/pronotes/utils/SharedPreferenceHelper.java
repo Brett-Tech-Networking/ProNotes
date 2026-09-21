@@ -10,6 +10,7 @@ public class SharedPreferenceHelper {
     private static final String SELECT_COLOR = "select color";
     private static final String WIDGET_ID = "widget id";
     private static final String KEY_AUTOSAVE_ENABLED = "autosave_enabled"; // Added this line
+    private static final String KEY_3D_NOTES = "3d_notes_enabled";
 
     private static SharedPreferenceHelper helperInstance = null;
     private final SharedPreferences sharedPreferences;
@@ -26,6 +27,16 @@ public class SharedPreferenceHelper {
 
     public void setColorChangingTile(Boolean start) {
         sharedPreferences.edit().putBoolean(COLOR_CHANGING_TILE, start).apply();
+    }
+
+    // **3D Notes Style Preference Methods**
+
+    public boolean is3DNotesEnabled() {
+        return sharedPreferences.getBoolean(KEY_3D_NOTES, true);
+    }
+
+    public void set3DNotesEnabled(boolean enabled) {
+        sharedPreferences.edit().putBoolean(KEY_3D_NOTES, enabled).apply();
     }
 
     // **Selected Color Preference Methods**

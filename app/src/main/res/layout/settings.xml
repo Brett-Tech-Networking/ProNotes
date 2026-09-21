@@ -107,6 +107,32 @@
                     android:layout_marginHorizontal="12dp"
                     android:background="#22FFFFFF" />
 
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/notes_3d_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="64dp"
+                    android:paddingHorizontal="12dp"
+                    android:paddingVertical="10dp"
+                    android:text="@string/settings_3d_notes_title"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingBottom="12dp"
+                    android:text="@string/settings_3d_notes_desc"
+                    android:textColor="@color/colorTextHint"
+                    android:textSize="13sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="#22FFFFFF" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

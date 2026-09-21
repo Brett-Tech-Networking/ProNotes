@@ -17,6 +17,7 @@ public class OpenSettings extends AppCompatActivity {
 
     private ImageView imageView_back1;
     private SwitchCompat colorTilesSwitch;
+    private SwitchCompat notes3dSwitch;
     private SwitchCompat autosaveSwitch;
     private ShapeableImageView ivSelectColor;
     private String selectedColor;
@@ -37,6 +38,7 @@ public class OpenSettings extends AppCompatActivity {
         // Initialize views
         imageView_back1 = findViewById(R.id.imageView_back1);
         colorTilesSwitch = findViewById(R.id.color_tile_switch);
+        notes3dSwitch = findViewById(R.id.notes_3d_switch);
         autosaveSwitch = findViewById(R.id.autosave_switch);
         ivSelectColor = findViewById(R.id.iv_select_color);
         textView_title = findViewById(R.id.textView_title);
@@ -54,11 +56,16 @@ public class OpenSettings extends AppCompatActivity {
 
         // Set the switches to their saved states or default state
         colorTilesSwitch.setChecked(sharedPreferenceHelper.isColorChangingTiles());
+        notes3dSwitch.setChecked(sharedPreferenceHelper.is3DNotesEnabled());
         autosaveSwitch.setChecked(sharedPreferenceHelper.isAutosaveEnabled()); // Defaults to true
 
         // Listener for Color Tiles Switch
         colorTilesSwitch.setOnCheckedChangeListener((compoundButton, isChecked) ->
                 sharedPreferenceHelper.setColorChangingTile(isChecked));
+
+        // Listener for 3D Notes Switch
+        notes3dSwitch.setOnCheckedChangeListener((compoundButton, isChecked) ->
+                sharedPreferenceHelper.set3DNotesEnabled(isChecked));
 
         // Listener for Autosave Switch
         autosaveSwitch.setOnCheckedChangeListener((buttonView, isChecked) ->
