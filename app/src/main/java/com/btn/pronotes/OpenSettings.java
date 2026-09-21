@@ -40,6 +40,9 @@ public class OpenSettings extends AppCompatActivity {
         autosaveSwitch = findViewById(R.id.autosave_switch);
         ivSelectColor = findViewById(R.id.iv_select_color);
         textView_title = findViewById(R.id.textView_title);
+        if (textView_title != null) {
+            textView_title.setText(R.string.settings1);
+        }
 
         // Set up back button
         imageView_back1.setOnClickListener(view -> finish());

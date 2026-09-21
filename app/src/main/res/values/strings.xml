@@ -24,6 +24,16 @@
     <string name="add_checklist_item">Add Checklist Item</string>
     <string name="hint_checklist_item">hint checklist item</string>
     <string name="settings1">Settings</string>
+    <string name="checklist">Checklist</string>
+    <string name="checklist_title_hint">Checklist title</string>
+    <string name="settings_appearance">Appearance</string>
+    <string name="settings_notes">Notes</string>
+    <string name="settings_color_tiles_title">Color changing tiles</string>
+    <string name="settings_color_tiles_desc">Cycle note tile colors on the home screen</string>
+    <string name="settings_static_color_title">Static tile color</string>
+    <string name="settings_static_color_desc">Used when color changing tiles are off</string>
+    <string name="settings_autosave_title">Auto-save notes</string>
+    <string name="settings_autosave_desc">Save changes as you type</string>
     <string name="restart_app">Restart App</string>
 
     <string name="back_button">Back</string>

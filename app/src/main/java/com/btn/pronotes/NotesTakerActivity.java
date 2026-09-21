@@ -15,8 +15,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
+import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.btn.pronotes.Adapters.MediaListAdapter;
@@ -81,6 +82,8 @@ public class NotesTakerActivity extends AppCompatActivity {
 
     private TextWatcher titleTextWatcher;
     private RichEditor.OnTextChangeListener notesTextChangeListener;
+    private View editNoteIndicator;
+    private final Runnable updateIndicatorRunnable = this::updateNoteIndicatorHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         sharedPreferenceHelper = new SharedPreferenceHelper(this);
         isAutosaveEnabled = sharedPreferenceHelper.isAutosaveEnabled();
 
+        applyStatusBarInsets();
         initViews();
         setupDatabase();
         setupListeners();
@@ -125,6 +129,7 @@ public class NotesTakerActivity extends AppCompatActivity {
         mainFab = findViewById(R.id.expandable_fab);
         rvMedia = findViewById(R.id.rv_media);
         editText_notes = findViewById(R.id.editText_notes);
+        editNoteIndicator = findViewById(R.id.editNoteIndicator);
         textView_title = findViewById(R.id.textView_title);
 
         editText_notes.setPlaceholder("Add Notes:");
@@ -133,6 +138,48 @@ public class NotesTakerActivity extends AppCompatActivity {
         editText_notes.setBackgroundColor(Color.BLACK);
         editText_notes.setEditorFontColor(Color.WHITE);
         editText_notes.setPadding(0, 5, 10, 10);
+        attachNotesTextChangeListener();
+        editText_notes.post(this::updateNoteIndicatorHeight);
+    }
+
+    private void attachNotesTextChangeListener() {
+        notesTextChangeListener = text -> {
+            scheduleNoteIndicatorUpdate();
+            if (isAutosaveEnabled) {
+                liveSaveNote();
+            }
+        };
+        editText_notes.setOnTextChangeListener(notesTextChangeListener);
+    }
+
+    private void scheduleNoteIndicatorUpdate() {
+        if (editText_notes == null) {
+            return;
+        }
+        editText_notes.removeCallbacks(updateIndicatorRunnable);
+        editText_notes.postDelayed(updateIndicatorRunnable, 50);
+    }
+
+    private void updateNoteIndicatorHeight() {
+        if (editNoteIndicator == null || editText_notes == null) {
+            return;
+        }
+        int contentHeight = (int) (editText_notes.getContentHeight() * editText_notes.getScale());
+        int minHeight = (int) (24 * getResources().getDisplayMetrics().density);
+        int maxHeight = editText_notes.getHeight();
+        if (maxHeight <= 0) {
+            maxHeight = contentHeight;
+        }
+        int targetHeight = Math.max(minHeight, contentHeight);
+        if (maxHeight > 0) {
+            targetHeight = Math.min(targetHeight, maxHeight);
+        }
+
+        ViewGroup.LayoutParams params = editNoteIndicator.getLayoutParams();
+        if (params.height != targetHeight) {
+            params.height = targetHeight;
+            editNoteIndicator.setLayoutParams(params);
+        }
     }
 
     private void setupDatabase() {
@@ -192,10 +239,9 @@ public class NotesTakerActivity extends AppCompatActivity {
             editText_title.addTextChangedListener(titleTextWatcher);
         }
 
-        // Notes OnTextChangeListener
+        // Notes listener is shared with the margin indicator; keep it attached.
         if (notesTextChangeListener == null) {
-            notesTextChangeListener = text -> liveSaveNote();
-            editText_notes.setOnTextChangeListener(notesTextChangeListener);
+            attachNotesTextChangeListener();
         }
     }
 
@@ -204,10 +250,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             editText_title.removeTextChangedListener(titleTextWatcher);
             titleTextWatcher = null;
         }
-        if (notesTextChangeListener != null) {
-            editText_notes.setOnTextChangeListener(null);
-            notesTextChangeListener = null;
-        }
+        // Keep text-change listener for the yellow margin; autosave checks isAutosaveEnabled.
     }
 
     private void liveSaveNote() {
@@ -304,6 +347,7 @@ public class NotesTakerActivity extends AppCompatActivity {
                 editText_title.setText(notes.getTitle());
                 editText_notes.setHtml(notes.getNotes());
                 isOldNote = true;
+                scheduleNoteIndicatorUpdate();
 
                 List<Media> list = database.mainDAO().getAllMedia(notes.getID());
                 if (list != null) {
@@ -323,12 +367,30 @@ public class NotesTakerActivity extends AppCompatActivity {
         }
     }
 
+    private void applyStatusBarInsets() {
+        // Keep back/save below the status bar on all device sizes (incl. cutouts).
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+    }
+
     private void bottomSheetSetup() {
-        FrameLayout bottomSheet = findViewById(R.id.layout_Miscellaneous2);
-        BottomSheetBehavior<FrameLayout> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        View bottomSheet = findViewById(R.id.layout_miscellaneous);
+        if (bottomSheet == null) {
+            bottomSheet = findViewById(R.id.layout_Miscellaneous2);
+        }
+        if (bottomSheet == null) {
+            return;
+        }
+        BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setFitToContents(true);
+        bottomSheetBehavior.setHideable(false);
+        bottomSheetBehavior.setPeekHeight((int) (40 * getResources().getDisplayMetrics().density));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            public void onStateChanged(@NonNull View sheet, int newState) {
+                if (mainFab == null) {
+                    return;
+                }
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                     mainFab.setVisibility(View.VISIBLE);
                 } else {
@@ -337,7 +399,7 @@ public class NotesTakerActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+            public void onSlide(@NonNull View sheet, float slideOffset) {
                 // No action needed
             }
         });

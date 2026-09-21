@@ -25,7 +25,9 @@
         <activity android:name=".Checklist.ChecklistActivity" />
         <activity
             android:name=".Checklist.ChecklistNotesActivity"
-            android:label="Checklist Notes" />
+            android:label="@string/checklist"
+            android:theme="@style/Theme.ProNotes.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".FolderActivity"
             android:exported="false" />
@@ -33,7 +35,7 @@
             android:name=".NotesTakerActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:alwaysRetainTaskState="true"
             android:theme="@style/Theme.ProNotes.NoActionBar" />
         <activity

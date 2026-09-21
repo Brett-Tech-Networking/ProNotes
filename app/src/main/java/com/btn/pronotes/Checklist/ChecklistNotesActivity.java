@@ -3,17 +3,16 @@ package com.btn.pronotes.Checklist;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.WindowCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,6 +40,7 @@ public class ChecklistNotesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist_notes);
+        applyStatusBarInsets();
 
         // Initialize views
         editTextChecklistItem = findViewById(R.id.editText_checklist_item);
@@ -96,6 +96,10 @@ public class ChecklistNotesActivity extends AppCompatActivity {
         }
     }
 
+    private void applyStatusBarInsets() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+    }
+
     private void addChecklistItem() {
         String item = editTextChecklistItem.getText().toString().trim();
         if (!item.isEmpty()) {
@@ -122,7 +126,7 @@ public class ChecklistNotesActivity extends AppCompatActivity {
     private void saveChecklistAsNote() {
         String title = editTextTitle.getText().toString().trim();
         if (title.isEmpty()) {
-            title = "Checklist Note";
+            title = getString(R.string.checklist);
         }
         StringBuilder content = new StringBuilder();
         for (ChecklistItem item : checklistItems) {

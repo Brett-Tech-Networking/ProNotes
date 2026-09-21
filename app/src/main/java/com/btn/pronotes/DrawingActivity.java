@@ -51,8 +51,12 @@ public class DrawingActivity extends AppCompatActivity {
     }
 
     private void bottomSheetSetup() {
-        BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.
-                from(binding.layoutMiscellaneous.layoutMiscellaneous2);
+        BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(
+                binding.layoutMiscellaneous.getRoot());
+        bottomSheetBehavior.setFitToContents(true);
+        bottomSheetBehavior.setHideable(false);
+        bottomSheetBehavior.setPeekHeight((int) (40 * getResources().getDisplayMetrics().density));
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {

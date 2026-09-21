@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/checklist_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
     android:orientation="vertical">
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="@android:color/transparent" />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,34 +18,32 @@
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:contentDescription="@string/back_button"
+            android:padding="8dp"
             android:src="@drawable/ic_back" />
 
         <ImageView
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
             android:layout_gravity="end"
             android:contentDescription="@string/save_button"
+            android:padding="8dp"
             android:src="@drawable/ic_save" />
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Title EditText -->
     <EditText
         android:id="@+id/editText_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Title"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white"
         android:background="@color/black"
+        android:hint="@string/checklist_title_hint"
+        android:inputType="textCapSentences"
         android:padding="8dp"
-        android:textSize="18sp"
-        android:inputType="text" />
+        android:textColor="@color/white"
+        android:textColorHint="@color/colorTextHint"
+        android:textSize="18sp" />
 
-    <!-- LinearLayout to contain EditText and ImageButton -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -61,13 +55,13 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Enter New Item"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             android:background="@color/black"
+            android:hint="Enter New Item"
+            android:inputType="text"
             android:padding="8dp"
-            android:textSize="16sp"
-            android:inputType="text" />
+            android:textColor="@color/white"
+            android:textColorHint="@color/colorTextHint"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/btn_add_checklist_item"
@@ -83,7 +77,7 @@
         android:id="@+id/rv_checklist"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/black"
         android:layout_weight="1"
+        android:background="@color/black"
         android:padding="8dp" />
 </LinearLayout>
