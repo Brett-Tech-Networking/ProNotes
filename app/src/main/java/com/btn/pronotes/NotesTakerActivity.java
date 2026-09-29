@@ -25,7 +25,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatToggleButton;
-import androidx.core.view.WindowCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.btn.pronotes.Adapters.MediaListAdapter;
@@ -135,7 +137,8 @@ public class NotesTakerActivity extends AppCompatActivity {
 
         editText_notes.setPlaceholder("Start writing…");
         editText_notes.setFontSize(17);
-        editText_notes.setPadding(0, 4, 8, 8);
+        // Extra bottom padding lets the last lines scroll clear of the floating add button.
+        editText_notes.setPadding(0, 4, 4, 88);
         attachNotesTextChangeListener();
         editText_notes.addOnLayoutChangeListener((v, left, top, right, bottom, oldLeft, oldTop, oldRight, oldBottom) -> {
             if ((bottom - top) != (oldBottom - oldTop)) {
@@ -456,8 +459,39 @@ public class NotesTakerActivity extends AppCompatActivity {
     }
 
     private void applyStatusBarInsets() {
-        // Keep back/save below the status bar on all device sizes (incl. cutouts).
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), true);
+        // targetSdk 35+ forces edge-to-edge, so system bar / keyboard insets must be applied manually.
+        View root = findViewById(R.id.notes_root);
+        View content = findViewById(R.id.notes_content);
+        View peekSpace = findViewById(R.id.tools_peek_space);
+        View sheet = findViewById(R.id.layout_miscellaneous);
+        View sheetContent = findViewById(R.id.misc_content);
+        if (root == null || content == null) {
+            return;
+        }
+        final int peekBase = (int) (40 * getResources().getDisplayMetrics().density);
+        ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout());
+            Insets ime = insets.getInsets(WindowInsetsCompat.Type.ime());
+            boolean imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime());
+
+            content.setPadding(bars.left, bars.top, bars.right,
+                    imeVisible ? Math.max(ime.bottom, bars.bottom) : bars.bottom);
+            if (peekSpace != null) {
+                peekSpace.setVisibility(imeVisible ? View.GONE : View.VISIBLE);
+            }
+            if (sheet != null) {
+                if (sheetContent != null) {
+                    sheetContent.setPadding(bars.left, 0, bars.right, bars.bottom);
+                }
+                BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(sheet);
+                behavior.setGestureInsetBottomIgnored(true);
+                behavior.setPeekHeight(peekBase + bars.bottom);
+                sheet.setVisibility(imeVisible ? View.INVISIBLE : View.VISIBLE);
+            }
+            return insets;
+        });
+        ViewCompat.requestApplyInsets(root);
     }
 
     private void bottomSheetSetup() {
@@ -471,7 +505,6 @@ public class NotesTakerActivity extends AppCompatActivity {
         BottomSheetBehavior<View> bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setFitToContents(true);
         bottomSheetBehavior.setHideable(false);
-        bottomSheetBehavior.setPeekHeight((int) (40 * getResources().getDisplayMetrics().density));
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override

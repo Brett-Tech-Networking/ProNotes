@@ -9,6 +9,7 @@
     tools:context=".NotesTakerActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/notes_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alwaysRetainTaskState="true">
@@ -204,18 +205,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:paddingStart="18dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="16dp"
-                android:paddingBottom="12dp">
+                android:paddingStart="12dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="4dp">
 
                 <jp.wasabeef.richeditor.RichEditor
                     android:id="@+id/editText_notes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="64dp"
-                    android:layout_marginBottom="64dp"
+                    android:layout_marginStart="8dp"
                     android:background="@android:color/transparent"
                     android:padding="2dp" />
 
